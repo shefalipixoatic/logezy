@@ -1,0 +1,25 @@
+<script>
+import "./assets/main.css";
+
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.bundle.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
+export default {
+  name: "App",
+  data() {
+    return {};
+  },
+  components: {},
+};
+</script>
+
+<template>
+  <div>
+    <div>
+      <RouterView />
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
