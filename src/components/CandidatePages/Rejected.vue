@@ -28,7 +28,17 @@
               title="Tooltip on top"
               v-on:click="activeCandidateMethod(pending.id)"
             >
-              Click to Active User
+              Approved</button
+            >&nbsp;&nbsp;
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Tooltip on top"
+              v-on:click="rejectCandidateMethod(pending.id)"
+            >
+              Reject
             </button>
           </td>
         </tr>
@@ -59,8 +69,7 @@ export default {
           "https://logezy.onrender.com/pending_candidates"
         );
 
-        this.getPendingCandidatesData = response.data;
-        console.log(this.getPendingCandidatesData);
+        this.getPendingCandidatesData = response.data.data;
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
@@ -72,16 +81,30 @@ export default {
       }
     },
 
-    activeCandidateMethod(id) {
+    async activeCandidateMethod(id) {
       if (!window.confirm("Are you Sure?")) {
         return;
       }
-      axios
-        .put(`https://logezy.onrender.com/candidate/approve_candidate/` + id)
+      const response = await axios
+        .put(`https://logezy.onrender.com/candidate/approve_candidate/${id}`)
         .then((response) => {
-          this.inactiveCandidateData = response.data.data;
-          console.log(this.inactiveCandidateData);
+          this.inactiveCandidateData = response.data;
         })
+        .catch((error) => {
+          console.error("Error deleting candidate:", error);
+        });
+    },
+
+    async rejectCandidateMethod(id) {
+      if (!window.confirm("Are you Sure?")) {
+        return;
+      }
+      const response = await axios
+        .put(`https://logezy.onrender.com/candidate/reject_candidate/${id}`)
+        .then((response) => {
+          this.inactiveCandidateData = response.data;
+        })
+
         .catch((error) => {
           console.error("Error deleting candidate:", error);
         });

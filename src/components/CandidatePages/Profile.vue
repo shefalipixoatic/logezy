@@ -8,7 +8,8 @@
           <div class="">
             <ol class="breadcrumb mb-1">
               <li class="breadcrumb-item active text-uppercase fs-6">
-                Dashboard / CANDIDATES / {{ getCandidates.first_name }}
+                Dashboard / CANDIDATES /
+                <span class="color-fonts">{{ getCandidates.first_name }}</span>
               </li>
             </ol>
           </div>
@@ -35,10 +36,12 @@
                   class="mt-3 d-flex justify-content-between align-items-center"
                 >
                   <div>
-                    <h6 class="card-title text-nowrap fw-bold">
+                    <h6 class="card-title text-nowrap fw-bold text-capitalize">
                       {{ getCandidates.first_name }}
                     </h6>
-                    <span class=""> {{ getCandidates.email }}</span>
+                    <span class="text-lowercase">
+                      {{ getCandidates.email }}</span
+                    >
                   </div>
 
                   <div>
@@ -1268,7 +1271,10 @@ table th {
   position: relative;
   display: inline-block;
 }
-
+.color-fonts {
+  color: #ff5f30;
+  font-weight: bold;
+}
 .switch input {
   display: none;
 }

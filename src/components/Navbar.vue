@@ -192,7 +192,7 @@
                   to="/login"
                   v-on:click="signout"
                 >
-                  <i class="bi bi-question-circle pe-2"></i>
+                  <i class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;
                   <span>Sign Out</span>
                 </router-link>
               </li>

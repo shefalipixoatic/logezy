@@ -23,35 +23,57 @@
               <form>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-2">
-                    <label class="form-label">Business Unit</label>
+                    <label class="form-label" for="selectBusinessUnit"
+                      >Business Unit</label
+                    >
                   </div>
+
                   <div class="col-10">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="business_unit"
-                    />
+                    <select v-model="business_unit" id="selectBusinessUnit">
+                      <option
+                        v-for="option in businessUnit"
+                        :key="option.id"
+                        :value="option.name"
+                        placeholder="Select BusinessUnit"
+                      >
+                        {{ option.name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-2">
-                    <label class="form-label">Client</label>
+                    <label for="selectClients" class="form-label">Client</label>
                   </div>
                   <div class="col-10">
-                    <input type="text" class="form-control" v-model="client" />
+                    <select v-model="client" id="selectClients">
+                      <option
+                        v-for="option in clientData"
+                        :key="option.id"
+                        :value="option.first_name"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.first_name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-2">
-                    <label class="form-label">Job Title</label>
+                    <label class="form-label" for="selectJobTitle"
+                      >Job Title</label
+                    >
                   </div>
-                  <div class="col-10">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="job_title"
-                    />
-                  </div>
+                  <select v-model="job_title" id="selectJobTitle">
+                    <option
+                      v-for="option in options"
+                      :key="option.id"
+                      :value="option.name"
+                      aria-placeholder="Select Job"
+                    >
+                      {{ option.name }}
+                    </option>
+                  </select>
                 </div>
 
                 <div class="mb-3 d-flex justify-content-between">
@@ -65,10 +87,19 @@
 
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-2">
-                    <label class="form-label">Shift</label>
+                    <label class="form-label" for="selectShifts">Shift</label>
                   </div>
                   <div class="col-10">
-                    <input type="text" class="form-control" v-model="shift" />
+                    <select v-model="shift" id="selectShifts">
+                      <option
+                        v-for="option in shiftsTime"
+                        :key="option.id"
+                        :value="option.shift_name"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.shift_name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
 
@@ -78,15 +109,6 @@
                   </div>
                   <div class="col-10">
                     <input type="text" class="form-control" v-model="notes" />
-                  </div>
-                </div>
-
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-2">
-                    <label class="form-label">Publish</label>
-                  </div>
-                  <div class="col-10">
-                    <input type="text" class="form-control" v-model="publish" />
                   </div>
                 </div>
               </form>
@@ -123,12 +145,43 @@ export default {
     return {
       business_unit: "",
       client: "",
+      clientData: [],
       job_title: "",
-      dates: "",
+      options: [],
+      businessUnit: [],
+      dates: [],
       shift: "",
+      shiftsTime: [],
       notes: "",
-      publish: "",
+      client_id: 1,
     };
+  },
+  computed: {
+    selectedOptionText() {
+      const job_title = this.options.find(
+        (option) => option.id === this.job_title
+      );
+      return job_title ? job_title.name : "";
+    },
+
+    selectBusinessUnit() {
+      const business_unit = this.businessUnit.find(
+        (option) => option.id === this.business_unit
+      );
+      return business_unit ? business_unit.name : "";
+    },
+
+    selectClients() {
+      const client = this.clientData.find(
+        (option) => option.id === this.client
+      );
+      return client ? client.first_name : "";
+    },
+
+    selectShifts() {
+      const shift = this.shiftsTime.find((option) => option.id === this.shift);
+      return shift ? shift.shift_name : "";
+    },
   },
   methods: {
     async addVacancyMethod() {
@@ -139,24 +192,75 @@ export default {
         dates: this.dates,
         shift: this.shift,
         notes: this.notes,
-        publish: this.publish,
+        client_id: this.client_id,
       };
       try {
         const token = localStorage.getItem("token");
         const response = await fetch("https://logezy.onrender.com/vacancies", {
           method: "POST",
           headers: {
-            Authorization: "bearer " + token,
+            Authorization: token,
           },
           body: JSON.stringify(data),
         });
-        console.log(response.data.data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
     },
+    async getJobTitleMethod() {
+      try {
+        const response = await axios.get("https://logezy.onrender.com/jobs");
+        this.options = response.data;
+        console.log(this.options);
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getBusinessUnitMethod() {
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/business_units"
+        );
+        this.businessUnit = response.data;
+        console.log(this.businessUnit);
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getClientMethod() {
+      try {
+        const response = await axios.get("https://logezy.onrender.com/clients");
+        this.clientData = response.data.data;
+        console.log(this.clientData);
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getTimeShift() {
+      await axios
+        .get("https://logezy.onrender.com/shifts")
+        .then((response) => (this.shiftsTime = response.data));
+    },
   },
-  mounted() {},
+  mounted() {
+    this.getJobTitleMethod();
+    this.getBusinessUnitMethod();
+    this.getClientMethod();
+    this.getTimeShift();
+  },
 };
 </script>
 
@@ -167,6 +271,13 @@ export default {
 }
 .modal-header {
   border-bottom: 0px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 0px;
 }
 .modal-footer {
   border-top: 0px;

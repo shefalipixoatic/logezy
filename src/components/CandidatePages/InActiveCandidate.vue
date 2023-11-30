@@ -2,29 +2,40 @@
   <div>
     <table class="table candidateTable">
       <thead>
-        <tr v-for="datas in getCandidatesData" :key="datas">
+        <tr>
           <th scope="col">Name</th>
           <th scope="col">Positions</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
-          <th scope="col">Status</th>
+          <!-- <th scope="col">Status</th>
           <th scope="col">Access</th>
           <th scope="col">Assign</th>
-          <th scope="col">Last Login</th>
-          <th scope="col">Action</th>
+          <th scope="col">Last Login</th> -->
+          <!-- <th scope="col">Action</th> -->
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+        <tr v-for="datas in getCandidatesData" :key="datas">
+          <td v-text="datas.first_name"></td>
+          <td v-text="datas.position"></td>
+          <td v-text="datas.email"></td>
+          <td v-text="datas.phone_number"></td>
+
+          <!-- <td>
+            <a class="btn btn-outline-success text-nowrap">
+              <i class="bi bi-eye"></i></a
+            >&nbsp;&nbsp;
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Tooltip on top"
+              v-on:click="activeCandidateMethod(pending.id)"
+            >
+              Active
+            </button>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -42,6 +53,7 @@ a {
 </style>
 
 <script>
+import axios from "axios";
 export default {
   name: "InActiveCandidate",
   data() {
@@ -60,7 +72,8 @@ export default {
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
-            alert(error.response.data.message);
+            // alert(error.response.data.message);
+            console.log(error.response.data.message);
           }
         } else {
           console.error("Error fetching candidates:", error);

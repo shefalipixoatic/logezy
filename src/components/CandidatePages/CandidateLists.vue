@@ -6,12 +6,13 @@
           <div class="py-3">
             <ol class="breadcrumb mb-1">
               <li class="breadcrumb-item active text-uppercase fs-6">
-                Dashboard / CANDIDATES /
+                Dashboard / <span class="color-fonts">CANDIDATES</span> /
 
                 <span class="badge text-dark">{{
                   activeCandidate.active_candidate
                 }}</span>
-                <span>Active Candidates</span>
+                &nbsp;
+                <span class="color-fonts">Active Candidates</span>
               </li>
             </ol>
           </div>
@@ -50,9 +51,10 @@
                     placeholder="Search by Name"
                     aria-label="Search"
                     v-model="searchQuery"
-                    @input="search"
                   />
-                  <!-- <button class="btn btn-primary">search</button> -->
+                  <button class="btn btn-primary" @click="search()">
+                    Search
+                  </button>
 
                   <div class="d-flex justify-content-between gap-2">
                     <button
@@ -71,7 +73,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div v-if="!searchQuery">
             <component :is="activeComponent"></component>
           </div>
 
@@ -91,8 +93,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="datas in searchResults" :key="datas.id">
-                  <td>{{ datas.first_name }}</td>
+                <tr v-for="data in searchResults" :key="data.id">
+                  <td>{{ data.first_name }}</td>
                   <td>1</td>
                   <td>1</td>
                   <td>1</td>
@@ -155,41 +157,35 @@ export default {
       this.activeTab = index;
     },
 
-    async getCandidate() {
-      try {
-        const response = await axios.get(
-          "https://logezy.onrender.com/candidates"
-        );
-
-        this.getCandidatesData = response.data.data;
-        this.activeCandidate = response.data;
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 404) {
-            alert(error.response.data.message);
-          }
-        } else {
-          console.error("Error fetching candidates:", error);
-        }
-      }
-    },
-
     //search api start
 
-    async search() {
-      // Implement your API search endpoint
-      const apiUrl = `https://logezy.onrender.com/candidate/search_candidate?=${this.searchQuery}`;
-
+    async search(activeCandidate) {
       try {
-        const response = await axios.get(apiUrl);
+        // Implement your API search endpoint
+        const response = await axios.get(
+          `https://logezy.onrender.com/candidate/search_candidate/${activeCandidate}`
+        );
+
         this.searchResults = response.data;
-        console.log(this.searchResults);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
     },
 
-    // search api end
+    async getActiveCAndidateMethod() {
+      await axios
+        .get("https://logezy.onrender.com/approve_and_activated_candidates")
+        .then((response) => (this.activeCandidate = response.data))
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 404) {
+              alert(error.response.data.message);
+            }
+          }
+        });
+    },
+
+    //  search api end
 
     // redirectToUserProfile() {
     //   this.$router.push({
@@ -201,7 +197,7 @@ export default {
   },
 
   mounted() {
-    this.getCandidate();
+    this.getActiveCAndidateMethod();
   },
 };
 </script>
@@ -217,6 +213,10 @@ export default {
   background-color: #fdce5e17;
   border-bottom: 1px solid #ded9d9;
   border-top: 1px solid #ded9d9;
+}
+.color-fonts {
+  color: #ff5f30;
+  font-weight: bold;
 }
 .btn-primary {
   border: none;
@@ -261,7 +261,7 @@ table th {
 .badge {
   background: #ff572247;
   border-radius: 50%;
-  padding: 8px 11px;
+  padding: 6px 10px;
 }
 a:link {
   color: black;

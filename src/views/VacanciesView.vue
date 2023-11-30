@@ -7,7 +7,7 @@
           <div class="py-3">
             <ol class="breadcrumb mb-1">
               <li class="breadcrumb-item active text-uppercase fs-6">
-                Dashboard / Vacancies
+                Dashboard / <span class="color-fonts">Vacancies</span>
               </li>
             </ol>
           </div>
@@ -35,49 +35,9 @@
                   data-bs-toggle="modal"
                   data-bs-target="#addVacancies"
                   data-bs-whatever="@mdo"
-                  
-                  
-                >  + Add VAcancy
-                
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-success text-nowrap"
                 >
-                  <i class="bi bi-file-earmark-medical"></i>
-                  Vacancy Report
+                  + Add Vacancy
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-success text-nowrap"
-                >
-                  <i class="bi bi-funnel"></i>
-                  Show Filters
-                </button>
-                <div class="dropdown btn btn-outline-success text-nowrap">
-                  <a
-                    class="nav-link fx-bolder"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i class="bi bi-three-dots-vertical"></i>
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li>
-                      <a class="dropdown-item" href="#">Another action</a>
-                    </li>
-
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        >Something else Action</a
-                      >
-                    </li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
@@ -135,7 +95,6 @@
                         type="search"
                         placeholder="&nbsp;&nbsp;&nbsp;&nbsp; Search by vacancy code"
                         aria-label="Search"
-                      
                       />
                     </div>
                   </ul>
@@ -153,11 +112,10 @@
                             <th scope="col">Client</th>
                             <th scope="col">Business Unit</th>
                             <th scope="col">Job Title</th>
-                            <th scope="col">Dated</th>
+                            <th scope="col">Date</th>
                             <th scope="col">Shift</th>
                             <th scope="col">Notes</th>
                             <th scope="col">Publish</th>
-                           
                           </tr>
                         </thead>
                         <tbody>
@@ -172,13 +130,12 @@
                             <tr v-for="date in getdata.dates" :key="date.id">
                               <td>{{date}}</td>
                             </tr>
+                            <!-- <td v-text="getdata.dates[0]"></td> -->
                             <td v-text="getdata.shift"></td>
 
                             <td v-text="getdata.notes"></td>
                             <td v-text="getdata.publish"></td>
-                           
                           </tr>
-                        
                         </tbody>
                       </table>
                     </div>
@@ -229,8 +186,6 @@ export default {
     // showPopup() {
     //   addVacancies.show();
     // },
-  
-   
   },
 
   async created() {
@@ -258,6 +213,10 @@ export default {
 }
 .bg-define {
   background-color: #fdce5e17;
+}
+.color-fonts {
+  color: #ff5f30;
+  font-weight: bold;
 }
 .btn-primary {
   border: none;
@@ -294,7 +253,7 @@ ul.nav-pills {
   height: 53px;
   border-bottom: 1px solid #b8b1b1;
 }
-table  th {
+table th {
   background-color: #ff5f30;
 }
 

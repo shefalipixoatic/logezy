@@ -3,14 +3,14 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="addCandidate"
-      aria-labelledby="candidatePage"
+      id="addClients"
+      aria-labelledby="addClients"
       tabindex="-1"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addCandidate">Add Candidate</h5>
+            <h5 class="modal-title" id="addClients">Add Candidate</h5>
             <button
               type="button"
               class="btn-close"
@@ -23,7 +23,7 @@
               <form>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">NAME</label>
+                    <label class="form-label">CLIENT NAME</label>
                   </div>
                   <div class="col-8 mt-1">
                     <input
@@ -35,28 +35,24 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label" for="selectOption"
-                      >POSITION</label
-                    >
+                    <label class="form-label" for="selectOption">ADDRESS</label>
                   </div>
                   <div class="col-8 mt-1">
-                    <select v-model="job_id" id="selectOption">
-                      <option
-                        v-for="option in options"
-                        :key="option.id"
-                        :value="option.name"
-                      >
-                        {{ option.name }}
-                      </option>
-                    </select>
+                    <input type="text" class="form-control" v-model="address" />
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-4">
-                    <label class="form-label">EMAIL</label>
-                  </div>
-                  <div class="col-8 mt-1">
-                    <input type="email" class="form-control" v-model="email" />
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between">
+                    <div class="col-4">
+                      <label class="form-label">EMAIL</label>
+                    </div>
+                    <div class="col-8 mt-1">
+                      <input
+                        type="email"
+                        class="form-control"
+                        v-model="email"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
@@ -101,7 +97,7 @@
           <div class="modal-footer">
             <button
               class="btn btn-secondary rounded-1"
-              data-bs-target="#addCandidate"
+              data-bs-target="#addClients"
               data-bs-toggle="modal"
               data-bs-dismiss="modal"
             >
@@ -110,7 +106,7 @@
             <button
               class="btn btn-primary rounded-1 text-capitalize fw-medium"
               data-bs-dismiss="modal"
-              v-on:click="addCandidate()"
+              v-on:click="addClients()"
             >
               Add
             </button>
@@ -127,44 +123,30 @@ export default {
   name: "CandidateAdd",
   data() {
     return {
-      selectedOption: null,
-
       first_name: "",
-      last_name: "",
-      password: "",
-      job_id: 1,
-      options: [],
-      confirm_password: "",
+      ref_code: "",
       address: "",
-
       phone_number: "",
       email: "",
-      activated: "",
-      employment_type_id: "",
-
+      password: "",
+      confirm_password: "",
       error: [],
     };
   },
-  computed: {
-    selectedOptionText() {
-      const job_id = this.options.find((option) => option.id === this.job_id);
-      return job_id ? job_id.name : "";
-    },
-  },
+
   methods: {
-    async addCandidate() {
+    async addClients() {
       const data = {
         first_name: this.first_name,
-        job_id: 1,
-        password: this.password,
-        confirm_password: this.confirm_password,
-
+        ref_code: this.ref_code,
+        address: this.address,
         phone_number: this.phone_number,
         email: this.email,
-        activated: this.activated,
+        password: this.password,
+        confirm_password: this.confirm_password,
       };
       try {
-        const response = await fetch("https://logezy.onrender.com/candidates", {
+        const response = await fetch("https://logezy.onrender.com/clients", {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -175,30 +157,14 @@ export default {
         // if (data) {
         //   location.reload();
         // }
-
-        console.log(data);
+        console.log(response.data.data);
       } catch (error) {
         console.log(error);
       }
     },
-    async getPositionMethod() {
-      try {
-        const response = await axios.get("https://logezy.onrender.com/jobs");
-        this.options = response.data;
-        console.log(this.options);
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 404) {
-            alert(error.response.data.message);
-          }
-        }
-      }
-    },
   },
 
-  mounted() {
-    this.getPositionMethod();
-  },
+  mounted() {},
 };
 </script>
 

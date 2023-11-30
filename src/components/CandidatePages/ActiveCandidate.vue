@@ -5,17 +5,6 @@
         <table class="table candidateTable">
           <thead>
             <tr>
-              <!-- <th scope="col">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckDefault"
-                  title="check"
-                />
-              </div>
-            </th> -->
               <th scope="col">Name</th>
               <th scope="col">Positions</th>
               <th scope="col">Email</th>
@@ -29,11 +18,6 @@
           </thead>
           <tbody>
             <tr v-for="candidate in getCandidatesData" :key="candidate.id">
-              <!-- <td scope="row">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </td> -->
               <td>
                 <router-link
                   :to="{
@@ -45,7 +29,7 @@
                 </router-link>
               </td>
 
-              <td v-text="candidate.position"></td>
+              <td v-text="candidate.job_id"></td>
               <td>{{ candidate.email }}</td>
               <td>
                 <i class="bi bi-telephone-fill success"></i>
@@ -80,14 +64,37 @@
               </td>
               <td>Never Logged In</td>
               <td class="cursor-pointer">
-                <i
-                  class="bi bi-trash3 cursor-pointer btn btn-outline-success text-nowrap"
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Tooltip on top"
                   v-on:click="deleteCandidate(candidate.id)"
-                ></i
+                >
+                  InActive
+                </button>
+
+                &nbsp;&nbsp;
+
+                <router-link
+                  :to="{
+                    name: 'EditCandidate',
+                    params: { id: candidate.id },
+                  }"
+                  class="btn btn-outline-success text-nowrap"
+                >
+                  <i class="bi bi-pencil-square"></i></router-link
                 >&nbsp;&nbsp;
-                <a class="btn btn-outline-success text-nowrap">
-                  <i class="bi bi-pencil-square"></i
-                ></a>
+                <router-link
+                  :to="{
+                    name: 'ProfileView',
+                    params: { id: candidate.id },
+                  }"
+                  class="btn btn-outline-success text-nowrap"
+                >
+                  <i class="bi bi-eye"></i
+                ></router-link>
               </td>
             </tr>
           </tbody>
@@ -99,18 +106,19 @@
 
 <script>
 import axios from "axios";
+import EditCandidate from "../CandidatePages/EditCandidate.vue";
 
 export default {
   name: "CAndidatesList",
   data() {
     return {
       getCandidatesData: [],
-      activeCandidate: [],
-      deleteCandidateData: [],
       inactiveCandidateData: [],
     };
   },
-
+  components: {
+    EditCandidate,
+  },
   methods: {
     selectTab(index) {
       this.activeTab = index;
@@ -120,28 +128,29 @@ export default {
         return;
       }
       axios
-        .put(`https://logezy.onrender.com/inactivate_candidate` + id)
+        .put(`https://logezy.onrender.com/inactivate_candidate/${id}`)
         .then((response) => {
           this.getCandidate();
-          console.log(response.data);
+
           this.inactiveCandidateData = response.data;
+          console.log(response.data);
         })
         .catch((error) => {
           console.error("Error deleting candidate:", error);
         });
     },
 
-    async getCandidate() {
+    async getCandidateMethods() {
       try {
         const response = await axios.get(
-          "https://logezy.onrender.com/candidates"
+          "https://logezy.onrender.com/approve_and_activated_candidates"
         );
 
         this.getCandidatesData = response.data.data;
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
-            alert(error.response.data.message);
+            console.log(error.response.data.message);
           }
         } else {
           console.error("Error fetching candidates:", error);
@@ -159,7 +168,7 @@ export default {
   },
 
   mounted() {
-    this.getCandidate();
+    this.getCandidateMethods();
   },
 };
 </script>

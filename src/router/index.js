@@ -35,16 +35,23 @@ const router = createRouter({
         {
           path: "/candidate/profile/:id",
           name: "Profile",
-          component: () => import("@/components/CandidatePages/profile.vue"),
+          component: () => import("@/components/CandidatePages/Profile.vue"),
           props: true,
         },
-
-        // {
-        //   path: "/candidate/:id",
-        //   name: "EditCandidate",
-        //   component: () => import("@/components/CAndidates/EditCandidate.vue"),
-        //   props: true,
-        // },
+        {
+          path: "/candidate/:id",
+          name: "EditCandidate",
+          component: () =>
+            import("@/components/CandidatePages/EditCandidate.vue"),
+          props: true,
+        },
+        {
+          path: "/candidate/profileview/:id",
+          name: "ProfileView",
+          component: () =>
+            import("@/components/CandidatePages/ProfileView.vue"),
+          props: true,
+        },
       ],
     },
 

@@ -7,7 +7,7 @@
           <ol class="breadcrumb mb-1">
             <li class="breadcrumb-item active">Dashboard</li>
           </ol>
-          <h5>Welcome To RecPal</h5>
+          <h5>Welcome To Recruitment Pal</h5>
         </div>
         <!-- End Page Title -->
         <div class="d-flex align-items-center">
