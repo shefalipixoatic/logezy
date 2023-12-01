@@ -52,7 +52,7 @@
                       }}</span>
                     </div>
                   </div>
-                  <div class="form-check">
+                  <!-- <div class="form-check">
                     <input
                       id="customCheck1"
                       type="checkbox"
@@ -62,7 +62,7 @@
                     <label for="customCheck1" class="form-check-label"
                       >Remember password</label
                     >
-                  </div>
+                  </div> -->
                   <div class="my-4 d-flex justify-content-between">
                     <button
                       type="submit"
@@ -128,25 +128,19 @@ export default {
         const jsonData = await response.json();
 
         if (jsonData.is_loged_in) {
-          console.log("object: ", jsonData);
           localStorage.setItem("token", jsonData.token);
 
           this.$router.push({ name: "Home" });
         }
-        // if (this.email != "kiran@gmail.com" && this.password != "12345") {
-        //   this.msg["error"] = "Email does not exist SignUp";
-        // } else {
-        //   this.msg["error"] = "";
-        // }
 
-        if (this.email != "kiran@gmail.com") {
+        if (this.email != "merchant@gmail.com") {
           this.msg["email"] = "Please Enter Correct Email";
         } else {
           this.msg["email"] = "";
         }
 
-        if (this.password != "12345") {
-          this.msg["password"] = "Please Enter Correct password";
+        if (this.password != "merchant@123") {
+          this.msg["password"] = "Please Enter Correct Password";
         }
       } catch (error) {
         console.log(error);

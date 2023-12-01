@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-wrapper">
     <table class="table candidateTable">
       <thead>
         <tr>
@@ -16,7 +16,7 @@
       </thead>
       <tbody>
         <tr v-for="datas in getCandidatesData" :key="datas">
-          <td v-text="datas.first_name"></td>
+          <td class="text-capitalize" v-text="datas.first_name"></td>
           <td v-text="datas.position"></td>
           <td v-text="datas.email"></td>
           <td v-text="datas.phone_number"></td>
@@ -86,3 +86,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.table-wrapper {
+  overflow-x: auto;
+}
+</style>

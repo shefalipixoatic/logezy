@@ -157,7 +157,6 @@ export default {
         // if (data) {
         //   location.reload();
         // }
-        console.log(response.data.data);
       } catch (error) {
         console.log(error);
       }

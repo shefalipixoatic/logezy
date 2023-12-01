@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-0">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 table-wrapper">
         <table class="table candidateTable">
           <thead>
             <tr>
@@ -20,6 +20,7 @@
             <tr v-for="candidate in getCandidatesData" :key="candidate.id">
               <td>
                 <router-link
+                  class="text-capitalize"
                   :to="{
                     name: 'Profile',
                     params: { id: candidate.id },
@@ -29,7 +30,7 @@
                 </router-link>
               </td>
 
-              <td v-text="candidate.job_id"></td>
+              <td v-text="candidate.position"></td>
               <td>{{ candidate.email }}</td>
               <td>
                 <i class="bi bi-telephone-fill success"></i>
@@ -62,7 +63,7 @@
                   <i class="bi bi-person-circle"></i>
                 </button>
               </td>
-              <td>Never Logged In</td>
+              <td>{{ candidate.last_login }}</td>
               <td class="cursor-pointer">
                 <button
                   type="button"
@@ -130,10 +131,8 @@ export default {
       axios
         .put(`https://logezy.onrender.com/inactivate_candidate/${id}`)
         .then((response) => {
-          this.getCandidate();
-
           this.inactiveCandidateData = response.data;
-          console.log(response.data);
+          this.getCandidateMethods();
         })
         .catch((error) => {
           console.error("Error deleting candidate:", error);
@@ -191,7 +190,9 @@ a {
 .switch input {
   display: none;
 }
-
+.table-wrapper {
+  overflow-x: auto;
+}
 .switch .slider {
   position: absolute;
   top: 0;

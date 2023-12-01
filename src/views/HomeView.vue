@@ -11,7 +11,13 @@
         </div>
         <!-- End Page Title -->
         <div class="d-flex align-items-center">
-          <button type="button" class="btn btn-primary">
+          <button
+            type="button"
+            class="btn btn-primary text-nowrap"
+            data-bs-toggle="modal"
+            data-bs-target="#inprogress"
+            data-bs-whatever="@mdo"
+          >
             <i class="bi bi-file-earmark"></i>
             GENERATE REPORT
           </button>
@@ -245,7 +251,11 @@
                               record.expiring_in_60_days
                             }})
                           </h6>
-                          <span class="text-muted small pt-2 text-uppercase"
+                          <span
+                            class="text-muted small pt-2 text-uppercase cursor-pointer"
+                            data-bs-toggle="modal"
+                            data-bs-target="#inprogress"
+                            data-bs-whatever="@mdo"
                             >See More</span
                           >
                         </div>
@@ -269,7 +279,11 @@
                               record.expiring_in_30_days
                             }})
                           </h6>
-                          <span class="text-muted small pt-2 text-uppercase"
+                          <span
+                            class="text-muted small pt-2 text-uppercase cursor-pointer"
+                            data-bs-toggle="modal"
+                            data-bs-target="#inprogress"
+                            data-bs-whatever="@mdo"
                             >See More</span
                           >
                         </div>
@@ -289,7 +303,11 @@
                         ></div>
                         <div class="ps-2">
                           <h6>Expired ({{ record.compliance_insight }})</h6>
-                          <span class="text-muted small pt-2 text-uppercase"
+                          <span
+                            class="text-muted small pt-2 text-uppercase cursor-pointer"
+                            data-bs-toggle="modal"
+                            data-bs-target="#inprogress"
+                            data-bs-whatever="@mdo"
                             >See More</span
                           >
                         </div>
@@ -362,7 +380,7 @@
                       >&nbsp;
                     </div>
 
-                    <table class="table table-borderless">
+                    <table class="table table-borderless sizefix">
                       <thead>
                         <tr class="">
                           <th scope="col" class="h-100">TimeSheet</th>
@@ -408,6 +426,7 @@
         </section>
       </div>
     </div>
+    <InProgress />
   </div>
 </template>
 
@@ -416,6 +435,7 @@ import axios from "axios";
 import VueBarChart from "../components/charts/VueBarChart.vue";
 import TimeSheet from "../components/charts/TimeSheet.vue";
 import Navbar from "../components/Navbar.vue";
+import InProgress from "../components/modals/InProgress.vue";
 
 export default {
   name: "Home",
@@ -429,6 +449,7 @@ export default {
     VueBarChart,
     TimeSheet,
     Navbar,
+    InProgress,
   },
   methods: {},
   async created() {
@@ -464,6 +485,9 @@ export default {
   font-weight: 600;
   color: #012970;
 }
+table.sizefix {
+  font-size: 15px;
+}
 
 .bi-calendar2-check {
   top: 4px;
@@ -478,6 +502,9 @@ export default {
   background: #f4b58f;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
 .card.totalbusinessunitsinactive-card {
   background: #c8c3ec;
 }
@@ -494,12 +521,6 @@ export default {
 ul.leftsidecol li {
   margin-top: 15px;
   font-size: 15px;
-}
-ul.leftsidecol li:hover,
-table tr:hover {
-  border: 1px solid #d9d3d3;
-
-  box-shadow: 1px 1px 1px grey;
 }
 
 ul.leftsidecol li span.rounded-circle {

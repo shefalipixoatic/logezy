@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div id="main">
-      <h6>Timesheet PAge Here!</h6>
+      <h6>Timesheet Page in Progress.....</h6>
     </div>
   </div>
 </template>

@@ -1134,7 +1134,6 @@ export default {
         this.getCandidates = response.data.data;
         let candidate_id = this.$route.params.id;
         candidate_id = this.getCandidates.id;
-        console.log(candidate_id);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {

@@ -15,9 +15,38 @@ const router = createRouter({
       },
     },
     {
+      path: "/admin/:id",
+      name: "AdminProfile",
+      component: () => import("@/components/AdminProfile.vue"),
+      meta: {
+        auth: true,
+      },
+    },
+    {
       path: "/client",
       name: "Client",
       component: () => import("@/views/ClientView.vue"),
+      children: [
+        {
+          path: "/client",
+          name: "ClientsLists",
+          component: () => import("@/components/ClientsPages/ClientsLists.vue"),
+          props: true,
+        },
+        {
+          path: "edit/:id",
+          name: "ProfileEdit",
+          component: () => import("@/components/ClientsPages/ProfileEdit.vue"),
+          props: true,
+        },
+        {
+          path: "view/:id",
+          name: "ClientsProfileView",
+          component: () =>
+            import("@/components/ClientsPages/ClientsProfileView.vue"),
+          props: true,
+        },
+      ],
     },
     {
       path: "/candidate",
@@ -31,7 +60,13 @@ const router = createRouter({
             import("@/components/CandidatePages/CandidateLists.vue"),
           props: true,
         },
-
+        {
+          path: "/candidate/profileview/:id",
+          name: "ProfileView",
+          component: () =>
+            import("@/components/CandidatePages/ProfileView.vue"),
+          props: true,
+        },
         {
           path: "/candidate/profile/:id",
           name: "Profile",
@@ -45,13 +80,6 @@ const router = createRouter({
             import("@/components/CandidatePages/EditCandidate.vue"),
           props: true,
         },
-        {
-          path: "/candidate/profileview/:id",
-          name: "ProfileView",
-          component: () =>
-            import("@/components/CandidatePages/ProfileView.vue"),
-          props: true,
-        },
       ],
     },
 
@@ -59,6 +87,28 @@ const router = createRouter({
       path: "/vacancie",
       name: "Vacancies",
       component: () => import("@/views/VacanciesView.vue"),
+      // children: [
+      //   {
+      //     path: "/vacancie",
+      //     name: "VacancyList",
+      //     component: () => import("@/components/VacancyPages/VacancyList.vue"),
+      //     props: true,
+      //   },
+
+      //   {
+      //     path: "edit/:id",
+      //     name: "VacancyEdit",
+      //     component: () => import("@/components/VacancyPages/VacancyEdit.vue"),
+      //     props: true,
+      //   },
+      //   {
+      //     path: "/candidate/profileview/:id",
+      //     name: "ProfileView",
+      //     component: () =>
+      //       import("@/components/CandidatePages/ProfileView.vue"),
+      //     props: true,
+      //   },
+      // ],
     },
     {
       path: "/booking",

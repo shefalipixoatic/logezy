@@ -1,234 +1,31 @@
 <template>
   <div>
     <Navbar />
-    <div class="container-fluid p-0">
-      <div id="main">
-        <div class="pagetitle d-flex justify-content-between px-2">
-          <div class="py-3">
-            <ol class="breadcrumb mb-1">
-              <li class="breadcrumb-item active text-uppercase fs-6">
-                Dashboard / <span class="color-fonts">Clients </span>
-              </li>
-            </ol>
-          </div>
-        </div>
-        <div class="container-fluid p-0 bg-define">
-          <div
-            class="pagetitle d-flex justify-content-between align-items-center p-2"
-          >
-            <div class="d-flex justify-content-around bg-detail">
-              <span class="badge text-dark">{{
-                all_candidate.all_candidate
-              }}</span>
-              &nbsp;
-              <span>Active Clients</span>
-            </div>
 
-            <div
-              class="d-flex align-items-center gap-2 justify-content-between"
-            >
-              <div class="searchbox position-relative">
-                <input
-                  class="form-control mr-sm-2"
-                  type="search"
-                  placeholder="&nbsp;&nbsp;&nbsp;&nbsp; Search by vacancy code"
-                  aria-label="Search"
-                />
-              </div>
-              <button
-                type="button"
-                class="btn btn-outline-success text-nowrap"
-                data-bs-toggle="modal"
-                data-bs-target="#addClients"
-                data-bs-whatever="@mdo"
-              >
-                + Add Client
-              </button>
-            </div>
-          </div>
-        </div>
+    <router-view />
 
-        <div class="container-fluid mt-3">
-          <div class="row">
-            <div class="col-12">
-              <div class="">
-                <div>
-                  <ul
-                    class="nav nav-pills mb-3 d-flex justify-content-between"
-                    id="pills-tab"
-                    role="tablist"
-                  >
-                    <div class="d-flex">
-                      <li
-                        class="nav-item"
-                        role="presentation"
-                        :class="{ 'nav-item': true, active: isActive }"
-                      >
-                        <button
-                          :class="{ 'nav-link': true, active: isActive }"
-                          class="nav-link active me-2"
-                          id="pills-home-tab"
-                          data-bs-toggle="pill"
-                          data-bs-target="#pills-home"
-                          type="button"
-                          role="tab"
-                          aria-controls="pills-home"
-                          aria-selected="true"
-                        >
-                          Open(13)
-                        </button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button
-                          class="nav-link"
-                          id="pills-profile-tab"
-                          data-bs-toggle="pill"
-                          data-bs-target="#pills-profile"
-                          type="button"
-                          role="tab"
-                          aria-controls="pills-profile"
-                          aria-selected="false"
-                        >
-                          Assigned(23)
-                        </button>
-                      </li>
-                    </div>
-                  </ul>
-                  <div class="tab-content" id="pills-tabContent">
-                    <div
-                      class="tab-pane fade show active"
-                      id="pills-home"
-                      role="tabpanel"
-                      aria-labelledby="pills-home-tab"
-                    >
-                      <table class="table candidateTable">
-                        <thead>
-                          <tr>
-                            <th scope="col">#RefCode</th>
-                            <th scope="col">Client Name</th>
-                            <!-- <th scope="col">Jobs</th> -->
-                            <th scope="col">Address</th>
-                            <th scope="col">PhoneNumber</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Status</th>
-                            <!-- <th scope="col">Portal Access</th> -->
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="client in getClientDetail"
-                            :key="client.id"
-                          >
-                            <td v-text="client.ref_code"></td>
-                            <td v-text="client.first_name"></td>
-
-                            <td v-text="client.address"></td>
-
-                            <td v-text="client.phone_number"></td>
-
-                            <td v-text="client.email"></td>
-
-                            <td>
-                              <label
-                                class="switch"
-                                v-if="client.activated == true"
-                              >
-                                <input type="checkbox" id="togBtn" checked />
-                                <div class="slider round"></div>
-                              </label>
-                              <label class="switch" v-else>
-                                <input type="checkbox" id="togBtn" />
-                                <div class="slider round"></div>
-                              </label>
-                            </td>
-                            <td class="cursor-pointer">
-                              <button
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i class="bi bi-pencil-square"></i>
-                              </button>
-                              &nbsp;&nbsp;
-                              <button
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i
-                                  class="bi bi-trash"
-                                  v-on:click="clientsDeleteMethod(client.id)"
-                                ></i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div
-                      class="tab-pane fade"
-                      id="pills-profile"
-                      role="tabpanel"
-                      aria-labelledby="pills-profile-tab"
-                    >
-                      ...
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <AddClients />
   </div>
 </template>
 <script>
-import axios from "axios";
 import Navbar from "../components/Navbar.vue";
-
+import ClientsProfileView from "../components/ClientsPages/ClientsProfileView.vue";
+import ProfileEdit from "../components/ClientsPages/ProfileEdit.vue";
 import AddClients from "../components/modals/CandidatePage/AddClients.vue";
 
 export default {
   data() {
-    return {
-      getClientDetail: [],
-      all_candidate: [],
-      isActive: true,
-      searchQuery: "",
-    };
+    return {};
   },
   components: {
     Navbar,
-
+    ClientsProfileView,
+    ProfileEdit,
     AddClients,
   },
 
-  methods: {
-    async clientsDeleteMethod(id) {
-      if (!window.confirm("Are you Sure ?")) {
-        return;
-      }
-      await axios
-        .delete(`https://logezy.onrender.com/clients/` + id)
-        .then((response) => {
-          this.createdClient();
-        });
-      // alert("Record Deleted ");
-    },
-    async createdClient() {
-      await axios
-        .get("https://logezy.onrender.com/clients")
-
-        .then(
-          (response) => (
-            (this.getClientDetail = response.data.data),
-            (this.all_candidate = response.data)
-          )
-        );
-    },
-  },
-  mounted() {
-    this.createdClient();
-  },
+  methods: {},
+  mounted() {},
 };
 </script>
 

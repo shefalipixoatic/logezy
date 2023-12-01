@@ -172,11 +172,10 @@ export default {
           },
           body: JSON.stringify(data),
         });
-        // if (data) {
-        //   location.reload();
-        // }
 
-        console.log(data);
+        if (data) {
+          location.reload();
+        }
       } catch (error) {
         console.log(error);
       }
@@ -185,7 +184,6 @@ export default {
       try {
         const response = await axios.get("https://logezy.onrender.com/jobs");
         this.options = response.data;
-        console.log(this.options);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {

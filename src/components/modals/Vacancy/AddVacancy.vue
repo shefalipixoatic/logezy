@@ -29,11 +29,11 @@
                   </div>
 
                   <div class="col-10">
-                    <select v-model="business_unit" id="selectBusinessUnit">
+                    <select v-model="business_unit_id" id="selectBusinessUnit">
                       <option
                         v-for="option in businessUnit"
                         :key="option.id"
-                        :value="option.name"
+                        :value="option.id"
                         placeholder="Select BusinessUnit"
                       >
                         {{ option.name }}
@@ -46,11 +46,11 @@
                     <label for="selectClients" class="form-label">Client</label>
                   </div>
                   <div class="col-10">
-                    <select v-model="client" id="selectClients">
+                    <select v-model="client_id" id="selectClients">
                       <option
                         v-for="option in clientData"
                         :key="option.id"
-                        :value="option.first_name"
+                        :value="option.id"
                         aria-placeholder="Select Job"
                       >
                         {{ option.first_name }}
@@ -64,11 +64,11 @@
                       >Job Title</label
                     >
                   </div>
-                  <select v-model="job_title" id="selectJobTitle">
+                  <select v-model="job_id" id="selectJobTitle">
                     <option
                       v-for="option in options"
                       :key="option.id"
-                      :value="option.name"
+                      :value="option.id"
                       aria-placeholder="Select Job"
                     >
                       {{ option.name }}
@@ -90,11 +90,11 @@
                     <label class="form-label" for="selectShifts">Shift</label>
                   </div>
                   <div class="col-10">
-                    <select v-model="shift" id="selectShifts">
+                    <select v-model="shift_id" id="selectShifts">
                       <option
                         v-for="option in shiftsTime"
                         :key="option.id"
-                        :value="option.shift_name"
+                        :value="option.id"
                         aria-placeholder="Select Job"
                       >
                         {{ option.shift_name }}
@@ -143,54 +143,53 @@ export default {
   name: "AddVacancy",
   data() {
     return {
-      business_unit: "",
-      client: "",
+      business_unit_id: "",
+      client_id: "",
       clientData: [],
-      job_title: "",
+      job_id: "",
       options: [],
       businessUnit: [],
       dates: [],
-      shift: "",
+      shift_id: "",
       shiftsTime: [],
       notes: "",
-      client_id: 1,
     };
   },
   computed: {
     selectedOptionText() {
-      const job_title = this.options.find(
-        (option) => option.id === this.job_title
-      );
-      return job_title ? job_title.name : "";
+      const jobs_id = this.options.find((option) => option.id === this.jobs_id);
+      return jobs_id ? jobs_id.name : "";
     },
 
     selectBusinessUnit() {
-      const business_unit = this.businessUnit.find(
-        (option) => option.id === this.business_unit
+      const business_units_id = this.businessUnit.find(
+        (option) => option.id === this.business_units_id
       );
-      return business_unit ? business_unit.name : "";
+      return business_units_id ? business_units_id.name : "";
     },
 
     selectClients() {
-      const client = this.clientData.find(
-        (option) => option.id === this.client
+      const client_id = this.clientData.find(
+        (option) => option.id === this.client_id
       );
-      return client ? client.first_name : "";
+      return client_id ? client_id.first_name : "";
     },
 
     selectShifts() {
-      const shift = this.shiftsTime.find((option) => option.id === this.shift);
-      return shift ? shift.shift_name : "";
+      const shifts_id = this.shiftsTime.find(
+        (option) => option.id === this.shifts_id
+      );
+      return shifts_id ? shifts_id.shift_name : "";
     },
   },
+
   methods: {
     async addVacancyMethod() {
       const data = {
-        business_unit: this.business_unit,
-        client: this.client,
-        job_title: this.job_title,
+        business_unit_id: this.business_unit_id,
+        job_id: this.job_id,
         dates: this.dates,
-        shift: this.shift,
+        shift_id: this.shift_id,
         notes: this.notes,
         client_id: this.client_id,
       };
@@ -203,7 +202,6 @@ export default {
           },
           body: JSON.stringify(data),
         });
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -212,7 +210,6 @@ export default {
       try {
         const response = await axios.get("https://logezy.onrender.com/jobs");
         this.options = response.data;
-        console.log(this.options);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
@@ -227,7 +224,6 @@ export default {
           "https://logezy.onrender.com/business_units"
         );
         this.businessUnit = response.data;
-        console.log(this.businessUnit);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
@@ -240,7 +236,6 @@ export default {
       try {
         const response = await axios.get("https://logezy.onrender.com/clients");
         this.clientData = response.data.data;
-        console.log(this.clientData);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {

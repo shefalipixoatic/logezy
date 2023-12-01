@@ -13,13 +13,13 @@
                 <div class="mb-3">
                   <div class="d-flex">
                     <div class="col-3">
-                      <label class="form-label">NAME</label>
+                      <label class="form-label">BUSINESS UNIT</label>
                     </div>
                     <div class="col-9 mt-1">
                       <input
                         type="text"
                         class="form-control"
-                        v-model="fetchCandidate.first_name"
+                        v-model="fetchVacancy.business_unit_id"
                       />
                     </div>
                   </div>
@@ -27,37 +27,49 @@
 
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-3">
-                    <label class="form-label">EMAIL</label>
-                  </div>
-                  <div class="col-9 mt-1">
-                    <input
-                      type="email"
-                      class="form-control"
-                      v-model="fetchCandidate.email"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">PHONE</label>
-                  </div>
-                  <div class="col-9 mt-1">
-                    <input
-                      type="number"
-                      class="form-control"
-                      v-model="fetchCandidate.phone_number"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">STATUS</label>
+                    <label class="form-label">JOB TITLE</label>
                   </div>
                   <div class="col-9 mt-1">
                     <input
                       type="text"
                       class="form-control"
-                      v-model="fetchCandidate.activated"
+                      v-model="fetchVacancy.job_id"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                  <div class="col-3">
+                    <label class="form-label">CLIENT ID</label>
+                  </div>
+                  <div class="col-9 mt-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="fetchVacancy.client_id"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                  <div class="col-3">
+                    <label class="form-label">DATES</label>
+                  </div>
+                  <div class="col-9 mt-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="fetchVacancy.dates"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                  <div class="col-3">
+                    <label class="form-label">NOTES</label>
+                  </div>
+                  <div class="col-9 mt-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="fetchVacancy.notes"
                     />
                   </div>
                 </div>
@@ -65,7 +77,7 @@
                   <button
                     class="btn btn-primary rounded-1 text-capitalize fw-medium"
                     data-bs-dismiss="modal"
-                    @click.prevent="updateCandidateMethod()"
+                    @click.prevent="updateVacancyMethod()"
                   >
                     Save
                   </button>
@@ -86,41 +98,38 @@ export default {
   name: "CandidateAdd",
   data() {
     return {
-      fetchCandidate: {
-        id: "",
-        first_name: "",
-        last_name: "",
-        password: "",
-        confirm_password: "",
-        address: "",
-        jobs_id: 1,
-        phone_number: "",
-        email: "",
-        activated: "",
-        employment_type_id: "",
+      fetchVacancy: {
+        business_unit_id: "",
+        client_id: "",
+        job_id: "",
+        options: [],
+        dates: [],
+        shift_id: "",
+        notes: "",
+        error: [],
       },
     };
   },
 
   methods: {
-    async fetchCandidateMethod(id) {
+    async fetchVacancyMethod(id) {
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/candidates/${id}`
+          `https://logezy.onrender.com/vacancies/${id}`
         );
 
-        this.fetchCandidate = { ...this.fetchCandidate, ...response.data.data };
+        this.fetchVacancy = { ...this.fetchVacancy, ...response.data.data };
       } catch (error) {
         console.error("Error fetching todo:", error);
       }
     },
-    async updateCandidateMethod() {
+    async updateVacancyMethod() {
       try {
         await axios.put(
-          `https://logezy.onrender.com/candidates/${this.fetchCandidate.id}`,
-          this.fetchCandidate
+          `https://logezy.onrender.com/vacancies/${this.fetchVacancy.id}`,
+          this.fetchVacancy
         );
-        console.log("call");
+
         alert("Candidate updated successfully");
       } catch (error) {
         console.error("Error updating candidate:", error);
@@ -129,7 +138,7 @@ export default {
   },
 
   mounted() {
-    this.fetchCandidateMethod(this.$route.params.id);
+    this.fetchVacancyMethod(this.$route.params.id);
   },
 };
 </script>

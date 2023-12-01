@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div id="main">
-      <h6>Booking PAge Here!</h6>
+      <h6>Booking Page in Progress.....</h6>
     </div>
   </div>
 </template>

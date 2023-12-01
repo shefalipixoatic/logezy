@@ -28,6 +28,7 @@
                 <button
                   a
                   class="nav-link"
+                  :class="{ active: activeTab === index }"
                   aria-selected="true"
                   type="button"
                   role="tab"
@@ -43,6 +44,7 @@
             <div class="d-flex align-items-center p-2">
               <div class="d-flex justify-content-between">
                 <form
+                  @submit.prevent="search"
                   class="form-inline my-2 my-lg-0 d-flex align-items-center justify-content-between gap-2"
                 >
                   <input
@@ -51,10 +53,9 @@
                     placeholder="Search by Name"
                     aria-label="Search"
                     v-model="searchQuery"
+                    @change="search"
                   />
-                  <button class="btn btn-primary" @click="search()">
-                    Search
-                  </button>
+                  <!-- <button type="submit" class="btn btn-primary">Search</button> -->
 
                   <div class="d-flex justify-content-between gap-2">
                     <button
@@ -63,7 +64,7 @@
                       data-bs-toggle="modal"
                       data-bs-target="#addCandidate"
                       data-bs-whatever="@mdo"
-                      @click="showPopup"
+                      :class="{ active: activeTab === index }"
                     >
                       <i class="bi bi-person-plus-fill"></i>
                       Add Candidate
@@ -89,20 +90,49 @@
                   <th scope="col">Access</th>
                   <th scope="col">Assign</th>
                   <th scope="col">Last Login</th>
-                  <th scope="col">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody v-if="searchResults.length > 0">
                 <tr v-for="data in searchResults" :key="data.id">
                   <td>{{ data.first_name }}</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
+                  <td>{{ data.position }}</td>
+                  <td>{{ data.email }}</td>
+                  <td>{{ data.phone_number }}</td>
+                  <td>
+                    <label class="switch" v-if="data.activated == true">
+                      <input type="checkbox" id="togBtn" checked />
+                      <div class="slider round"></div>
+                    </label>
+                    <label class="switch" v-else>
+                      <input type="checkbox" id="togBtn" />
+                      <div class="slider round"></div>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="switch">
+                      <input type="checkbox" id="togBtn" checked />
+                      <div class="slider round"></div>
+                    </label>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="border-0 fs-3 bg-transparent text-success"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Nurse"
+                    >
+                      <i class="bi bi-person-circle"></i>
+                    </button>
+                  </td>
+                  <td>{{ data.last_login }}</td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr>
+                  <td colspan="8" class="text-danger text-center">
+                    Not Match Found !!
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -129,11 +159,11 @@ export default {
       getCandidatesData: [],
       inactiveCandidateData: [],
       activeCandidate: [],
-      searchQuery: "",
+      searchQuery: null,
       searchResults: [],
       tabs: [
-        { name: "Active Candidates", component: "ActiveCandidate" },
-        { name: "InActive Candidates", component: "InActiveCandidate" },
+        { name: "All ", component: "ActiveCandidate" },
+        { name: "InActive ", component: "InActiveCandidate" },
         { name: "Pending...", component: "Rejected" },
       ],
       activeTab: 0,
@@ -151,7 +181,6 @@ export default {
     Rejected,
   },
 
-  onMounted() {},
   methods: {
     selectTab(index) {
       this.activeTab = index;
@@ -159,14 +188,19 @@ export default {
 
     //search api start
 
-    async search(activeCandidate) {
+    async search() {
       try {
-        // Implement your API search endpoint
-        const response = await axios.get(
-          `https://logezy.onrender.com/candidate/search_candidate/${activeCandidate}`
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          `https://logezy.onrender.com/candidate/search_candidate`,
+          {
+            // Your search parameters in the request body
+            first_name: this.searchQuery,
+            candidate_code: this.searchQuery,
+          }
         );
-
         this.searchResults = response.data;
+        console.log(this.searchResults);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -184,16 +218,6 @@ export default {
           }
         });
     },
-
-    //  search api end
-
-    // redirectToUserProfile() {
-    //   this.$router.push({
-    //     name: "CandidateProfile",
-    //     params: { id: this.userId },
-    //   });
-    //   console.log("redirect");
-    // },
   },
 
   mounted() {
@@ -218,6 +242,10 @@ export default {
   color: #ff5f30;
   font-weight: bold;
 }
+.nav-pills .nav-link {
+  border: 2px solid #444444;
+  color: #6e7681;
+}
 .btn-primary {
   border: none;
   font-size: 13px;
@@ -230,7 +258,7 @@ a {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   background-color: transparent;
-  border: 1px solid green;
+  border: 2px solid green;
   border-radius: 22px;
   color: green;
 }
@@ -260,7 +288,7 @@ table th {
 }
 .badge {
   background: #ff572247;
-  border-radius: 50%;
+
   padding: 6px 10px;
 }
 a:link {

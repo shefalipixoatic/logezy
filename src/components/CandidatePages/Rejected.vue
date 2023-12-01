@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-wrapper">
     <table class="table candidateTable">
       <thead>
         <tr>
@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <tr v-for="pending in getPendingCandidatesData" :key="pending.id">
-          <td v-text="pending.first_name"></td>
+          <td class="text-capitalize" v-text="pending.first_name"></td>
           <td v-text="pending.position"></td>
           <td v-text="pending.email"></td>
           <td v-text="pending.phone_number"></td>
@@ -89,7 +89,9 @@ export default {
         .put(`https://logezy.onrender.com/candidate/approve_candidate/${id}`)
         .then((response) => {
           this.inactiveCandidateData = response.data;
+          this.pendingCandidateMethod();
         })
+
         .catch((error) => {
           console.error("Error deleting candidate:", error);
         });
@@ -103,6 +105,7 @@ export default {
         .put(`https://logezy.onrender.com/candidate/reject_candidate/${id}`)
         .then((response) => {
           this.inactiveCandidateData = response.data;
+          this.pendingCandidateMethod();
         })
 
         .catch((error) => {
@@ -123,5 +126,8 @@ export default {
 a {
   color: black;
   text-decoration: none;
+}
+.table-wrapper {
+  overflow-x: auto;
 }
 </style>

@@ -119,7 +119,6 @@ export default {
         if (data) {
           location.reload();
         }
-        console.log(data);
       } catch (error) {
         console.log(error);
       }

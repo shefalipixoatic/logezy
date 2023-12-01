@@ -103,11 +103,11 @@
           </li>
         </ul>
         <ul class="navbar-nav m-0 mb-2 mb-lg-0">
-          <li class="nav-item dropdown mt-2">
+          <!-- <li class="nav-item dropdown mt-2">
             <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span> </a
-            ><!-- End Notification Icon -->
+            >
 
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
@@ -145,8 +145,8 @@
                 </div>
               </li>
             </ul>
-            <!-- End Notification Dropdown Items -->
-          </li>
+          
+          </li> -->
           <!-- End Notification Nav -->
           <li class="nav-item dropdown">
             <a
@@ -155,19 +155,31 @@
               data-bs-toggle="dropdown"
               aria-label="profile detail"
             >
-              <i class="bi bi-person-circle"></i>
+              <img
+                src="./profile.png"
+                alt="USer"
+                class="rounded-circle profileAdminImg"
+                width="50"
+              />
             </a>
             <!-- End Profile Image Icon -->
 
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
+              v-for="data in getAdminData"
+              :key="data.id"
             >
               <li>
-                <a class="dropdown-item" href="">
-                  <i class="bi bi-person d-block"></i>
-                  <h5 class="d-block mb-0">UserName</h5>
+                <router-link
+                  class="dropdown-item text-capitalize"
+                  :to="{
+                    name: 'AdminProfile',
+                    params: { id: data.id },
+                  }"
+                >
+                  <h5 class="d-block mb-0">{{ data.first_name }}</h5>
                   <span class="d-block">Admin</span>
-                </a>
+                </router-link>
               </li>
               <li>
                 <hr class="dropdown-divider" />
@@ -207,11 +219,14 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Navbar",
 
   data() {
-    return {};
+    return {
+      getAdminData: [],
+    };
   },
 
   methods: {
@@ -222,6 +237,19 @@ export default {
       }
     },
   },
+  async created() {
+    const token = localStorage.getItem("token");
+    axios
+      .get("https://logezy.onrender.com/merchants", {
+        headers: {
+          "content-type": "application/json",
+          Authorization: "bearer " + token,
+        },
+      })
+
+      .then((response) => (this.getAdminData = response.data));
+  },
+  mounted() {},
 };
 </script>
 
@@ -239,7 +267,9 @@ ul.navbar-nav li a span.badge {
 .logo {
   line-height: 1;
 }
-
+.profileAdminImg {
+  border: 1px solid grey;
+}
 @media (min-width: 1200px) {
   .logo {
     width: 280px;
@@ -257,6 +287,11 @@ ul.navbar-nav li a span.badge {
   color: #235ec1;
 }
 
+ul.profile li a:hover,
+ul.profile .dropdown-item:hover,
+ul.profile .dropdown-item:focus {
+  background-color: transparent !important;
+}
 .logo span {
   font-size: 26px;
   font-weight: 700;
