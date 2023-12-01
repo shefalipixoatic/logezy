@@ -3,7 +3,7 @@
     <Navbar />
     <!-- <router-view /> -->
     <div id="main">
-      <h6>Timesheet Page in Progress.....</h6>
+      <h6>Vacancy Page in Progress.....</h6>
     </div>
     <!-- <AddVacancy /> -->
   </div>

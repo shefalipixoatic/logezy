@@ -176,6 +176,7 @@ export default {
   background-image: url("src/assets/login-split.jpg");
   background-size: cover;
   background-position: center center;
+  margin-top: 90px;
 }
 .form-control {
   background-color: #f7f5f4;
