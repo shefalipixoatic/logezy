@@ -7,57 +7,57 @@
           <div class="text-center">
             <h5 class="">Edit Candidate</h5>
           </div>
-          <div class="mx-3 d-flex justify-content-center">
+          <div class="mx-3">
             <div class="row">
               <form>
                 <div class="mb-3">
                   <div class="d-flex">
-                    <div class="col-3">
-                      <label class="form-label">NAME</label>
+                    <div class="col-12">
+                      <label class="form-label">Name</label>
                     </div>
-                    <div class="col-9 mt-1">
+                    <div class="col-12 mt-1">
                       <input
                         type="text"
                         class="form-control"
-                        v-model="fetchClients.first_name"
+                        v-model="fetchCandidate.first_name"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">EMAIL</label>
+                  <div class="col-12">
+                    <label class="form-label">Email</label>
                   </div>
-                  <div class="col-9 mt-1">
+                  <div class="col-12 mt-1">
                     <input
                       type="email"
                       class="form-control"
-                      v-model="fetchClients.email"
+                      v-model="fetchCandidate.email"
                     />
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">PHONE</label>
+                  <div class="col-12">
+                    <label class="form-label">Phone Number</label>
                   </div>
-                  <div class="col-9 mt-1">
+                  <div class="col-12 mt-1">
                     <input
                       type="number"
                       class="form-control"
-                      v-model="fetchClients.phone_number"
+                      v-model="fetchCandidate.phone_number"
                     />
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">ADDRESS</label>
+                  <div class="col-12">
+                    <label class="form-label">Status</label>
                   </div>
-                  <div class="col-9 mt-1">
+                  <div class="col-12 mt-1">
                     <input
                       type="text"
                       class="form-control"
-                      v-model="fetchClients.address"
+                      v-model="fetchCandidate.activated"
                     />
                   </div>
                 </div>
@@ -65,7 +65,7 @@
                   <button
                     class="btn btn-primary rounded-1 text-capitalize fw-medium"
                     data-bs-dismiss="modal"
-                    @click.prevent="updateClientMethod()"
+                    @click.prevent="updateCandidateMethod()"
                   >
                     Save
                   </button>
@@ -86,39 +86,41 @@ export default {
   name: "CandidateAdd",
   data() {
     return {
-      fetchClients: {
+      fetchCandidate: {
         id: "",
         first_name: "",
-        ref_code: "",
-        address: "",
-        phone_number: "",
-        email: "",
+        last_name: "",
         password: "",
         confirm_password: "",
-        error: [],
+        address: "",
+        jobs_id: 1,
+        phone_number: "",
+        email: "",
+        activated: "",
+        employment_type_id: "",
       },
     };
   },
 
   methods: {
-    async fetchClientsMethod(id) {
+    async fetchCandidateMethod(id) {
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/clients/${id}`
+          `https://logezy.onrender.com/rate_cards/${id}`
         );
 
-        this.fetchClients = { ...this.fetchClients, ...response.data.data };
+        this.fetchCandidate = { ...this.fetchCandidate, ...response.data.data };
       } catch (error) {
         console.error("Error fetching todo:", error);
       }
     },
-    async updateClientMethod() {
+    async updateCandidateMethod() {
       try {
         await axios.put(
-          `https://logezy.onrender.com/clients/${this.fetchClients.id}`,
-          this.fetchClients
+          `https://logezy.onrender.com/rate_cards/${this.fetchCandidate.id}`,
+          {}
         );
-
+        console.log("call");
         alert("Candidate updated successfully");
       } catch (error) {
         console.error("Error updating candidate:", error);
@@ -127,7 +129,7 @@ export default {
   },
 
   mounted() {
-    this.fetchClientsMethod(this.$route.params.id);
+    this.fetchCandidateMethod(this.$route.params.id);
   },
 };
 </script>
@@ -152,7 +154,7 @@ export default {
   background: #00000008;
 
   padding: 100px 20px;
-  height: 585px;
+  height: 100vh;
   overflow: hidden;
 }
 

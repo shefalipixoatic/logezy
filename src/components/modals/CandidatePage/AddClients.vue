@@ -10,7 +10,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addClients">Add Candidate</h5>
+            <h5 class="modal-title" id="addClients">Add Client</h5>
             <button
               type="button"
               class="btn-close"
@@ -23,9 +23,9 @@
               <form>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">CLIENT NAME</label>
+                    <label class="form-label">client name</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="text"
                       class="form-control"
@@ -35,18 +35,18 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label" for="selectOption">ADDRESS</label>
+                    <label class="form-label" for="selectOption">address</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input type="text" class="form-control" v-model="address" />
                   </div>
                 </div>
                 <div class="mb-3">
                   <div class="d-flex justify-content-between">
                     <div class="col-4">
-                      <label class="form-label">EMAIL</label>
+                      <label class="form-label">email</label>
                     </div>
-                    <div class="col-8 mt-1">
+                    <div class="col-8">
                       <input
                         type="email"
                         class="form-control"
@@ -57,9 +57,9 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">PASSWORD</label>
+                    <label class="form-label">password</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="password"
                       class="form-control"
@@ -69,9 +69,9 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">C-PASSWORD</label>
+                    <label class="form-label">Confirm-Password</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="password"
                       class="form-control"
@@ -81,9 +81,9 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">PHONE</label>
+                    <label class="form-label">phone number</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="number"
                       class="form-control"
@@ -182,6 +182,9 @@ export default {
 #head {
   width: 40px;
   height: 40px;
+}
+label.form-label {
+  text-transform: capitalize;
 }
 
 select {

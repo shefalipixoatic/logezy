@@ -15,13 +15,14 @@ const router = createRouter({
       },
     },
     {
-      path: "/admin/:id",
+      path: "/admin",
       name: "AdminProfile",
       component: () => import("@/components/AdminProfile.vue"),
       meta: {
         auth: true,
       },
     },
+
     {
       path: "/client",
       name: "Client",
@@ -35,8 +36,8 @@ const router = createRouter({
         },
         {
           path: "edit/:id",
-          name: "ProfileEdit",
-          component: () => import("@/components/ClientsPages/ProfileEdit.vue"),
+          name: "EditClient",
+          component: () => import("@/components/ClientsPages/EditClient.vue"),
           props: true,
         },
         {
@@ -44,6 +45,13 @@ const router = createRouter({
           name: "ClientsProfileView",
           component: () =>
             import("@/components/ClientsPages/ClientsProfileView.vue"),
+          props: true,
+        },
+        {
+          path: "client/:id",
+          name: "SingleClientProfile",
+          component: () =>
+            import("@/components/ClientsPages/SingleClientProfile.vue"),
           props: true,
         },
       ],
@@ -72,7 +80,19 @@ const router = createRouter({
           name: "Profile",
           component: () => import("@/components/CandidatePages/Profile.vue"),
           props: true,
+          children: [
+            {
+              path: "/rate_cards/:id",
+              name: "EditRateCard",
+              component: () =>
+                import("@/components/CandidatePages/RateCard/EditRateCard.vue"),
+              meta: {
+                auth: true,
+              },
+            },
+          ],
         },
+
         {
           path: "/candidate/:id",
           name: "EditCandidate",
@@ -87,28 +107,28 @@ const router = createRouter({
       path: "/vacancie",
       name: "Vacancies",
       component: () => import("@/views/VacanciesView.vue"),
-      // children: [
-      //   {
-      //     path: "/vacancie",
-      //     name: "VacancyList",
-      //     component: () => import("@/components/VacancyPages/VacancyList.vue"),
-      //     props: true,
-      //   },
+      children: [
+        {
+          path: "/vacancie",
+          name: "VacancyList",
+          component: () => import("@/components/VacancyPages/VacancyList.vue"),
+          props: true,
+        },
 
-      //   {
-      //     path: "edit/:id",
-      //     name: "VacancyEdit",
-      //     component: () => import("@/components/VacancyPages/VacancyEdit.vue"),
-      //     props: true,
-      //   },
-      //   {
-      //     path: "/candidate/profileview/:id",
-      //     name: "ProfileView",
-      //     component: () =>
-      //       import("@/components/CandidatePages/ProfileView.vue"),
-      //     props: true,
-      //   },
-      // ],
+        {
+          path: "edit/:id",
+          name: "VacancyEdit",
+          component: () => import("@/components/VacancyPages/VacancyEdit.vue"),
+          props: true,
+        },
+        {
+          path: "/candidate/profileview/:id",
+          name: "ProfileView",
+          component: () =>
+            import("@/components/CandidatePages/ProfileView.vue"),
+          props: true,
+        },
+      ],
     },
     {
       path: "/booking",
@@ -130,6 +150,7 @@ const router = createRouter({
       name: "Report",
       component: () => import("@/views/ReportView.vue"),
     },
+
     {
       path: "/appsetting",
       name: "AppSetting",
@@ -269,11 +290,6 @@ const router = createRouter({
       meta: {
         auth: false,
       },
-    },
-    {
-      path: "/signup",
-      name: "SignUp",
-      component: () => import("@/components/auth/signup/SignUp.vue"),
     },
 
     {

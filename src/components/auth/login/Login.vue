@@ -18,10 +18,10 @@
                   <h4 class="mb-2 fw-bold">Login</h4>
                   <span>Welcome Back! Login to Access your Account</span>
                 </div>
-                <div class="error" v-if="msg.error">
+                <!-- <div class="error" v-if="msg.error">
                   <router-link to="/signup">SignUp</router-link>
                   <p class="text-danger">{{ msg.error }}</p>
-                </div>
+                </div> -->
 
                 <form @submit.prevent="login()" class="loginform">
                   <div class="mb-3">
@@ -30,12 +30,13 @@
                       type="email"
                       v-model="email"
                       placeholder="Email address"
+                      @input="clearError"
                       autofocus="true"
                       class="form-control border-0 shadow-sm"
                     />
-                    <div class="error" v-if="msg">
-                      <span class="text-danger">{{ msg.email }}</span>
-                    </div>
+                    <!-- <div class="error" v-if="msg">
+                      <span class="text-danger">{{ msg }}</span>
+                    </div> -->
                   </div>
                   <div class="mb-3">
                     <input
@@ -43,26 +44,21 @@
                       type="password"
                       v-model="password"
                       placeholder="Password"
+                      @input="clearError"
                       required
                       class="form-control border-0 shadow-sm text-primary"
                     />
-                    <div class="error">
-                      <span class="text-danger" v-if="msg.password">{{
-                        msg.password
-                      }}</span>
-                    </div>
                   </div>
-                  <!-- <div class="form-check">
-                    <input
-                      id="customCheck1"
-                      type="checkbox"
-                      checked
-                      class="form-check-input"
-                    />
-                    <label for="customCheck1" class="form-check-label"
-                      >Remember password</label
-                    >
-                  </div> -->
+                  <div v-if="error" class="error-message text-danger">
+                    {{ error }}
+                  </div>
+
+                  <div class="form-check ps-0">
+                    <label>
+                      <input type="checkbox" v-model="rememberMe" /> Remember
+                      Password
+                    </label>
+                  </div>
                   <div class="my-4 d-flex justify-content-between">
                     <button
                       type="submit"
@@ -87,24 +83,17 @@
   </div>
 </template>
 <script>
+import Cookies from "vue-cookies";
 export default {
   data() {
     return {
       email: "",
       password: "",
-      msg: [],
+      error: false,
+      rememberMe: false,
     };
   },
-  // watch: {
-  //   email(value) {
 
-  //     this.email = value;
-  //     this.validateEmail();
-  //   },
-  //   password() {
-  //     this.validatePassword();
-  //   },
-  // },
   methods: {
     async login() {
       const data = {
@@ -129,38 +118,54 @@ export default {
 
         if (jsonData.is_loged_in) {
           localStorage.setItem("token", jsonData.token);
-
+          //localStorage.setItem("data", JSON.stringify(data));
           this.$router.push({ name: "Home" });
-        }
 
-        if (this.email != "merchant@gmail.com") {
-          this.msg["email"] = "Please Enter Correct Email";
+          // If "Remember Me" is checked, store the user's credentials
+          if (this.rememberMe) {
+            localStorage.setItem("email", this.email);
+            localStorage.setItem("password", this.password);
+          } else {
+            // If not checked, clear stored credentials
+            localStorage.remove("email");
+            localStorage.remove("password");
+          }
         } else {
-          this.msg["email"] = "";
-        }
+          this.error = true;
+          this.error = "Invalid email or password";
+          // if (email) {
+          //   this.error = "Please Enter Correct Email";
+          // }
 
-        if (this.password != "merchant@123") {
-          this.msg["password"] = "Please Enter Correct Password";
+          // if (password) {
+          //   this.error = "Please Enter Correct Password";
+          // }
         }
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 401) {
+          console.log(this.error);
+        }
       }
     },
-
-    // validateEmail(value) {
-    //   if (value == null) {
-    //     this.msg["email"] = "Please Enter Email";
-    //     console.log(this.msg["email"]);
-    //   } else {
-    //     this.msg["email"] = "Please Enter Correct Email";
-    //   }
-    // },
+    clearError() {
+      // Clear the error message when the user starts typing
+      this.error = false;
+    },
   },
 
   mounted() {
     const token = localStorage.getItem("token");
     if (token) {
       this.$router.push({ name: "Home" });
+    }
+
+    // Check if "Remember Me" credentials exist
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+
+    if (email && password) {
+      this.email = email;
+      this.password = password;
     }
   },
 };
@@ -176,7 +181,6 @@ export default {
   background-image: url("src/assets/login-split.jpg");
   background-size: cover;
   background-position: center center;
-  margin-top: 90px;
 }
 .form-control {
   background-color: #f7f5f4;

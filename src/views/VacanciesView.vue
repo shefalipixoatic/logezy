@@ -1,18 +1,16 @@
 <template>
   <div>
     <Navbar />
-    <!-- <router-view /> -->
-    <div id="main">
-      <h6>Vacancy Page in Progress.....</h6>
-    </div>
-    <!-- <AddVacancy /> -->
+    <AddVacancy />
+    <PublishedVacancy />
+    <router-view />
   </div>
 </template>
 <script>
 import Navbar from "../components/Navbar.vue";
 
 import AddVacancy from "../components/modals/Vacancy/AddVacancy.vue";
-
+import PublishedVacancy from "../components/modals/Vacancy/PublishedVacancy.vue";
 export default {
   data() {
     return {
@@ -24,6 +22,7 @@ export default {
   components: {
     Navbar,
     AddVacancy,
+    PublishedVacancy,
   },
 
   methods: {},

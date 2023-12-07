@@ -7,7 +7,7 @@
             <ol class="breadcrumb mb-1">
               <li class="breadcrumb-item active text-uppercase fs-6">
                 Dashboard / CANDIDATES /
-                <span class="color-fonts">{{ getCandidates.first_name }}</span>
+                <span class="color-fonts">{{ getClientDatas.first_name }}</span>
               </li>
             </ol>
           </div>
@@ -29,8 +29,9 @@
           <div class="col-md-3">
             <div class="card profile">
               <img
-                src="./profilenotimg.jpg"
+                src="./location.jpg"
                 class="card-img-top position-relative"
+                height="317"
                 alt="..."
               />
 
@@ -42,10 +43,10 @@
                 >
                   <div>
                     <h6 class="card-title text-nowrap fw-bold text-capitalize">
-                      {{ getCandidates.first_name }}
+                      {{ getClientDatas.first_name }}
                     </h6>
                     <span class="text-lowercase">
-                      {{ getCandidates.email }}</span
+                      {{ getClientDatas.email }}</span
                     >
                   </div>
 
@@ -84,7 +85,7 @@
                     <div class="d-flex align-items-center">
                       <span
                         ><i class="bi bi-telephone"></i>
-                        {{ getCandidates.phone_number }}</span
+                        {{ getClientDatas.phone_number }}</span
                       >
                     </div>
                     <button type="button" class="btn btn-outline-primary">
@@ -126,49 +127,40 @@
 <script>
 import axios from "axios";
 
-import Overview from "../CandidatePages/ProfileDetail/Overview.vue";
-import Document from "../CandidatePages/ProfileDetail/Document.vue";
-import ProfileTabs from "../CandidatePages/ProfileDetail/ProfileTabs.vue";
-import Restricted from "../CandidatePages/ProfileDetail/Restricted.vue";
-import RateCardTabs from "../CandidatePages/ProfileDetail/RateCard.vue";
-import Notes from "../CandidatePages/ProfileDetail/Notes.vue";
-import StaffId from "../CandidatePages/ProfileDetail/StaffId.vue";
-import CandidateHistory from "../CandidatePages/ProfileDetail/CandidateHistory.vue";
-import CandidatePreference from "../CandidatePages/ProfileDetail/CandidatePreference.vue";
+import ActiveLocation from "../ClientsPages/ClientProfileDetails/ActiveLocation.vue";
+import PassiveLocation from "../ClientsPages/ClientProfileDetails/PassiveLocation.vue";
+import ClientJobs from "../ClientsPages/ClientProfileDetails/ClientJobs.vue";
+import ClientWTR from "../ClientsPages/ClientProfileDetails/ClientWTR.vue";
+import ClientNotes from "../ClientsPages/ClientProfileDetails/ClientNotes.vue";
+import ClientSetting from "../ClientsPages/ClientProfileDetails/ClientSetting.vue";
+import ClientUser from "../ClientsPages/ClientProfileDetails/ClientUser.vue";
 
 export default {
-  name: "Profile",
+  name: "SingleClientProfile",
   data() {
     return {
-      getCandidates: [],
-      restrictedShift: [],
-
-      getCandidateData: [],
+      getClientDatas: [],
 
       tabs: [
-        { name: "Overview ", component: "Overview" },
-        { name: "Documents ", component: "Document" },
-        { name: "Profile ", component: "ProfileTabs" },
-        { name: "Restricted", component: "Restricted" },
-        { name: "Rate Card", component: "RateCardTabs" },
-        { name: "Notes", component: "Notes" },
-        { name: "Staff ID", component: "StaffId" },
-        { name: "Candidate History", component: "CandidateHistory" },
-        { name: "Candidate Preference", component: "CandidatePreference" },
+        { name: "Active Location ", component: "ActiveLocation" },
+        { name: "Passive Location ", component: "PassiveLocation" },
+        { name: "Jobs ", component: "ClientJobs" },
+        { name: "WTR", component: "ClientWTR" },
+        { name: "Notes", component: "ClientNotes" },
+        { name: "Setting", component: "ClientSetting" },
+        { name: "User", component: "ClientUser" },
       ],
       activeTab: 0,
     };
   },
   components: {
-    Overview,
-    Document,
-    ProfileTabs,
-    Restricted,
-    RateCardTabs,
-    Notes,
-    StaffId,
-    CandidateHistory,
-    CandidatePreference,
+    ActiveLocation,
+    PassiveLocation,
+    ClientJobs,
+    ClientWTR,
+    ClientNotes,
+    ClientSetting,
+    ClientUser,
   },
 
   props: ["id"],
@@ -186,13 +178,13 @@ export default {
       this.activeTab = index;
     },
 
-    async getCandidate() {
+    async getClientMethod() {
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/candidates/${this.$route.params.id}`
+          `https://logezy.onrender.com/clients/${this.$route.params.id}`
         );
 
-        this.getCandidates = response.data.data;
+        this.getClientDatas = response.data.data;
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
@@ -206,7 +198,7 @@ export default {
   },
 
   mounted() {
-    this.getCandidate();
+    this.getClientMethod();
   },
 };
 </script>

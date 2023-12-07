@@ -23,9 +23,9 @@
               <form>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">NAME</label>
+                    <label class="form-label">name</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="text"
                       class="form-control"
@@ -36,10 +36,10 @@
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
                     <label class="form-label" for="selectOption"
-                      >POSITION</label
+                      >position</label
                     >
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <select v-model="job_id" id="selectOption">
                       <option
                         v-for="option in options"
@@ -53,17 +53,17 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">EMAIL</label>
+                    <label class="form-label">email</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input type="email" class="form-control" v-model="email" />
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">PASSWORD</label>
+                    <label class="form-label">password</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="password"
                       class="form-control"
@@ -73,9 +73,9 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">C-PASSWORD</label>
+                    <label class="form-label">confirm password</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="password"
                       class="form-control"
@@ -85,9 +85,9 @@
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                   <div class="col-4">
-                    <label class="form-label">PHONE</label>
+                    <label class="form-label">phone number</label>
                   </div>
-                  <div class="col-8 mt-1">
+                  <div class="col-8">
                     <input
                       type="number"
                       class="form-control"
@@ -132,7 +132,7 @@ export default {
       first_name: "",
       last_name: "",
       password: "",
-      job_id: 1,
+      job_id: "",
       options: [],
       confirm_password: "",
       address: "",
@@ -230,7 +230,9 @@ select {
   border-radius: 4px;
   outline: none;
 }
-
+label.form-label {
+  text-transform: capitalize;
+}
 .switch {
   width: 50px;
   height: 17px;
