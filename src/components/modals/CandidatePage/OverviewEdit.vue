@@ -22,21 +22,6 @@
             <div class="row align-items-center">
               <form>
                 <div class="mb-3">
-                  <div class="">
-                    <div class="col-12">
-                      <label class="form-label">Candidate ID</label>
-                    </div>
-                    <div class="col-12 mt-1">
-                      <input
-                        type="text"
-                        class="form-control"
-                        v-model="fetchCandidate.candidate_code"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Employment Type</label>
                   </div>
@@ -191,7 +176,7 @@ export default {
     return {
       fetchCandidate: {
         id: "",
-        candidate_code: "",
+
         employment_type: "",
         DBS_PVG_no: null,
         DBS_PVG_issue_date: null,
@@ -230,23 +215,10 @@ export default {
         console.error("Error updating candidate:", error);
       }
     },
-    async createVacancy() {
-      const token = localStorage.getItem("token");
-      axios
-        .get("https://logezy.onrender.com/candidates", {
-          headers: {
-            "content-type": "application/json",
-            Authorization: "bearer " + token,
-          },
-        })
-
-        .then((response) => response.data);
-    },
   },
 
   mounted() {
     this.fetchCandidateOverviewMethod(this.$route.params.id);
-    this.createVacancy();
   },
 };
 </script>
