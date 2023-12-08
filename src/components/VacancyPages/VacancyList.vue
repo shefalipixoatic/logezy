@@ -11,7 +11,7 @@
             </ol>
           </div>
         </div>
-        <div class="container-fluid p-0 bg-define">
+        <!-- <div class="container-fluid p-0 bg-define">
           <div
             class="pagetitle d-flex justify-content-between align-items-center p-2"
           >
@@ -27,20 +27,10 @@
             <div></div>
 
             <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-center gap-2">
-                <button
-                  type="button"
-                  class="btn btn-outline-success text-nowrap"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addVacancies"
-                  data-bs-whatever="@mdo"
-                >
-                  + Add Vacancy
-                </button>
-              </div>
+              <div class="d-flex align-items-center gap-2"></div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="container-fluid mt-3">
           <div class="row">
@@ -89,15 +79,23 @@
                         </button>
                       </li>
                     </div>
-
-                    <div class="searchbox position-relative">
+                    <button
+                      type="button"
+                      class="btn btn-outline-success text-nowrap"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addVacancies"
+                      data-bs-whatever="@mdo"
+                    >
+                      + Add Vacancy
+                    </button>
+                    <!-- <div class="searchbox position-relative">
                       <input
                         class="form-control mr-sm-2"
                         type="search"
                         placeholder="&nbsp;&nbsp;&nbsp;&nbsp; Search by vacancy code"
                         aria-label="Search"
                       />
-                    </div>
+                    </div> -->
                   </ul>
                   <div class="tab-content" id="pills-tabContent">
                     <div
@@ -170,24 +168,56 @@
                             </td>
 
                             <td>
-                              <span class="rounded-circle">{{
-                                getdata.applied
-                              }}</span>
+                              <button
+                                type="button"
+                                class="btn text-nowrap"
+                                data-bs-toggle="modal"
+                                data-bs-target="#allCandidateVacancyList"
+                                data-bs-whatever="@mdo"
+                              >
+                                <span class="rounded-circle">{{
+                                  getdata.applied
+                                }}</span>
+                              </button>
                             </td>
                             <td>
-                              <span class="rounded-circle">{{
-                                getdata.applied
-                              }}</span>
+                              <button
+                                type="button"
+                                class="btn text-nowrap"
+                                data-bs-toggle="modal"
+                                data-bs-target="#appliedVacancy"
+                                data-bs-whatever="@mdo"
+                              >
+                                <span class="rounded-circle">{{
+                                  getdata.applied
+                                }}</span>
+                              </button>
                             </td>
                             <td>
-                              <span class="rounded-circle">{{
-                                getdata.assigned
-                              }}</span>
+                              <button
+                                type="button"
+                                class="btn text-nowrap"
+                                data-bs-toggle="modal"
+                                data-bs-target="#assignedVacancyList"
+                                data-bs-whatever="@mdo"
+                              >
+                                <span class="rounded-circle">{{
+                                  getdata.assigned
+                                }}</span>
+                              </button>
                             </td>
                             <td>
-                              <span class="rounded-circle">{{
-                                getdata.rejected
-                              }}</span>
+                              <button
+                                type="button"
+                                class="btn text-nowrap"
+                                data-bs-toggle="modal"
+                                data-bs-target="#rejectedVacancyList"
+                                data-bs-whatever="@mdo"
+                              >
+                                <span class="rounded-circle">{{
+                                  getdata.rejected
+                                }}</span>
+                              </button>
                             </td>
                             <td v-text="getdata.create_by_and_time"></td>
                             <td class="cursor-pointer">

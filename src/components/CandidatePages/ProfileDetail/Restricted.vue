@@ -10,6 +10,15 @@
               >
                 RESTRICTED SHIFTS
               </h5>
+              <!-- <button
+                type="button"
+                class="btn text-nowrap"
+                data-bs-toggle="modal"
+                data-bs-target="#restrictAddShift"
+                data-bs-whatever="@mdo"
+              >
+                Add Shift
+              </button> -->
             </div>
           </div>
           <div class="card-body d-flex justify-content-between">
@@ -19,17 +28,13 @@
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    v-model="shift_id"
+                    value="checked"
                   />&nbsp;{{ shift.shift_name }}
                 </li>
               </ul>
             </div>
             <div class="d-flex gap-2 align-items-baseline">
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                v-on:click="getRestrictedShifts"
-              >
+              <button type="button" class="btn btn-primary btn-sm">
                 <i class="bi bi-file-earmark-medical"></i> Save
               </button>
             </div>
@@ -69,7 +74,7 @@
                     <div class="round">ABC</div>
                   </div>
                   <div>
-                    <h5 class="fw-bold">ABC</h5>
+                    <h5 class="fw-bold"></h5>
                     <span>ABC</span>
                   </div>
                 </div>
@@ -136,6 +141,8 @@ export default {
 
       shift_id: [],
       candidate_id: "",
+      getLocationData: [],
+      getRestrictedShiftData: [],
     };
   },
   methods: {
@@ -146,32 +153,34 @@ export default {
     },
 
     async getRestrictedShifts() {
-      const data = {
-        shift_id: this.shift_id,
-        candidate_id: this.candidate_id,
-      };
       try {
-        const response = await fetch(
-          "https://logezy.onrender.com/restricted_shifts",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }
+        const response = await axios.get(
+          `https://logezy.onrender.com/candidates/${this.$route.params.id}/candidate_restricted_shift`
         );
-        // if (data) {
-        //   location.reload();
-        // }
+
+        this.getRestrictedShiftData = response.data;
+        console.log(this.getRestrictedShiftData);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching todo:", error);
+      }
+    },
+    async getLocationMethod() {
+      try {
+        const response = await axios.get(
+          `https://logezy.onrender.com/candidates/${this.$route.params.id}/candidate_restricted_location`
+        );
+
+        this.getLocationData = response.data;
+        console.log(this.getLocationData);
+      } catch (error) {
+        console.error("Error fetching todo:", error);
       }
     },
   },
   mounted() {
     this.getTime();
+    this.getLocationMethod();
+    this.getRestrictedShifts();
     this.candidate_id = this.$route.params.id;
   },
 };

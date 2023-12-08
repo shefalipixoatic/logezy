@@ -11,7 +11,7 @@
             <div class="row">
               <form>
                 <div class="mb-3">
-                  <div class="d-flex">
+                  <div class="">
                     <div class="col-12">
                       <label class="form-label">Business Unit</label>
                     </div>
@@ -38,7 +38,7 @@
                   </div>
                 </div>
 
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Job Title</label>
                   </div>
@@ -60,7 +60,7 @@
                     /> -->
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Client ID</label>
                   </div>
@@ -82,7 +82,7 @@
                     /> -->
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Dates</label>
                   </div>
@@ -94,7 +94,7 @@
                     />
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Shift</label>
                   </div>
@@ -116,7 +116,7 @@
                     /> -->
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Notes</label>
                   </div>

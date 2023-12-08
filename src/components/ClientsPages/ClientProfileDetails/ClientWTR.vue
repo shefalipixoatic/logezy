@@ -1,3 +1,3 @@
 <template>
-  <h2>wtr</h2>
+  <h6>Client WTR Page is Processing....</h6>
 </template>

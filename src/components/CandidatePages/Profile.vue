@@ -34,7 +34,7 @@
                 alt="..."
               />
 
-              <div class="ribbon"><span>Active</span></div>
+              <!-- <div class="ribbon"><span>Active</span></div> -->
 
               <div class="card-body">
                 <div

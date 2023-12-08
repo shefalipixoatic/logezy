@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <h5>notes Component</h5>
-  </div>
+  <h6>Notes Page is Processing....</h6>
 </template>

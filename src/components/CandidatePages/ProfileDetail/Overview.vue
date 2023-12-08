@@ -11,7 +11,13 @@
                 >
                   Starter Check List
                 </h5>
-                <button type="button" class="btn btn-outline-primary mb-3">
+                <button
+                  type="button"
+                  class="btn btn-outline-success text-nowrap text-nowrap mb-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#overviewEdit"
+                  data-bs-whatever="@mdo"
+                >
                   Edit
                 </button>
               </div>
@@ -30,57 +36,59 @@
                   <tr>
                     <td>Employment Type</td>
                     <td>:</td>
-                    <td>PAYE</td>
+                    <td>{{ getCandidatesDataInOverview.employment_type }}</td>
                   </tr>
-                  <tr>
-                    <td>Companies</td>
-                    <td>:</td>
-                    <td>...</td>
-                  </tr>
+
                   <tr>
                     <td>DBS/PVG No</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesDataInOverview.DBS_PVG_no }}</td>
                   </tr>
                   <tr>
                     <td>DBS/PVG Issue Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>
+                      {{ getCandidatesDataInOverview.DBS_PVG_issue_date }}
+                    </td>
                   </tr>
                   <tr>
                     <td>DBS/PVG Expiry Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>
+                      {{ getCandidatesDataInOverview.DBS_PVG_expiry_date }}
+                    </td>
                   </tr>
                   <tr>
                     <td>Next Check Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesDataInOverview.next_check_date }}</td>
                   </tr>
                   <tr>
                     <td>NMC/NISCC/SSSC Pin</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>
+                      {{ getCandidatesDataInOverview.NMC_NISCC_SSSC_pin }}
+                    </td>
                   </tr>
                   <tr>
                     <td>Nationality</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesDataInOverview.nationality }}</td>
                   </tr>
                   <tr>
                     <td>Date of Birth</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesDataInOverview.date_of_birth }}</td>
                   </tr>
                   <tr>
                     <td>Place of Birth</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesDataInOverview.place_of_birth }}</td>
                   </tr>
                   <tr>
                     <td>Gender</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesDataInOverview.gender }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -341,7 +349,22 @@ import axios from "axios";
 export default {
   name: "Overview",
   data() {
-    return { getCandidatesDataInOverview: [] };
+    return {
+      getCandidatesDataInOverview: [],
+      fetchCandidate: {
+        id: "",
+        first_name: "",
+        last_name: "",
+        password: "",
+        confirm_password: "",
+        address: "",
+        jobs_id: 1,
+        phone_number: "",
+        email: "",
+        activated: "",
+        employment_type_id: "",
+      },
+    };
   },
   methods: {
     async getCandidateMethod() {

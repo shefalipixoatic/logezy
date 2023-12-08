@@ -1,3 +1,3 @@
 <template>
-  <h6>Notes</h6>
+  <h6>Client Notes Page is Processing....</h6>
 </template>

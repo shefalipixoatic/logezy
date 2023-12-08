@@ -103,7 +103,7 @@
           </li>
         </ul>
         <ul class="navbar-nav m-0 mb-2 mb-lg-0">
-          <li class="nav-item dropdown mt-3">
+          <!-- <li class="nav-item dropdown mt-3">
             <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
@@ -145,7 +145,7 @@
                 </div>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- End Notification Nav -->
           <li class="nav-item dropdown">
             <a

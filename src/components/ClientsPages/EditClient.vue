@@ -11,7 +11,7 @@
             <div class="row">
               <form>
                 <div class="mb-3">
-                  <div class="d-flex">
+                  <div class="">
                     <div class="col-12">
                       <label class="form-label">Name</label>
                     </div>
@@ -25,7 +25,7 @@
                   </div>
                 </div>
 
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Email</label>
                   </div>
@@ -37,7 +37,7 @@
                     />
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Phone Number</label>
                   </div>
@@ -49,7 +49,7 @@
                     />
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
+                <div class="mb-3">
                   <div class="col-12">
                     <label class="form-label">Address</label>
                   </div>

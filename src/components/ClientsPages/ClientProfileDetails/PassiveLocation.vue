@@ -1,3 +1,3 @@
 <template>
-  <h2>Passive location</h2>
+  <h6>Passive location Page is Processing....</h6>
 </template>

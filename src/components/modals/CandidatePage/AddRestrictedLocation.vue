@@ -7,7 +7,7 @@
       aria-labelledby="addRestrictedLocation"
       tabindex="-1"
     >
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addRestrictedLocation">Add Location</h5>
@@ -88,8 +88,9 @@ export default {
   },
   methods: {
     async addRestrictedLocationMethod() {
+      const token = localStorage.getItem("token");
       const data = {
-        business_unit_id: this.business_unit_id,
+        business_unit_id: [this.business_unit_id],
         candidate_id: this.candidate_id,
       };
       try {
@@ -99,6 +100,7 @@ export default {
             method: "POST",
             headers: {
               "content-type": "application/json",
+              Authorization: "bearer " + token,
             },
             body: JSON.stringify(data),
           }
@@ -107,6 +109,31 @@ export default {
         console.log(error);
       }
     },
+    async getBusinessUnitMethod() {
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/business_units"
+        );
+        this.businessUnit = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+  },
+  mounted() {
+    this.getBusinessUnitMethod();
+    this.candidate_id = this.$route.params.id;
   },
 };
 </script>
+
+<style scoped>
+select {
+  width: 100%;
+  padding: 9px;
+}
+</style>

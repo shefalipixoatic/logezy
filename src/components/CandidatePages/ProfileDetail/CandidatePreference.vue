@@ -1,3 +1,3 @@
 <template>
-  <div><h2>yf78uu7i</h2></div>
+  <h6>Candidates Preference Page is Processing....</h6>
 </template>
