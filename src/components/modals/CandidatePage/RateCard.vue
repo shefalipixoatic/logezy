@@ -270,7 +270,7 @@ export default {
     },
   },
   mounted() {
-    this.addRateCardMethod();
+    // this.addRateCardMethod();
     this.getJobTitleMethod();
     this.getBusinessUnitMethod();
     this.getTimeShift();

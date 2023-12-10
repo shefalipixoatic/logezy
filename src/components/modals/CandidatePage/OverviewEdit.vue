@@ -3,14 +3,16 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="overviewEdit"
-      aria-labelledby="overviewEdit"
+      id="editOverview"
+      aria-labelledby="candidatePage"
       tabindex="-1"
     >
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModal">Add Details</h5>
+            <h5 class="modal-title text-center" id="editOverview">
+              Add Details
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -147,7 +149,7 @@
           <div class="modal-footer">
             <button
               class="btn btn-secondary rounded-1"
-              data-bs-target="#overviewEdit"
+              data-bs-target="#editOverview"
               data-bs-toggle="modal"
               data-bs-dismiss="modal"
             >
@@ -176,7 +178,6 @@ export default {
     return {
       fetchCandidate: {
         id: "",
-
         employment_type: "",
         DBS_PVG_no: null,
         DBS_PVG_issue_date: null,
@@ -192,13 +193,13 @@ export default {
   },
 
   methods: {
-    async fetchCandidateOverviewMethod(id) {
+    async fetchCandidateOverviewMethod() {
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/candidates/${id}`
+          `https://logezy.onrender.com/candidates/${this.$route.params.id}`
         );
 
-        this.fetchCandidate = { ...this.fetchCandidate, ...response.data.data };
+        this.fetchCandidate = response.data.data;
       } catch (error) {
         console.error("Error fetching todo:", error);
       }
@@ -211,6 +212,7 @@ export default {
         );
 
         alert("Candidate updated successfully");
+        window.location.reload();
       } catch (error) {
         console.error("Error updating candidate:", error);
       }
@@ -218,7 +220,7 @@ export default {
   },
 
   mounted() {
-    this.fetchCandidateOverviewMethod(this.$route.params.id);
+    this.fetchCandidateOverviewMethod();
   },
 };
 </script>

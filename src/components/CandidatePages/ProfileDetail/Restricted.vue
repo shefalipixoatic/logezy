@@ -10,7 +10,7 @@
               >
                 RESTRICTED SHIFTS
               </h5>
-              <!-- <button
+              <button
                 type="button"
                 class="btn text-nowrap"
                 data-bs-toggle="modal"
@@ -18,23 +18,25 @@
                 data-bs-whatever="@mdo"
               >
                 Add Shift
-              </button> -->
+              </button>
             </div>
           </div>
           <div class="card-body d-flex justify-content-between">
             <div class="d-flex gap-3">
-              <ul v-for="shift in shifts" :key="shift.id">
+              <ul>
                 <li>
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="checked"
-                  />&nbsp;{{ shift.shift_name }}
+                  <!-- <input class="form-check-input" type="checkbox" />
+                  &nbsp;{{ getRestrictedShiftData.id }} -->
+                  inProcess...
                 </li>
               </ul>
             </div>
             <div class="d-flex gap-2 align-items-baseline">
-              <button type="button" class="btn btn-primary btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                @click="saveRestrictedShifts"
+              >
                 <i class="bi bi-file-earmark-medical"></i> Save
               </button>
             </div>
@@ -69,17 +71,6 @@
           <div class="card-body">
             <ul class="list-unstyled d-inline-flex gap-3">
               <li>
-                <div class="d-flex gap-3 justify-content-start border-box">
-                  <div>
-                    <div class="round">ABC</div>
-                  </div>
-                  <div>
-                    <h5 class="fw-bold"></h5>
-                    <span>ABC</span>
-                  </div>
-                </div>
-              </li>
-              <li>
                 <div class="d-flex justify-content-start border-box">
                   <div>
                     <div class="hround">H1</div>
@@ -101,28 +92,6 @@
                   </div>
                 </div>
               </li>
-              <li>
-                <div class="d-flex justify-content-start border-box">
-                  <div>
-                    <div class="dround">D</div>
-                  </div>
-                  <div>
-                    <h5 class="fw-bold">Demo</h5>
-                    <span>Demo</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex justify-content-start border-box">
-                  <div>
-                    <div class="round">ABC</div>
-                  </div>
-                  <div>
-                    <h5 class="fw-bold">ABC</h5>
-                    <span>ABC</span>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
         </div>
@@ -133,13 +102,13 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "Restricted",
   data() {
     return {
+      shift_id: [], // Array to store selected shift ids
       shifts: [],
-
-      shift_id: [],
       candidate_id: "",
       getLocationData: [],
       getRestrictedShiftData: [],
@@ -147,9 +116,9 @@ export default {
   },
   methods: {
     async getTime() {
-      await axios
-        .get("https://logezy.onrender.com/shifts")
-        .then((response) => (this.shifts = response.data));
+      await axios.get("https://logezy.onrender.com/shifts").then((response) => {
+        this.shifts = response.data;
+      });
     },
 
     async getRestrictedShifts() {
@@ -159,11 +128,12 @@ export default {
         );
 
         this.getRestrictedShiftData = response.data;
-        console.log(this.getRestrictedShiftData);
+        // Set the selected shift ids based on the data you retrieve
       } catch (error) {
-        console.error("Error fetching todo:", error);
+        console.error("Error fetching restricted shifts:", error);
       }
     },
+
     async getLocationMethod() {
       try {
         const response = await axios.get(
@@ -173,7 +143,21 @@ export default {
         this.getLocationData = response.data;
         console.log(this.getLocationData);
       } catch (error) {
-        console.error("Error fetching todo:", error);
+        console.error("Error fetching restricted locations:", error);
+      }
+    },
+
+    async saveRestrictedShifts() {
+      // Send a request to save the selected shift ids for the candidate
+      try {
+        await axios.put(
+          `https://logezy.onrender.com/restricted_shifts/${this.$route.params.id}`,
+          { shift_id: this.shift_id }
+        );
+
+        console.log("Restricted shifts saved successfully");
+      } catch (error) {
+        console.error("Error saving restricted shifts:", error);
       }
     },
   },
@@ -181,7 +165,7 @@ export default {
     this.getTime();
     this.getLocationMethod();
     this.getRestrictedShifts();
-    this.candidate_id = this.$route.params.id;
+    console.log(this.$route.params.id);
   },
 };
 </script>

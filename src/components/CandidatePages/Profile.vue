@@ -99,8 +99,7 @@
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item d-inline-flex gap-2" role="presentation">
                 <button
-                  class="nav-link"
-                  :class="{ active: activeTab === index }"
+                  class="btn-css"
                   aria-selected="true"
                   type="button"
                   role="tab"
@@ -109,7 +108,14 @@
                   :key="index"
                   @click="selectTab(index)"
                 >
-                  {{ tab.name }}
+                  <router-link
+                    class="nav-link"
+                    :class="{ active: activeTab === index }"
+                    :to="getTabLink(tab)"
+                    v-on:click.prevent
+                  >
+                    {{ tab.name }}</router-link
+                  >
                 </button>
               </li>
             </ul>
@@ -120,6 +126,9 @@
         </div>
       </div>
     </div>
+    <OverviewEdit />
+    <AddRestrictedLocation />
+    <RestrictShift />
   </div>
 </template>
 
@@ -130,14 +139,18 @@ import Overview from "../CandidatePages/ProfileDetail/Overview.vue";
 import Document from "../CandidatePages/ProfileDetail/Document.vue";
 import ProfileTabs from "../CandidatePages/ProfileDetail/ProfileTabs.vue";
 import Restricted from "../CandidatePages/ProfileDetail/Restricted.vue";
-import RateCardTabs from "../CandidatePages/ProfileDetail/RateCard.vue";
+// import RateCardTabs from "../CandidatePages/ProfileDetail/RateCard.vue";
 import Notes from "../CandidatePages/ProfileDetail/Notes.vue";
 import StaffId from "../CandidatePages/ProfileDetail/StaffId.vue";
 import CandidateHistory from "../CandidatePages/ProfileDetail/CandidateHistory.vue";
 import CandidatePreference from "../CandidatePages/ProfileDetail/CandidatePreference.vue";
+import OverviewEdit from "../modals/CandidatePage/OverviewEdit.vue";
+import AddRestrictedLocation from "../modals/CandidatePage/AddRestrictedLocation.vue";
+import RestrictShift from "../modals/CandidatePage/RestrictShift.vue";
 
 export default {
   name: "Profile",
+
   data() {
     return {
       getCandidates: [],
@@ -150,7 +163,7 @@ export default {
         { name: "Documents ", component: "Document" },
         { name: "Profile ", component: "ProfileTabs" },
         { name: "Restricted", component: "Restricted" },
-        { name: "Rate Card", component: "RateCardTabs" },
+        // { name: "Rate Card", component: "RateCardTabs" },
         { name: "Notes", component: "Notes" },
         { name: "Staff ID", component: "StaffId" },
         { name: "Candidate History", component: "CandidateHistory" },
@@ -159,16 +172,20 @@ export default {
       activeTab: 0,
     };
   },
+
   components: {
     Overview,
+    OverviewEdit,
     Document,
     ProfileTabs,
     Restricted,
-    RateCardTabs,
+    // RateCardTabs,
     Notes,
     StaffId,
     CandidateHistory,
     CandidatePreference,
+    AddRestrictedLocation,
+    RestrictShift,
   },
 
   props: ["id"],
@@ -182,6 +199,9 @@ export default {
   },
 
   methods: {
+    getTabLink(tab) {
+      return { name: tab.component, params: { id: this.$route.params.id } };
+    },
     selectTab(index) {
       this.activeTab = index;
     },
@@ -205,7 +225,7 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.getCandidate();
   },
 };
@@ -219,10 +239,19 @@ export default {
   border-bottom: 1px solid #ebe2e2;
 }
 
+button.btn-css {
+  border: none;
+  background: transparent;
+}
 .accordion-button {
   width: 25%;
   background-color: transparent;
 }
+ul li a {
+  color: #000;
+  text-decoration: none;
+}
+
 .accordion-button:focus {
   z-index: 3;
   border-color: none;

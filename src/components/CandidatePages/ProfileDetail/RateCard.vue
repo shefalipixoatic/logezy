@@ -132,7 +132,7 @@ export default {
     async showRateCardMethod() {
       await axios
         .get("https://logezy.onrender.com/rate_cards")
-        .then((response) => (this.getRateCard = response.data))
+        .then((response) => (this.getRateCard = response.data.data))
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 404) {

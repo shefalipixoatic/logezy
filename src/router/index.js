@@ -57,35 +57,121 @@ const router = createRouter({
       ],
     },
     {
-      path: "/candidate",
+      path: "/candidates",
       name: "Candidate",
       component: () => import("@/views/CandidatesView.vue"),
       children: [
         {
-          path: "/candidate",
+          path: "/candidates",
           name: "CandidateLists",
           component: () =>
             import("@/components/CandidatePages/CandidateLists.vue"),
           props: true,
         },
         {
-          path: "/candidate/profileview/:id",
+          path: "/candidates/profileview/:id",
           name: "ProfileView",
           component: () =>
             import("@/components/CandidatePages/ProfileView.vue"),
           props: true,
         },
         {
-          path: "/candidate/profile/:id",
+          path: "/candidates/:id",
           name: "Profile",
           component: () => import("@/components/CandidatePages/Profile.vue"),
           props: true,
           children: [
             {
-              path: "/rate_cards/:id",
-              name: "EditRateCard",
+              path: "/candidates/:id/overview",
+              name: "Overview",
               component: () =>
-                import("@/components/CandidatePages/RateCard/EditRateCard.vue"),
+                import(
+                  "@/components/CandidatePages/ProfileDetail/Overview.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/document",
+              name: "Document",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/Document.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/profiles",
+              name: "ProfileTabs",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/ProfileTabs.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id",
+              name: "Restricted",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/Restricted.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            // {
+            //   path: "/candidates/:id/rate-card",
+            //   name: "RateCard",
+            //   component: () =>
+            //     import(
+            //       "@/components/CandidatePages/ProfileDetail/RateCard.vue"
+            //     ),
+            //   meta: {
+            //     auth: true,
+            //   },
+            // },
+            {
+              path: "/candidates/:id/notes",
+              name: "Notes",
+              component: () =>
+                import("@/components/CandidatePages/ProfileDetail/Notes.vue"),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/staff-id",
+              name: "StaffId",
+              component: () =>
+                import("@/components/CandidatePages/ProfileDetail/StaffId.vue"),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/candidate-history",
+              name: "CandidateHistory",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/CandidateHistory.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/candidate-preference",
+              name: "CandidatePreference",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/CandidatePreference.vue"
+                ),
               meta: {
                 auth: true,
               },
@@ -94,7 +180,7 @@ const router = createRouter({
         },
 
         {
-          path: "/candidate/:id",
+          path: "/candidates/:id",
           name: "EditCandidate",
           component: () =>
             import("@/components/CandidatePages/EditCandidate.vue"),

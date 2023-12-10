@@ -44,7 +44,7 @@
             </ul> -->
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" aria-current="page" to="/candidate">
+            <router-link class="nav-link" aria-current="page" to="/candidates">
               Candidates
               <!-- <i class="bi bi-caret-down-fill"></i> -->
             </router-link>

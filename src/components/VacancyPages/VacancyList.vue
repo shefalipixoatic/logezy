@@ -79,15 +79,18 @@
                         </button>
                       </li>
                     </div>
-                    <button
-                      type="button"
-                      class="btn btn-outline-success text-nowrap"
-                      data-bs-toggle="modal"
-                      data-bs-target="#addVacancies"
-                      data-bs-whatever="@mdo"
-                    >
-                      + Add Vacancy
-                    </button>
+                    <div>
+                      <button
+                        type="button"
+                        class="btn btn-outline-success text-nowrap"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addVacancies"
+                        data-bs-whatever="@mdo"
+                      >
+                        + Add Vacancy
+                      </button>
+                    </div>
+
                     <!-- <div class="searchbox position-relative">
                       <input
                         class="form-control mr-sm-2"

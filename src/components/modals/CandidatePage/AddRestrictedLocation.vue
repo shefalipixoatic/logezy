@@ -88,19 +88,17 @@ export default {
   },
   methods: {
     async addRestrictedLocationMethod() {
-      const token = localStorage.getItem("token");
       const data = {
         business_unit_id: [this.business_unit_id],
         candidate_id: this.candidate_id,
       };
       try {
         const response = await fetch(
-          "https://logezy.onrender.com/restricted_business_units",
+          `https://logezy.onrender.com/restricted_business_units`,
           {
             method: "POST",
             headers: {
               "content-type": "application/json",
-              Authorization: "bearer " + token,
             },
             body: JSON.stringify(data),
           }

@@ -72,7 +72,7 @@ export default {
 
       shift_id: [],
       candidate_id: "",
-      getLocationData: [],
+
       getRestrictedShiftData: [],
     };
   },
@@ -85,7 +85,7 @@ export default {
 
     async postRestrictedShift() {
       const data = {
-        shift_id: [this.shift_id],
+        shift_id: this.shift_id,
         candidate_id: this.candidate_id,
       };
       try {

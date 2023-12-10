@@ -68,11 +68,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tbody>
-                  <tr>
-                    <td colspan="12">List in Process....</td>
-                  </tr>
-                </tbody>
               </table>
             </div>
           </div>
@@ -101,6 +96,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "AppliedVacancyList",
   data() {
@@ -110,43 +106,60 @@ export default {
   methods: {
     async getAppliedVacancyMethod() {
       const token = localStorage.getItem("token");
+
+      // Manually set the index or use your own logic to determine it
+      const customIndex = 0; // Change this to your logic or set it manually
+
+      // Check if vacancyData is not empty and has the item at the determined index
+      if (this.vacancyData.length > customIndex) {
+        const vacancyId = this.vacancyData[customIndex].id;
+
+        try {
+          const response = await axios.get(
+            `https://logezy.onrender.com/applied_candidate_list?vacancy_id=${vacancyId}`,
+            {
+              headers: {
+                "content-type": "application/json",
+                Authorization: "bearer " + token,
+              },
+            }
+          );
+          this.getVacancyDetail = response.data;
+        } catch (error) {
+          if (error.response) {
+            if (error.response.status == 404) {
+              alert(error.response.data.message);
+            }
+          }
+        }
+      } else {
+        console.error(
+          "Vacancy data is empty or does not have the item at the determined index."
+        );
+      }
+    },
+
+    async getVacancyDataMethod() {
+      const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/applied_candidate_list`,
+          "https://logezy.onrender.com/vacancies",
           {
-            body: { vacancy_id: 33 },
             headers: {
               "content-type": "application/json",
               Authorization: "bearer " + token,
             },
           }
         );
-        this.getVacancyDetail = response.data;
-        console.log(this.getVacancyDetail);
+        this.vacancyData = response.data;
+        this.getAppliedVacancyMethod();
       } catch (error) {
-        if (error.response) {
-          if (error.response.status == 404) {
-            alert(error.response.data.message);
-          }
-        }
+        console.error("Error fetching vacancies:", error);
       }
-    },
-    async getVacancyDataMethod() {
-      const token = localStorage.getItem("token");
-      axios
-        .get("https://logezy.onrender.com/vacancies", {
-          headers: {
-            "content-type": "application/json",
-            Authorization: "bearer " + token,
-          },
-        })
-
-        .then((response) => (this.vacancyData = response.data));
     },
   },
 
   mounted() {
-    this.getAppliedVacancyMethod();
     this.getVacancyDataMethod();
   },
 };

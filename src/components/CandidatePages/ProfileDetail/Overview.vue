@@ -11,11 +11,21 @@
                 >
                   Starter Check List
                 </h5>
+                <!-- <router-link
+                  :to="{
+                    name: 'OverviewEdit',
+                    params: { id: getCandidatesDataInOverview.id },
+                  }"
+                  type="button"
+                  class="btn btn-outline-success text-nowrap text-nowrap mb-3"
+                >
+                  Edit
+                </router-link> -->
                 <button
                   type="button"
                   class="btn btn-outline-success text-nowrap text-nowrap mb-3"
                   data-bs-toggle="modal"
-                  data-bs-target="#overviewEdit"
+                  data-bs-target="#editOverview"
                   data-bs-whatever="@mdo"
                 >
                   Edit
@@ -366,6 +376,7 @@ export default {
       },
     };
   },
+  components: {},
   methods: {
     async getCandidateMethod() {
       try {
