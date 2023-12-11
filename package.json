@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "stage": "vite --host=194.31.150.133",
     "build": "vite build",
     "preview": "vite preview"
   },
