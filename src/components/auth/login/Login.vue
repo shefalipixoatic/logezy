@@ -83,7 +83,6 @@
   </div>
 </template>
 <script>
-import Cookies from "vue-cookies";
 export default {
   data() {
     return {
@@ -127,12 +126,12 @@ export default {
             localStorage.setItem("password", this.password);
           } else {
             // If not checked, clear stored credentials
-            localStorage.remove("email");
-            localStorage.remove("password");
+            localStorage.removeItem("email");
+            localStorage.removeItem("password");
           }
         } else {
           this.error = true;
-          this.error = "Invalid email or password";
+          this.error = "Invalid Email or Password";
           // if (email) {
           //   this.error = "Please Enter Correct Email";
           // }

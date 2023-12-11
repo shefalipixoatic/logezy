@@ -28,11 +28,19 @@
                     <label class="form-label">Employment Type</label>
                   </div>
                   <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
+                    <select
                       v-model="fetchCandidate.employment_type"
-                    />
+                      id="selectEmployeeType"
+                    >
+                      <option
+                        v-for="option in employeeData"
+                        :key="option.id"
+                        :value="option.id"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.title }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="mb-3">
@@ -179,6 +187,7 @@ export default {
       fetchCandidate: {
         id: "",
         employment_type: "",
+
         DBS_PVG_no: null,
         DBS_PVG_issue_date: null,
         DBS_PVG_expiry_date: null,
@@ -189,10 +198,32 @@ export default {
         place_of_birth: null,
         gender: null,
       },
+      employeeData: [],
     };
   },
-
+  computed: {
+    selectEmployeeType() {
+      const employment_type = this.employeeData.find(
+        (option) => option.id === this.employment_type
+      );
+      return employment_type ? employment_type.title : "";
+    },
+  },
   methods: {
+    async getEmployeeTypeData() {
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/employment_types"
+        );
+        this.employeeData = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
     async fetchCandidateOverviewMethod() {
       try {
         const response = await axios.get(
@@ -221,6 +252,7 @@ export default {
 
   mounted() {
     this.fetchCandidateOverviewMethod();
+    this.getEmployeeTypeData();
   },
 };
 </script>
@@ -235,6 +267,13 @@ export default {
 }
 .modal-footer {
   border-top: 0px;
+}
+
+select {
+  width: 100%;
+  border: none;
+  padding: 9px;
+  border-radius: 4px;
 }
 
 #head {

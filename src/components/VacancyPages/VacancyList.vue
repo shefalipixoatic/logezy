@@ -134,7 +134,7 @@
                             <td v-text="getdata.ref_code"></td>
                             <td>
                               <router-link
-                                class="text-capitalize text-black"
+                                class="text-capitalize text-black text-decoration-underline"
                                 :to="{
                                   name: 'SingleClientProfile',
                                   params: { id: getdata.client_id },

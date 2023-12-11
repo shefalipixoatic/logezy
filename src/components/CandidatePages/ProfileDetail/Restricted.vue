@@ -24,10 +24,14 @@
           <div class="card-body d-flex justify-content-between">
             <div class="d-flex gap-3">
               <ul>
-                <li>
-                  <!-- <input class="form-check-input" type="checkbox" />
-                  &nbsp;{{ getRestrictedShiftData.id }} -->
-                  inProcess...
+                <li v-for="shift in getRestrictedShiftData" :key="shift.id">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    v-model="shift_id"
+                    :value="shift.id"
+                  />
+                  &nbsp;{{ shift.shift_name }}
                 </li>
               </ul>
             </div>
@@ -114,10 +118,12 @@ export default {
       getRestrictedShiftData: [],
     };
   },
+
   methods: {
     async getTime() {
       await axios.get("https://logezy.onrender.com/shifts").then((response) => {
         this.shifts = response.data;
+        console.log(this.shifts);
       });
     },
 
@@ -126,12 +132,17 @@ export default {
         const response = await axios.get(
           `https://logezy.onrender.com/candidates/${this.$route.params.id}/candidate_restricted_shift`
         );
-
         this.getRestrictedShiftData = response.data;
-        // Set the selected shift ids based on the data you retrieve
+        console.log(this.getRestrictedShiftData);
       } catch (error) {
         console.error("Error fetching restricted shifts:", error);
       }
+    },
+    isShiftSelected(shifts) {
+      return (
+        this.shift_id.includes(shifts.id) && // Check if shift ID is in the selected shifts
+        this.selectedShiftNames.includes(shifts.shift_name) // Check if shift name is in the selected shift names
+      );
     },
 
     async getLocationMethod() {
@@ -141,27 +152,12 @@ export default {
         );
 
         this.getLocationData = response.data;
-        console.log(this.getLocationData);
       } catch (error) {
         console.error("Error fetching restricted locations:", error);
       }
     },
-
-    async saveRestrictedShifts() {
-      // Send a request to save the selected shift ids for the candidate
-      try {
-        await axios.put(
-          `https://logezy.onrender.com/restricted_shifts/${this.$route.params.id}`,
-          { shift_id: this.shift_id }
-        );
-
-        console.log("Restricted shifts saved successfully");
-      } catch (error) {
-        console.error("Error saving restricted shifts:", error);
-      }
-    },
   },
-  mounted() {
+  created() {
     this.getTime();
     this.getLocationMethod();
     this.getRestrictedShifts();

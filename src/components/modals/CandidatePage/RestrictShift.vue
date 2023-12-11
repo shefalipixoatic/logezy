@@ -31,8 +31,9 @@
                       <input
                         class="form-check-input"
                         type="checkbox"
-                        v-model="shift_id"
-                      />&nbsp;{{ shift.shift_name }}
+                        v-model="shift.isSelected"
+                      />
+                      &nbsp;{{ shift.shift_name }}
                     </li>
                   </ul>
                 </div>
@@ -70,7 +71,7 @@ export default {
     return {
       shifts: [],
 
-      shift_id: [],
+      shift_ids: [],
       candidate_id: "",
 
       getRestrictedShiftData: [],
@@ -84,28 +85,27 @@ export default {
     },
 
     async postRestrictedShift() {
+      // Filter selected shifts
+      const selectedShifts = this.shifts.filter((shift) => shift.isSelected);
+
+      // Extract selected shift ids
+      const selectedShiftIds = selectedShifts.map((shift) => shift.id);
+
+      // Prepare data for the API request
       const data = {
-        shift_id: this.shift_id,
+        shift_ids: [selectedShiftIds],
         candidate_id: this.candidate_id,
       };
+
       try {
-        const response = await fetch(
+        const response = await axios.post(
           `https://logezy.onrender.com/candidates/${this.$route.params.id}/restricted_shifts`,
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }
+          data
         );
-        // if (data) {
-        //   location.reload();
-        // }
-        console.log(data);
+
+        console.log("Data posted successfully:", data);
       } catch (error) {
-        console.log(error);
+        console.error("Error posting data:", error);
       }
     },
   },
