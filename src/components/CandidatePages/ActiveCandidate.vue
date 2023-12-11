@@ -110,13 +110,14 @@ import axios from "axios";
 import EditCandidate from "../CandidatePages/EditCandidate.vue";
 
 export default {
-  name: "CAndidatesList",
+  name: "ActiveCandidate",
   data() {
     return {
       getCandidatesData: [],
       inactiveCandidateData: [],
     };
   },
+
   components: {
     EditCandidate,
   },
@@ -124,6 +125,7 @@ export default {
     selectTab(index) {
       this.activeTab = index;
     },
+
     deleteCandidate(id) {
       if (!window.confirm("Are you Sure?")) {
         return;
@@ -159,7 +161,7 @@ export default {
 
     // redirectToUserProfile() {
     //   this.$router.push({
-    //     name: "CandidateProfile",
+    //     name: "Profile",
     //     params: { id: this.userId },
     //   });
     //   console.log("redirect");

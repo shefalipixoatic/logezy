@@ -3,6 +3,7 @@
     <Navbar />
     <RateCard />
     <CandidateAdd />
+
     <router-view />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div id="main" class="main" v-for="record in getRecords" :key="record.id">
+    <div id="main" class="main">
       <div class="pagetitle d-flex justify-content-between">
         <div class="">
           <ol class="breadcrumb mb-1">
@@ -23,7 +23,7 @@
           </button>
         </div>
       </div>
-      <div>
+      <div v-if="getRecords">
         <section class="section dashboard mt-3">
           <div class="row">
             <!-- Left side columns -->
@@ -39,7 +39,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.Total_client"></h6>
+                          <h6 v-text="getRecords.Total_client"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >Total Client</span
                           >
@@ -59,7 +59,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.Active_client"></h6>
+                          <h6 v-text="getRecords.Active_client"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >active client</span
                           >
@@ -79,7 +79,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.Passive_client"></h6>
+                          <h6 v-text="getRecords.Passive_client"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >inactive clients</span
                           >
@@ -105,7 +105,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.candidates"></h6>
+                          <h6 v-text="getRecords.candidates"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >Total Candidates</span
                           >
@@ -125,7 +125,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.current_candidate"></h6>
+                          <h6 v-text="getRecords.current_candidate"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >active Candidates</span
                           >
@@ -145,7 +145,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.deleted_candidate"></h6>
+                          <h6 v-text="getRecords.deleted_candidate"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >inactive Candidates</span
                           >
@@ -176,7 +176,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.Total_business_unit"></h6>
+                          <h6 v-text="getRecords.Total_business_unit"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >Total Business Units</span
                           >
@@ -198,7 +198,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.Active_business_unit"></h6>
+                          <h6 v-text="getRecords.Active_business_unit"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >active Business Units</span
                           >
@@ -220,7 +220,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6 v-text="record.Inactive_business_unit"></h6>
+                          <h6 v-text="getRecords.Inactive_business_unit"></h6>
                           <span class="text-muted small pt-2 text-uppercase"
                             >inactive Business Units</span
                           >
@@ -248,7 +248,7 @@
                         <div class="ps-2">
                           <h6>
                             Expiring in 60 days({{
-                              record.expiring_in_60_days
+                              getRecords.expiring_in_60_days
                             }})
                           </h6>
                           <span
@@ -276,7 +276,7 @@
                         <div class="ps-2">
                           <h6>
                             Expiring in 30 days({{
-                              record.expiring_in_30_days
+                              getRecords.expiring_in_30_days
                             }})
                           </h6>
                           <span
@@ -302,7 +302,7 @@
                           class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                         ></div>
                         <div class="ps-2">
-                          <h6>Expired ({{ record.compliance_insight }})</h6>
+                          <h6>Expired ({{ getRecords.compliance_insight }})</h6>
                           <span
                             class="text-muted small pt-2 text-uppercase cursor-pointer"
                             data-bs-toggle="modal"
@@ -462,7 +462,7 @@ export default {
         },
       })
 
-      .then((response) => (this.getRecords = response.data));
+      .then((response) => (this.getRecords = response.data.data));
   },
 
   mounted() {},

@@ -162,10 +162,10 @@ export default {
     },
 
     selectBusinessUnit() {
-      const business_units_id = this.businessUnit.find(
-        (option) => option.id === this.business_units_id
+      const business_unit_id = this.businessUnit.find(
+        (option) => option.id === this.business_unit_id
       );
-      return business_units_id ? business_units_id.name : "";
+      return business_unit_id ? business_unit_id.name : "";
     },
 
     selectClients() {
@@ -188,7 +188,7 @@ export default {
       const data = {
         business_unit_id: this.business_unit_id,
         job_id: this.job_id,
-        dates: this.dates,
+        dates: [this.dates],
         shift_id: this.shift_id,
         notes: this.notes,
         client_id: this.client_id,
@@ -198,7 +198,8 @@ export default {
         const response = await fetch("https://logezy.onrender.com/vacancies", {
           method: "POST",
           headers: {
-            Authorization: token,
+            "content-type": "application/json",
+            Authorization: "bearer " + token,
           },
           body: JSON.stringify(data),
         });
@@ -273,6 +274,9 @@ select {
   padding: 10px;
   border-radius: 4px;
   border: 0px;
+}
+label.form-label {
+  text-transform: capitalize;
 }
 .modal-footer {
   border-top: 0px;

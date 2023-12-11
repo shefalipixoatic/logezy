@@ -1,77 +1,79 @@
 <template>
-  <Navbar />
-  <div class="container">
-    <div class="main-body mt-5">
-      <h3
-        class="text-center fw-bold p-2 m-auto rounded-3 mainheading"
-        style="width
-      50%"
-      >
-        Admin Profile
-      </h3>
-      <div class="row gutters-sm mt-3">
-        <div class="col-md-4 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex flex-column align-items-center text-center">
-                <router-view to="/home"
-                  ><img
-                    src="./profile.png"
-                    alt="USer"
-                    class="rounded-circle"
-                    width="150"
-                /></router-view>
-                <div class="mt-3 text-capitalize">
-                  <h4>
-                    {{ getAdmin.first_name }}
-                  </h4>
-                  <p class="text-secondary mb-1">
-                    {{ getAdmin.position }}
-                  </p>
-                  <!-- <p class="text-muted font-size-sm">Developer</p> -->
+  <div>
+    <Navbar />
+    <div class="container">
+      <div class="main-body mt-5">
+        <h3
+          class="text-center fw-bold p-2 m-auto rounded-3 mainheading"
+          style="width
+          50%"
+        >
+          Admin Profile
+        </h3>
+        <div class="row gutters-sm mt-3">
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                  <router-view to="/home"
+                    ><img
+                      src="./profile.png"
+                      alt="USer"
+                      class="rounded-circle"
+                      width="150"
+                  /></router-view>
+                  <div class="mt-3 text-capitalize">
+                    <h4>
+                      {{ getAdmin.first_name }}
+                    </h4>
+                    <p class="text-secondary mb-1">
+                      {{ getAdmin.position }}
+                    </p>
+                    <!-- <p class="text-muted font-size-sm">Developer</p> -->
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="card mt-3"></div>
           </div>
-          <div class="card mt-3"></div>
-        </div>
-        <div class="col-md-8">
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Full Name</h6>
+          <div class="col-md-8">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Full Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{ getAdmin.first_name }}
+                  </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                  {{ getAdmin.first_name }}
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{ getAdmin.email }}
+                  </div>
                 </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Email</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  {{ getAdmin.email }}
-                </div>
-              </div>
 
-              <hr />
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Mobile</h6>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Mobile</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{ getAdmin.phone_number }}
+                  </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                  {{ getAdmin.phone_number }}
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Address</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  {{ getAdmin.address }}
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Address</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{ getAdmin.address }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -86,35 +88,27 @@
 import axios from "axios";
 import Navbar from "../components/Navbar.vue";
 export default {
-  name: "ProfileView",
+  name: "AdminProfile",
   data() {
     return {
       getAdmin: [],
     };
   },
   components: { Navbar },
-  methods: {
-    async getAdminProfile() {
-      try {
-        const response = await axios.get(
-          `https://logezy.onrender.com/merchants/${this.$route.params.id}`
-        );
+  methods: {},
+  async created() {
+    const token = localStorage.getItem("token");
+    axios
+      .get("https://logezy.onrender.com/merchant_dashboard", {
+        headers: {
+          "content-type": "application/json",
+          Authorization: "bearer " + token,
+        },
+      })
 
-        this.getAdmin = response.data;
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 404) {
-            alert(error.response.data.message);
-          }
-        } else {
-          console.error("Error fetching candidates:", error);
-        }
-      }
-    },
+      .then((response) => (this.getAdmin = response.data.merchant_data));
   },
-  mounted() {
-    this.getAdminProfile();
-  },
+  mounted() {},
 };
 </script>
 
@@ -145,10 +139,17 @@ export default {
   min-height: 1px;
   padding: 1rem;
 }
-a.router-link-active {
+a.router-link-active,
+.dropdown-item:hover,
+.dropdown-item:focus {
   color: #fff;
-  background-color: #f6851d;
+  background-color: #f6851d !important;
   border-radius: 4px;
+}
+ul.profile li a:hover,
+ul.profile .dropdown-item:hover,
+ul.profile .dropdown-item:focus {
+  background-color: #f6851d !important;
 }
 .gutters-sm {
   margin-right: -8px;

@@ -10,7 +10,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import ClientsProfileView from "../components/ClientsPages/ClientsProfileView.vue";
-import ProfileEdit from "../components/ClientsPages/ProfileEdit.vue";
+import EditClient from "../components/ClientsPages/EditClient.vue";
 import AddClients from "../components/modals/CandidatePage/AddClients.vue";
 
 export default {
@@ -20,7 +20,7 @@ export default {
   components: {
     Navbar,
     ClientsProfileView,
-    ProfileEdit,
+    EditClient,
     AddClients,
   },
 

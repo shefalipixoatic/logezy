@@ -64,7 +64,6 @@
                       data-bs-toggle="modal"
                       data-bs-target="#addCandidate"
                       data-bs-whatever="@mdo"
-                      :class="{ active: activeTab === index }"
                     >
                       <i class="bi bi-person-plus-fill"></i>
                       Add Candidate

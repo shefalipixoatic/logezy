@@ -146,7 +146,7 @@
   border-radius: 0px;
 }
 
-.sidebar-nav > .nav-link.collapsed:nth-last-child() {
+.sidebar-nav .nav-link.collapsed:nth-last-child() {
   border-bottom: 0px;
 }
 

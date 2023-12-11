@@ -122,7 +122,17 @@
                             :key="client.id"
                           >
                             <td v-text="client.ref_code"></td>
-                            <td v-text="client.first_name"></td>
+                            <td>
+                              <router-link
+                                class="text-capitalize"
+                                :to="{
+                                  name: 'SingleClientProfile',
+                                  params: { id: client.id },
+                                }"
+                              >
+                                {{ client.first_name }}
+                              </router-link>
+                            </td>
 
                             <td v-text="client.address"></td>
 
@@ -146,7 +156,7 @@
                             <td class="cursor-pointer">
                               <router-link
                                 :to="{
-                                  name: 'ProfileEdit',
+                                  name: 'EditClient',
                                   params: { id: client.id },
                                 }"
                                 class="btn btn-outline-success text-nowrap"

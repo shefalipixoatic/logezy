@@ -44,7 +44,7 @@
             </ul> -->
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" aria-current="page" to="/candidate">
+            <router-link class="nav-link" aria-current="page" to="/candidates">
               Candidates
               <!-- <i class="bi bi-caret-down-fill"></i> -->
             </router-link>
@@ -103,11 +103,11 @@
           </li>
         </ul>
         <ul class="navbar-nav m-0 mb-2 mb-lg-0">
-          <!-- <li class="nav-item dropdown mt-2">
+          <!-- <li class="nav-item dropdown mt-3">
             <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
-              <span class="badge bg-primary badge-number">4</span> </a
-            >
+              <span class="badge bg-primary badge-number">4</span>
+            </a>
 
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
@@ -145,7 +145,6 @@
                 </div>
               </li>
             </ul>
-          
           </li> -->
           <!-- End Notification Nav -->
           <li class="nav-item dropdown">
@@ -166,18 +165,11 @@
 
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
-              v-for="data in getAdminData"
-              :key="data.id"
+              v-if="getAdminData"
             >
               <li>
-                <router-link
-                  class="dropdown-item text-capitalize"
-                  :to="{
-                    name: 'AdminProfile',
-                    params: { id: data.id },
-                  }"
-                >
-                  <h5 class="d-block mb-0">{{ data.first_name }}</h5>
+                <router-link class="dropdown-item text-capitalize" to="/admin">
+                  <h5 class="d-block mb-0">{{ getAdminData.first_name }}</h5>
                   <span class="d-block">Admin</span>
                 </router-link>
               </li>
@@ -236,20 +228,35 @@ export default {
         this.$router.push({ name: "Login" });
       }
     },
-  },
-  async created() {
-    const token = localStorage.getItem("token");
-    axios
-      .get("https://logezy.onrender.com/merchants", {
-        headers: {
-          "content-type": "application/json",
-          Authorization: "bearer " + token,
-        },
-      })
+    async getAdminMethod() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get(
+          `https://logezy.onrender.com/merchant_dashboard`,
+          {
+            headers: {
+              "content-type": "application/json",
+              Authorization: "bearer " + token,
+            },
+          }
+        );
 
-      .then((response) => (this.getAdminData = response.data));
+        this.getAdminData = response.data.merchant_data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        } else {
+          console.error("Error fetching candidates:", error);
+        }
+      }
+    },
   },
-  mounted() {},
+
+  mounted() {
+    this.getAdminMethod();
+  },
 };
 </script>
 
@@ -290,7 +297,8 @@ ul.navbar-nav li a span.badge {
 ul.profile li a:hover,
 ul.profile .dropdown-item:hover,
 ul.profile .dropdown-item:focus {
-  background-color: transparent !important;
+  background-color: #f6851d !important;
+  color: #fff;
 }
 .logo span {
   font-size: 26px;

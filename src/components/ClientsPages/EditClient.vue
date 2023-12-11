@@ -5,7 +5,7 @@
       <div class="main-box">
         <div class="model-box">
           <div class="text-center">
-            <h5 class="">Edit Candidate</h5>
+            <h5 class="">Edit Client</h5>
           </div>
           <div class="mx-3">
             <div class="row">
@@ -19,7 +19,7 @@
                       <input
                         type="text"
                         class="form-control"
-                        v-model="fetchCandidate.first_name"
+                        v-model="fetchClients.first_name"
                       />
                     </div>
                   </div>
@@ -33,7 +33,7 @@
                     <input
                       type="email"
                       class="form-control"
-                      v-model="fetchCandidate.email"
+                      v-model="fetchClients.email"
                     />
                   </div>
                 </div>
@@ -45,19 +45,19 @@
                     <input
                       type="number"
                       class="form-control"
-                      v-model="fetchCandidate.phone_number"
+                      v-model="fetchClients.phone_number"
                     />
                   </div>
                 </div>
                 <div class="mb-3">
                   <div class="col-12">
-                    <label class="form-label">Status</label>
+                    <label class="form-label">Address</label>
                   </div>
                   <div class="col-12 mt-1">
                     <input
                       type="text"
                       class="form-control"
-                      v-model="fetchCandidate.activated"
+                      v-model="fetchClients.address"
                     />
                   </div>
                 </div>
@@ -65,7 +65,7 @@
                   <button
                     class="btn btn-primary rounded-1 text-capitalize fw-medium"
                     data-bs-dismiss="modal"
-                    @click.prevent="updateCandidateMethod()"
+                    @click.prevent="updateClientMethod()"
                   >
                     Save
                   </button>
@@ -86,41 +86,39 @@ export default {
   name: "CandidateAdd",
   data() {
     return {
-      fetchCandidate: {
+      fetchClients: {
         id: "",
         first_name: "",
-        last_name: "",
-        password: "",
-        confirm_password: "",
+        ref_code: "",
         address: "",
-        jobs_id: 1,
         phone_number: "",
         email: "",
-        activated: "",
-        employment_type_id: "",
+        password: "",
+        confirm_password: "",
+        error: [],
       },
     };
   },
 
   methods: {
-    async fetchCandidateMethod(id) {
+    async fetchClientsMethod(id) {
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/candidates/${id}`
+          `https://logezy.onrender.com/clients/${id}`
         );
 
-        this.fetchCandidate = { ...this.fetchCandidate, ...response.data.data };
+        this.fetchClients = { ...this.fetchClients, ...response.data.data };
       } catch (error) {
         console.error("Error fetching todo:", error);
       }
     },
-    async updateCandidateMethod() {
+    async updateClientMethod() {
       try {
         await axios.put(
-          `https://logezy.onrender.com/candidates/${this.fetchCandidate.id}`,
-          this.fetchCandidate
+          `https://logezy.onrender.com/clients/${this.fetchClients.id}`,
+          this.fetchClients
         );
-        console.log("call");
+
         alert("Candidate updated successfully");
       } catch (error) {
         console.error("Error updating candidate:", error);
@@ -129,7 +127,7 @@ export default {
   },
 
   mounted() {
-    this.fetchCandidateMethod(this.$route.params.id);
+    this.fetchClientsMethod(this.$route.params.id);
   },
 };
 </script>

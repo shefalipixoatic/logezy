@@ -7,53 +7,86 @@
           <div class="text-center">
             <h5 class="">Edit Candidate</h5>
           </div>
-          <div class="mx-3 d-flex justify-content-center">
+          <div class="mx-3">
             <div class="row">
               <form>
                 <div class="mb-3">
-                  <div class="d-flex">
-                    <div class="col-3">
-                      <label class="form-label">BUSINESS UNIT</label>
+                  <div class="">
+                    <div class="col-12">
+                      <label class="form-label">Business Unit</label>
                     </div>
-                    <div class="col-9 mt-1">
-                      <input
+                    <div class="col-12 mt-1">
+                      <select
+                        v-model="fetchVacancy.business_unit_id"
+                        id="selectBusinessUnit"
+                      >
+                        <option
+                          v-for="option in businessUnit"
+                          :key="option.id"
+                          :value="option.id"
+                          placeholder="Select BusinessUnit"
+                        >
+                          {{ option.name }}
+                        </option>
+                      </select>
+                      <!-- <input
                         type="text"
                         class="form-control"
-                        v-model="fetchVacancy.business_unit_id"
-                      />
+                        v-model="fetchVacancy.business_unit"
+                      /> -->
                     </div>
                   </div>
                 </div>
 
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">JOB TITLE</label>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label">Job Title</label>
                   </div>
-                  <div class="col-9 mt-1">
-                    <input
+                  <div class="col-12 mt-1">
+                    <select v-model="fetchVacancy.job_id" id="selectJobTitle">
+                      <option
+                        v-for="option in options"
+                        :key="option.id"
+                        :value="option.id"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.name }}
+                      </option>
+                    </select>
+                    <!-- <input
                       type="text"
                       class="form-control"
-                      v-model="fetchVacancy.job_id"
-                    />
+                      v-model="fetchVacancy.job_title"
+                    /> -->
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">CLIENT ID</label>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label">Client ID</label>
                   </div>
-                  <div class="col-9 mt-1">
-                    <input
+                  <div class="col-12 mt-1">
+                    <select v-model="fetchVacancy.client_id" id="selectClients">
+                      <option
+                        v-for="option in clientData"
+                        :key="option.id"
+                        :value="option.id"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.first_name }}
+                      </option>
+                    </select>
+                    <!-- <input
                       type="text"
                       class="form-control"
-                      v-model="fetchVacancy.client_id"
-                    />
+                      v-model="fetchVacancy.client"
+                    /> -->
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">DATES</label>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label">Dates</label>
                   </div>
-                  <div class="col-9 mt-1">
+                  <div class="col-12 mt-1">
                     <input
                       type="text"
                       class="form-control"
@@ -61,11 +94,33 @@
                     />
                   </div>
                 </div>
-                <div class="mb-3 d-flex justify-content-between">
-                  <div class="col-3">
-                    <label class="form-label">NOTES</label>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label">Shift</label>
                   </div>
-                  <div class="col-9 mt-1">
+                  <div class="col-12 mt-1">
+                    <select v-model="fetchVacancy.shift_id" id="selectShifts">
+                      <option
+                        v-for="option in shiftsTime"
+                        :key="option.id"
+                        :value="option.id"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.shift_name }}
+                      </option>
+                    </select>
+                    <!-- <input
+                      type="text"
+                      class="form-control"
+                      v-model="fetchVacancy.shift_id"
+                    /> -->
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label">Notes</label>
+                  </div>
+                  <div class="col-12 mt-1">
                     <input
                       type="text"
                       class="form-control"
@@ -95,39 +150,77 @@
 import axios from "axios";
 
 export default {
-  name: "CandidateAdd",
+  name: "VacancyEdit",
   data() {
     return {
       fetchVacancy: {
         business_unit_id: "",
         client_id: "",
         job_id: "",
-        options: [],
+
         dates: [],
         shift_id: "",
         notes: "",
         error: [],
       },
+      businessUnit: [],
+      shiftsTime: [],
+      clientData: [],
+      options: [],
     };
   },
+  computed: {
+    selectBusinessUnit() {
+      const businessUnit = this.businessUnit.find(
+        (option) => option.id === this.fetchVacancy.business_unit
+      );
+      return businessUnit ? businessUnit.name : "";
+    },
+    selectClients() {
+      const client_id = this.clientData.find(
+        (option) => option.id === this.client_id
+      );
+      return client_id ? client_id.first_name : "";
+    },
 
+    selectShifts() {
+      const shifts_id = this.shiftsTime.find(
+        (option) => option.id === this.shifts_id
+      );
+      return shifts_id ? shifts_id.shift_name : "";
+    },
+  },
   methods: {
     async fetchVacancyMethod(id) {
+      const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/vacancies/${id}`
+          `https://logezy.onrender.com/vacancies/${id}`,
+          {
+            headers: {
+              "content-type": "application/json",
+              Authorization: "bearer " + token,
+            },
+          }
         );
 
-        this.fetchVacancy = { ...this.fetchVacancy, ...response.data.data };
+        this.fetchVacancy = { ...this.fetchVacancy, ...response.data };
       } catch (error) {
         console.error("Error fetching todo:", error);
       }
     },
     async updateVacancyMethod() {
+      const token = localStorage.getItem("token");
       try {
         await axios.put(
           `https://logezy.onrender.com/vacancies/${this.fetchVacancy.id}`,
-          this.fetchVacancy
+          this.fetchVacancy,
+          {
+            headers: {
+              "content-type": "application/json",
+              Authorization: "bearer " + token,
+            },
+          }
         );
 
         alert("Candidate updated successfully");
@@ -135,10 +228,69 @@ export default {
         console.error("Error updating candidate:", error);
       }
     },
+    async getBusinessUnitMethod() {
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/business_units"
+        );
+        this.businessUnit = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getClientMethod() {
+      try {
+        const response = await axios.get("https://logezy.onrender.com/clients");
+        this.clientData = response.data.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getTimeShift() {
+      await axios
+        .get("https://logezy.onrender.com/shifts")
+        .then((response) => (this.shiftsTime = response.data));
+    },
+    async getJobTitleMethod() {
+      try {
+        const response = await axios.get("https://logezy.onrender.com/jobs");
+        this.options = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getJobTitleMethod() {
+      try {
+        const response = await axios.get("https://logezy.onrender.com/jobs");
+        this.options = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
   },
 
   mounted() {
     this.fetchVacancyMethod(this.$route.params.id);
+    this.getBusinessUnitMethod();
+    this.getClientMethod();
+    this.getTimeShift();
+    this.getJobTitleMethod();
   },
 };
 </script>
@@ -163,8 +315,15 @@ export default {
   background: #00000008;
 
   padding: 100px 20px;
-  height: 585px;
+  height: 100vh;
   overflow: hidden;
+}
+select,
+:focus-visible {
+  width: 100%;
+  padding: 9px;
+  border: none;
+  border-radius: 4px;
 }
 
 .model-box {

@@ -15,13 +15,14 @@ const router = createRouter({
       },
     },
     {
-      path: "/admin/:id",
+      path: "/admin",
       name: "AdminProfile",
       component: () => import("@/components/AdminProfile.vue"),
       meta: {
         auth: true,
       },
     },
+
     {
       path: "/client",
       name: "Client",
@@ -35,8 +36,8 @@ const router = createRouter({
         },
         {
           path: "edit/:id",
-          name: "ProfileEdit",
-          component: () => import("@/components/ClientsPages/ProfileEdit.vue"),
+          name: "EditClient",
+          component: () => import("@/components/ClientsPages/EditClient.vue"),
           props: true,
         },
         {
@@ -46,35 +47,140 @@ const router = createRouter({
             import("@/components/ClientsPages/ClientsProfileView.vue"),
           props: true,
         },
+        {
+          path: "client/:id",
+          name: "SingleClientProfile",
+          component: () =>
+            import("@/components/ClientsPages/SingleClientProfile.vue"),
+          props: true,
+        },
       ],
     },
     {
-      path: "/candidate",
+      path: "/candidates",
       name: "Candidate",
       component: () => import("@/views/CandidatesView.vue"),
       children: [
         {
-          path: "/candidate",
+          path: "/candidates",
           name: "CandidateLists",
           component: () =>
             import("@/components/CandidatePages/CandidateLists.vue"),
           props: true,
         },
         {
-          path: "/candidate/profileview/:id",
+          path: "/candidates/profileview/:id",
           name: "ProfileView",
           component: () =>
             import("@/components/CandidatePages/ProfileView.vue"),
           props: true,
         },
         {
-          path: "/candidate/profile/:id",
+          path: "/candidates/:id",
           name: "Profile",
           component: () => import("@/components/CandidatePages/Profile.vue"),
           props: true,
+          children: [
+            {
+              path: "/candidates/:id/overview",
+              name: "Overview",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/Overview.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/document",
+              name: "Document",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/Document.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/profiles",
+              name: "ProfileTabs",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/ProfileTabs.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id",
+              name: "Restricted",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/Restricted.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            // {
+            //   path: "/candidates/:id/rate-card",
+            //   name: "RateCard",
+            //   component: () =>
+            //     import(
+            //       "@/components/CandidatePages/ProfileDetail/RateCard.vue"
+            //     ),
+            //   meta: {
+            //     auth: true,
+            //   },
+            // },
+            {
+              path: "/candidates/:id/notes",
+              name: "Notes",
+              component: () =>
+                import("@/components/CandidatePages/ProfileDetail/Notes.vue"),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/staff-id",
+              name: "StaffId",
+              component: () =>
+                import("@/components/CandidatePages/ProfileDetail/StaffId.vue"),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/candidate-history",
+              name: "CandidateHistory",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/CandidateHistory.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id/candidate-preference",
+              name: "CandidatePreference",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/CandidatePreference.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+          ],
         },
+
         {
-          path: "/candidate/:id",
+          path: "/candidates/:id",
           name: "EditCandidate",
           component: () =>
             import("@/components/CandidatePages/EditCandidate.vue"),
@@ -87,28 +193,28 @@ const router = createRouter({
       path: "/vacancie",
       name: "Vacancies",
       component: () => import("@/views/VacanciesView.vue"),
-      // children: [
-      //   {
-      //     path: "/vacancie",
-      //     name: "VacancyList",
-      //     component: () => import("@/components/VacancyPages/VacancyList.vue"),
-      //     props: true,
-      //   },
+      children: [
+        {
+          path: "/vacancie",
+          name: "VacancyList",
+          component: () => import("@/components/VacancyPages/VacancyList.vue"),
+          props: true,
+        },
 
-      //   {
-      //     path: "edit/:id",
-      //     name: "VacancyEdit",
-      //     component: () => import("@/components/VacancyPages/VacancyEdit.vue"),
-      //     props: true,
-      //   },
-      //   {
-      //     path: "/candidate/profileview/:id",
-      //     name: "ProfileView",
-      //     component: () =>
-      //       import("@/components/CandidatePages/ProfileView.vue"),
-      //     props: true,
-      //   },
-      // ],
+        {
+          path: "edit/:id",
+          name: "VacancyEdit",
+          component: () => import("@/components/VacancyPages/VacancyEdit.vue"),
+          props: true,
+        },
+        {
+          path: "/candidate/profileview/:id",
+          name: "ProfileView",
+          component: () =>
+            import("@/components/CandidatePages/ProfileView.vue"),
+          props: true,
+        },
+      ],
     },
     {
       path: "/booking",
@@ -130,6 +236,7 @@ const router = createRouter({
       name: "Report",
       component: () => import("@/views/ReportView.vue"),
     },
+
     {
       path: "/appsetting",
       name: "AppSetting",
@@ -269,11 +376,6 @@ const router = createRouter({
       meta: {
         auth: false,
       },
-    },
-    {
-      path: "/signup",
-      name: "SignUp",
-      component: () => import("@/components/auth/signup/SignUp.vue"),
     },
 
     {
