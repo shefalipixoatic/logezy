@@ -27,12 +27,11 @@
                     >Start Time<span class="text-danger">*</span></label
                   >
                   <input
-                    type="text"
+                    type="time"
                     id="time"
                     name="time"
-                    :v-model:value="shift.start_time"
                     class="form-control"
-                  />{{ new Date(shift.start_time).getUTCHours() }}
+                  />
                 </div>
 
                 <div class="col-5">
@@ -44,7 +43,7 @@
                     id="time"
                     name="time"
                     class="form-control"
-                  />{{ new Date(shift.end_time).getUTCHours() }}
+                  />
                 </div>
               </div>
             </div>

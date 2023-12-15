@@ -26,51 +26,30 @@
                     >
                       <div class="d-flex">
                         <li
-                          class="nav-item"
+                          class="nav-item d-flex align-items-center gap-2"
                           role="presentation"
                           :class="{ 'nav-item': true, active: isActive }"
                         >
                           <button
-                            :class="{ 'nav-link': true, active: isActive }"
-                            class="nav-link active me-2"
-                            id="pills-home-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-home"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-home"
-                            aria-selected="true"
-                          >
-                            All
-                          </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button
+                            a
                             class="nav-link"
-                            id="pills-profile-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-profile"
+                            :class="{ active: activeTab === index }"
+                            aria-selected="true"
                             type="button"
                             role="tab"
-                            aria-controls="pills-profile"
-                            aria-selected="false"
+                            data-bs-toggle="pill"
+                            v-for="(tab, index) in tabs"
+                            :key="index"
+                            @click="selectTab(index)"
                           >
-                            InActive
+                            {{ tab.name }}
                           </button>
                         </li>
                       </div>
                     </ul>
                     <div
-                      class="pagetitle d-flex justify-content-end align-items-center p-2"
+                      class="pagetitle d-flex justify-content-end align-items-center"
                     >
-                      <!-- <div class="d-flex justify-content-around bg-detail">
-                <span class="badge text-dark">{{
-                  all_candidate.all_candidate
-                }}</span>
-                &nbsp;
-                <span>Active Clients</span>
-              </div> -->
-
                       <div
                         class="d-flex align-items-center gap-2 justify-content-between"
                       >
@@ -83,6 +62,7 @@
                           />
                         </div> -->
                         <button
+                          v-if="activeTab === 0"
                           type="button"
                           class="btn btn-outline-success text-nowrap"
                           data-bs-toggle="modal"
@@ -95,124 +75,8 @@
                     </div>
                   </div>
 
-                  <div class="tab-content" id="pills-tabContent">
-                    <div
-                      class="tab-pane fade show active table-wrapper"
-                      id="pills-home"
-                      role="tabpanel"
-                      aria-labelledby="pills-home-tab"
-                    >
-                      <table class="table candidateTable">
-                        <thead>
-                          <tr>
-                            <th scope="col">#RefCode</th>
-                            <th scope="col">Client Name</th>
-                            <!-- <th scope="col">Jobs</th> -->
-                            <th scope="col">Address</th>
-                            <th scope="col">PhoneNumber</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Status</th>
-                            <!-- <th scope="col">Portal Access</th> -->
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="client in getClientDetail"
-                            :key="client.id"
-                          >
-                            <td v-text="client.ref_code"></td>
-                            <td>
-                              <router-link
-                                class="text-capitalize"
-                                :to="{
-                                  name: 'SingleClientProfile',
-                                  params: { id: client.id },
-                                }"
-                              >
-                                {{ client.first_name }}
-                              </router-link>
-                            </td>
-
-                            <td v-text="client.address"></td>
-
-                            <td v-text="client.phone_number"></td>
-
-                            <td v-text="client.email"></td>
-
-                            <td>
-                              <label
-                                class="switch"
-                                v-if="client.activated == true"
-                              >
-                                <input type="checkbox" id="togBtn" checked />
-                                <div class="slider round"></div>
-                              </label>
-                              <label class="switch" v-else>
-                                <input type="checkbox" id="togBtn" />
-                                <div class="slider round"></div>
-                              </label>
-                            </td>
-                            <td class="cursor-pointer">
-                              <router-link
-                                :to="{
-                                  name: 'EditClient',
-                                  params: { id: client.id },
-                                }"
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i class="bi bi-pencil-square"></i>
-                              </router-link>
-                              &nbsp;&nbsp;
-                              <button
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i
-                                  class="bi bi-trash"
-                                  v-on:click="clientsDeleteMethod(client.id)"
-                                ></i></button
-                              >&nbsp;&nbsp;
-                              <router-link
-                                :to="{
-                                  name: 'ClientsProfileView',
-                                  params: { id: client.id },
-                                }"
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i class="bi bi-eye"></i>
-                              </router-link>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div
-                      class="tab-pane fade"
-                      id="pills-profile"
-                      role="tabpanel"
-                      aria-labelledby="pills-profile-tab"
-                    >
-                      <table class="table candidateTable">
-                        <thead>
-                          <tr>
-                            <th scope="col">#RefCode</th>
-                            <th scope="col">Client Name</th>
-                            <!-- <th scope="col">Jobs</th> -->
-                            <th scope="col">Address</th>
-                            <th scope="col">PhoneNumber</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Status</th>
-                            <!-- <th scope="col">Portal Access</th> -->
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td colspan="7">Work in Progress..........</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                  <div>
+                    <component :is="activeComponent"></component>
                   </div>
                 </div>
               </div>
@@ -225,45 +89,34 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import AllClient from "../ClientsPages/AllClient.vue";
+import InActiveClient from "../ClientsPages/InActiveClient.vue";
 
 export default {
   data() {
     return {
       getClientDetail: [],
-      all_candidate: [],
+
       isActive: true,
       searchQuery: "",
+      tabs: [
+        { name: "All ", component: "AllClient" },
+        { name: "InActive ", component: "InActiveClient" },
+      ],
+      activeTab: 0,
     };
   },
-  components: {},
-
-  methods: {
-    async clientsDeleteMethod(id) {
-      if (!window.confirm("Are you Sure ?")) {
-        return;
-      }
-      await axios
-        .delete(`https://logezy.onrender.com/clients/` + id)
-        .then((response) => {
-          this.createdClient();
-        });
-      // alert("Record Deleted ");
-    },
-    async createdClient() {
-      await axios
-        .get("https://logezy.onrender.com/clients")
-
-        .then(
-          (response) => (
-            (this.getClientDetail = response.data.data),
-            (this.all_candidate = response.data)
-          )
-        );
+  computed: {
+    activeComponent() {
+      return this.tabs[this.activeTab].component;
     },
   },
-  mounted() {
-    this.createdClient();
+  components: { AllClient, InActiveClient },
+
+  methods: {
+    selectTab(index) {
+      this.activeTab = index;
+    },
   },
 };
 </script>

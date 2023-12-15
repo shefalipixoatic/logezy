@@ -50,18 +50,10 @@
             <div class="col-12">
               <div class="bg-white">
                 <div class="col-5">
-                  <div
-                    class="d-flex justify-content-between align-items-center px-4"
-                  >
-                    <img
-                      src="./logo.png"
-                      class=""
-                      alt="logezy"
-                      width="180"
-                      height="51"
-                    />
+                  <div class="d-flex justify-content-between align-items-center px-4">
+                    <img src="./logo.png" class="" alt="RecPal" width="180" height="51" />
                     <div class="d-flex flex-column text-capitalize">
-                      <h5 class="mb-0">logezy</h5>
+                      <h5 class="mb-0">RecPal</h5>
                       <p class="mb-0">recruitment</p>
                       <span>Description</span>
                     </div>
@@ -100,7 +92,7 @@
                     <li class="nav-item" role="presentation">
                       <button
                         class="nav-link"
-                        id="logoimg"
+                        id="RecPal"
                         data-bs-toggle="tab"
                         data-bs-target="#contact"
                         type="button"
@@ -138,7 +130,7 @@
                           <thead>
                             <tr>
                               <th scope="col">Agency name</th>
-                              <th scope="col">logezy</th>
+                              <th scope="col">RecPal</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -173,11 +165,10 @@
                       aria-labelledby="additional"
                     >
                       <p class="p-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque dolore quasi architecto magni aperiam totam.
-                        Quibusdam magnam eaque possimus ipsum. Necessitatibus
-                        molestias rerum architecto ipsam quis labore quod quo
-                        sint?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                        dolore quasi architecto magni aperiam totam. Quibusdam magnam
+                        eaque possimus ipsum. Necessitatibus molestias rerum architecto
+                        ipsam quis labore quod quo sint?
                       </p>
                     </div>
                     <div
@@ -187,11 +178,10 @@
                       aria-labelledby="logoimg"
                     >
                       <p class="p-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque dolore quasi architecto magni aperiam totam.
-                        Quibusdam magnam eaque possimus ipsum. Necessitatibus
-                        molestias rerum architecto ipsam quis labore quod quo
-                        sint?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                        dolore quasi architecto magni aperiam totam. Quibusdam magnam
+                        eaque possimus ipsum. Necessitatibus molestias rerum architecto
+                        ipsam quis labore quod quo sint?
                       </p>
                     </div>
                     <div
@@ -201,11 +191,10 @@
                       aria-labelledby=" changepass"
                     >
                       <p class="p-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque dolore quasi architecto magni aperiam totam.
-                        Quibusdam magnam eaque possimus ipsum. Necessitatibus
-                        molestias rerum architecto ipsam quis labore quod quo
-                        sint?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                        dolore quasi architecto magni aperiam totam. Quibusdam magnam
+                        eaque possimus ipsum. Necessitatibus molestias rerum architecto
+                        ipsam quis labore quod quo sint?
                       </p>
                     </div>
                   </div>
@@ -337,7 +326,6 @@ ul.generalsetting h6 {
 }
 
 .btn-primary {
-
   border: none;
 }
 

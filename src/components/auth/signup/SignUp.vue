@@ -11,7 +11,7 @@
                 <img
                   src="../logo.png"
                   class="img-fluid mb-2"
-                  alt="logezy-logo"
+                  alt="RecPal"
                   width="150"
                 />
                 <div class="mb-4">
@@ -161,14 +161,11 @@ export default {
         });
         const jsonData = await response.json();
 
-        console.log(jsonData);
         if (response.status == 200) {
           alert("SignUp Successful!!");
           localStorage.setItem("token", JSON.stringify(data));
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
   },
   mounted() {

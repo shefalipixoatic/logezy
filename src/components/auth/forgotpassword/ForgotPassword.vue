@@ -11,7 +11,7 @@
                 <img
                   src="../logo.png"
                   class="img-fluid mb-2"
-                  alt="logezy-logo"
+                  alt="RecPal"
                   width="150"
                 />
                 <div class="mb-4">

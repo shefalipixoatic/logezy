@@ -26,7 +26,6 @@
             <ul class="nav nav-pills my-3 p-2" role="tablist">
               <li class="nav-item d-inline-flex gap-2" role="presentation">
                 <button
-                  a
                   class="nav-link"
                   :class="{ active: activeTab === index }"
                   aria-selected="true"
@@ -59,6 +58,7 @@
 
                   <div class="d-flex justify-content-between gap-2">
                     <button
+                      v-if="activeTab === 0"
                       type="button"
                       class="btn btn-outline-success text-nowrap text-nowrap"
                       data-bs-toggle="modal"
@@ -199,9 +199,8 @@ export default {
           }
         );
         this.searchResults = response.data;
-        console.log(this.searchResults);
       } catch (error) {
-        console.error("Error fetching search results:", error);
+        // console.error("Error fetching search results:", error);
       }
     },
 

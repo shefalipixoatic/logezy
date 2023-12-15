@@ -76,7 +76,7 @@ export default {
             alert(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },
@@ -93,7 +93,7 @@ export default {
         })
 
         .catch((error) => {
-          console.error("Error deleting candidate:", error);
+          // console.error("Error deleting candidate:", error);
         });
     },
 
@@ -109,7 +109,7 @@ export default {
         })
 
         .catch((error) => {
-          console.error("Error deleting candidate:", error);
+          // console.error("Error deleting candidate:", error);
         });
     },
   },

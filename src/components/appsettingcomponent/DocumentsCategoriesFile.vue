@@ -31,7 +31,7 @@
     <div class="col-12">
       <div class="">
         <div
-          class="accordion"
+          class="accordion mt-3"
           v-for="(getCate, index) in getCategory"
           :key="index"
         >
@@ -61,6 +61,7 @@
                     data-bs-target="#addDoc"
                     data-bs-whatever="@mdo"
                     type="button"
+                    @click="selectCategory(getCate.id)"
                   >
                     + Add Document
                   </button>
@@ -80,38 +81,31 @@
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tbody v-if="getDocument.length > 0">
-                    <tr v-for="getDocs in getDocument" :key="getDocs.id">
-                      <td :v-text="getDocs.document_name">
-                        {{ getDocs.document_name }}
-                      </td>
+                  <tbody>
+                    <tr v-for="getDocs in getCate.documents" :key="getDocs.id">
+                      <td>{{ getDocs.display_name }}</td>
                       <td>
-                        <label class="switch" v-if="getDocs.mandatory == true">
-                          <input type="checkbox" id="togBtn" checked />
-                          <div class="slider round"></div>
-                        </label>
-                        <label class="switch" v-else>
-                          <input type="checkbox" id="togBtn" />
+                        <label
+                          class="switch"
+                          :class="{ checked: getDocs.mandatory }"
+                        >
+                          <input
+                            type="checkbox"
+                            id="togBtn"
+                            :checked="getDocs.mandatory"
+                          />
                           <div class="slider round"></div>
                         </label>
                       </td>
                       <td>
                         <label
                           class="switch"
-                          v-if="getDocs.hide_document == true"
+                          :class="{ checked: getDocs.hide_document }"
                         >
                           <input
                             type="checkbox"
                             id="togBtn"
-                            checked
-                            @change="getDocumentCategories"
-                          />
-                          <div class="slider round"></div>
-                        </label>
-                        <label class="switch" v-else>
-                          <input
-                            type="checkbox"
-                            id="togBtn"
+                            :checked="getDocs.hide_document"
                             @change="getDocumentCategories"
                           />
                           <div class="slider round"></div>
@@ -120,20 +114,12 @@
                       <td>
                         <label
                           class="switch"
-                          v-if="getDocs.profile_view == true"
+                          :class="{ checked: getDocs.profile_view }"
                         >
                           <input
                             type="checkbox"
                             id="togBtn"
-                            checked
-                            @change="getDocumentCategories"
-                          />
-                          <div class="slider round"></div>
-                        </label>
-                        <label class="switch" v-else>
-                          <input
-                            type="checkbox"
-                            id="togBtn"
+                            :checked="getDocs.profile_view"
                             @change="getDocumentCategories"
                           />
                           <div class="slider round"></div>
@@ -142,14 +128,9 @@
                       <td>
                         <i
                           class="bi bi-trash"
-                          v-on:click="documentDelete(getDocs.id)"
+                          @click="documentDelete(getDocs.id)"
                         ></i>
                       </td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else>
-                    <tr>
-                      <td colspan="5">Loading...</td>
                     </tr>
                   </tbody>
                 </table>
@@ -159,7 +140,10 @@
         </div>
       </div>
     </div>
-    <AddNewDoc />
+    <AddNewDoc
+      :categoryId="selectedCategoryId"
+      @documentAdded="onDocumentAdded"
+    />
     <AddCategory />
   </div>
 </template>
@@ -176,18 +160,14 @@ export default {
     return {
       getCategory: [],
       getDocument: [],
+      selectedCategoryId: null,
     };
   },
   components: {
     AddNewDoc,
     AddCategory,
   },
-  onMounted() {
-    const addDoc = new bootstrap.Modal(
-      document.getElementById("addDoc"),
-      options
-    );
-  },
+
   methods: {
     toggleAccordion(index) {
       // Close all accordions
@@ -200,8 +180,11 @@ export default {
       // Toggle the clicked accordion
       this.getCategory[index].isOpen = !this.getCategory[index].isOpen;
     },
-    showPopups() {
-      addDoc.show();
+    onDocumentAdded() {
+      this.getDocCAtegories;
+    },
+    selectCategory(categoryId) {
+      this.selectedCategoryId = categoryId;
     },
     categoryDelete(id) {
       if (!window.confirm("Are you Sure ?")) {
@@ -225,20 +208,25 @@ export default {
         });
       alert("Record Deleted ");
     },
-
     getDocumentCategories() {
       axios
         .get("https://logezy.onrender.com/documents")
         .then((response) => (this.getDocument = response.data));
     },
     async getDocCAtegories() {
-      axios
-        .get("https://logezy.onrender.com/document_categories")
-        .then((response) => (this.getCategory = response.data));
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/document_categories"
+        );
+
+        this.getCategory = response.data;
+      } catch (error) {
+        // console.error("Error fetching document categories:", error);
+      }
     },
   },
-  mounted() {
-    this.getDocumentCategories();
+  created() {
+    // this.getDocumentCategories();
     this.getDocCAtegories();
   },
 };

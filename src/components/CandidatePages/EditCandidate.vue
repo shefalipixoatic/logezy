@@ -111,7 +111,7 @@ export default {
 
         this.fetchCandidate = { ...this.fetchCandidate, ...response.data.data };
       } catch (error) {
-        console.error("Error fetching todo:", error);
+        // console.error("Error fetching todo:", error);
       }
     },
     async updateCandidateMethod() {
@@ -120,10 +120,10 @@ export default {
           `https://logezy.onrender.com/candidates/${this.fetchCandidate.id}`,
           this.fetchCandidate
         );
-        console.log("call");
+
         alert("Candidate updated successfully");
       } catch (error) {
-        console.error("Error updating candidate:", error);
+        // console.error("Error updating candidate:", error);
       }
     },
   },

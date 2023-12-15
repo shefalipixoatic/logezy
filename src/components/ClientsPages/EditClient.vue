@@ -109,7 +109,7 @@ export default {
 
         this.fetchClients = { ...this.fetchClients, ...response.data.data };
       } catch (error) {
-        console.error("Error fetching todo:", error);
+        // console.error("Error fetching todo:", error);
       }
     },
     async updateClientMethod() {
@@ -121,7 +121,7 @@ export default {
 
         alert("Candidate updated successfully");
       } catch (error) {
-        console.error("Error updating candidate:", error);
+        // console.error("Error updating candidate:", error);
       }
     },
   },

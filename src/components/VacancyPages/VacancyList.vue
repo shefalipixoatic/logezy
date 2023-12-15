@@ -41,46 +41,31 @@
                     class="nav nav-pills mb-3 d-flex justify-content-between"
                     id="pills-tab"
                     role="tablist"
-                    v-for="data in getVacancyDetail"
-                    :key="data.id"
                   >
-                    <div class="d-flex">
+                    <div>
                       <li
-                        class="nav-item"
+                        class="nav-item d-flex gap-2"
                         role="presentation"
                         :class="{ 'nav-item': true, active: isActive }"
                       >
                         <button
-                          :class="{ 'nav-link': true, active: isActive }"
-                          class="nav-link active me-2"
-                          id="pills-home-tab"
-                          data-bs-toggle="pill"
-                          data-bs-target="#pills-home"
-                          type="button"
-                          role="tab"
-                          aria-controls="pills-home"
-                          aria-selected="true"
-                        >
-                          Open&nbsp;&nbsp;({{ data.applied }})
-                        </button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button
                           class="nav-link"
-                          id="pills-profile-tab"
-                          data-bs-toggle="pill"
-                          data-bs-target="#pills-profile"
+                          :class="{ active: activeTab === index }"
+                          aria-selected="true"
                           type="button"
                           role="tab"
-                          aria-controls="pills-profile"
-                          aria-selected="false"
+                          data-bs-toggle="pill"
+                          v-for="(tab, index) in tabs"
+                          :key="index"
+                          @click="selectTab(index)"
                         >
-                          Assigned&nbsp;&nbsp;({{ data.assigned }})
+                          {{ tab.name }}({{ vacancyCount }})
                         </button>
                       </li>
                     </div>
                     <div>
                       <button
+                        v-if="activeTab === 0"
                         type="button"
                         class="btn btn-outline-success text-nowrap"
                         data-bs-toggle="modal"
@@ -100,161 +85,8 @@
                       />
                     </div> -->
                   </ul>
-                  <div class="tab-content" id="pills-tabContent">
-                    <div
-                      class="tab-pane fade show active"
-                      id="pills-home"
-                      role="tabpanel"
-                      aria-labelledby="pills-home-tab"
-                    >
-                      <table class="table candidateTable">
-                        <thead>
-                          <tr>
-                            <th scope="col">#RefCode</th>
-                            <th scope="col">Client</th>
-                            <th scope="col">Business Unit</th>
-                            <th scope="col">Job Title</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Shift</th>
-                            <th scope="col">Notes</th>
-                            <th scope="col">Publish</th>
-                            <th scope="col">All</th>
-                            <th scope="col">Applied</th>
-                            <th scope="col">Assigned</th>
-                            <th scope="col">Rejected</th>
-                            <th scope="col">Create by</th>
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="getdata in getVacancyDetail"
-                            :key="getdata.id"
-                          >
-                            <td v-text="getdata.ref_code"></td>
-                            <td>
-                              <router-link
-                                class="text-capitalize text-black text-decoration-underline"
-                                :to="{
-                                  name: 'SingleClientProfile',
-                                  params: { id: getdata.client_id },
-                                }"
-                                >{{ getdata.client }}</router-link
-                              >
-                            </td>
-                            <td v-text="getdata.business_unit"></td>
-                            <td v-text="getdata.job_title"></td>
-                            <td>
-                              <div v-for="date in getdata.dates" :key="date.id">
-                                <p>{{ date }}</p>
-                              </div>
-                            </td>
-                            <!-- <td v-text="getdata.dates[0]"></td> -->
-                            <td v-text="getdata.shift"></td>
-
-                            <td v-text="getdata.notes"></td>
-                            <td>
-                              <a
-                                class="btn btn-success"
-                                data-bs-toggle="modal"
-                                data-bs-target="#publishVacancy"
-                                data-bs-whatever="@mdo"
-                              >
-                                <td v-if="getdata.publish == false">
-                                  <i class="bi bi-bell-fill"></i>
-                                </td>
-
-                                <td v-else>
-                                  <i class="bi bi-check-circle-fill"></i>
-                                </td>
-                              </a>
-                            </td>
-
-                            <td>
-                              <button
-                                type="button"
-                                class="btn text-nowrap"
-                                data-bs-toggle="modal"
-                                data-bs-target="#allCandidateVacancyList"
-                                data-bs-whatever="@mdo"
-                              >
-                                <span class="rounded-circle">{{
-                                  getdata.applied
-                                }}</span>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                class="btn text-nowrap"
-                                data-bs-toggle="modal"
-                                data-bs-target="#appliedVacancy"
-                                data-bs-whatever="@mdo"
-                              >
-                                <span class="rounded-circle">{{
-                                  getdata.applied
-                                }}</span>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                class="btn text-nowrap"
-                                data-bs-toggle="modal"
-                                data-bs-target="#assignedVacancyList"
-                                data-bs-whatever="@mdo"
-                              >
-                                <span class="rounded-circle">{{
-                                  getdata.assigned
-                                }}</span>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                class="btn text-nowrap"
-                                data-bs-toggle="modal"
-                                data-bs-target="#rejectedVacancyList"
-                                data-bs-whatever="@mdo"
-                              >
-                                <span class="rounded-circle">{{
-                                  getdata.rejected
-                                }}</span>
-                              </button>
-                            </td>
-                            <td v-text="getdata.create_by_and_time"></td>
-                            <td class="cursor-pointer">
-                              <router-link
-                                :to="{
-                                  name: 'VacancyEdit',
-                                  params: { id: getdata.id },
-                                }"
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i class="bi bi-pencil-square"></i>
-                              </router-link>
-                              &nbsp;&nbsp;
-                              <button
-                                class="btn btn-outline-success text-nowrap"
-                              >
-                                <i
-                                  class="bi bi-trash"
-                                  v-on:click="vacancyDeleteMethod(getdata.id)"
-                                ></i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div
-                      class="tab-pane fade"
-                      id="pills-profile"
-                      role="tabpanel"
-                      aria-labelledby="pills-profile-tab"
-                    >
-                      ...
-                    </div>
+                  <div>
+                    <component :is="activeComponent"></component>
                   </div>
                 </div>
               </div>
@@ -269,37 +101,31 @@
 </template>
 <script>
 import axios from "axios";
-
-// import DatePicker from "../components/DatePicker.vue";
-
+import AllVacancyList from "../VacancyPages/AllVacancyList.vue";
+import InActiveVacancyList from "../VacancyPages/InActiveVacancyList.vue";
 export default {
   data() {
     return {
-      getVacancyDetail: [],
-
+      vacancyCount: [],
       isActive: true,
       searchQuery: "",
+      tabs: [
+        { name: "All ", component: "AllVacancyList" },
+        { name: "InActive ", component: "InActiveVacancyList" },
+      ],
+      activeTab: 0,
     };
   },
-  components: {},
+  computed: {
+    activeComponent() {
+      return this.tabs[this.activeTab].component;
+    },
+  },
+  components: { AllVacancyList, InActiveVacancyList },
 
   methods: {
-    async vacancyDeleteMethod(id) {
-      if (!window.confirm("Are you Sure ?")) {
-        return;
-      }
-      const token = localStorage.getItem("token");
-      await axios
-        .delete(`https://logezy.onrender.com/vacancies/` + id, {
-          headers: {
-            "content-type": "application/json",
-            Authorization: "bearer " + token,
-          },
-        })
-        .then((response) => {
-          this.createVacancy();
-        });
-      // alert("Record Deleted ");
+    selectTab(index) {
+      this.activeTab = index;
     },
     async createVacancy() {
       const token = localStorage.getItem("token");
@@ -311,10 +137,9 @@ export default {
           },
         })
 
-        .then((response) => (this.getVacancyDetail = response.data));
+        .then((response) => (this.vacancyCount = response.data.count));
     },
   },
-
   mounted() {
     this.createVacancy();
   },

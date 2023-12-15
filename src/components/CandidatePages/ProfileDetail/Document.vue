@@ -1,160 +1,159 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-12">
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link active"
-              id="activecandidate"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-active"
-              type="button"
-              role="tab"
-              aria-controls="pills-active"
-              aria-selected="true"
-            >
-              Active Documents
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
-              id="deletedDocument"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-delete"
-              type="button"
-              role="tab"
-              aria-controls="pills-delete"
-              aria-selected="false"
-            >
-              Deleted Documents
-            </button>
-          </li>
-        </ul>
-        <div class="tab-content" id="pills-tabContent">
-          <div
-            class="tab-pane fade active"
-            id="pills-active"
-            role="tabpanel"
-            aria-labelledby="activecandidate"
-          >
-            <div class="">
-              <div class="row mb-3">
-                <div
-                  class="d-flex justify-content-between align-items-baseline"
-                >
-                  <div>
-                    <h6>Document Categories</h6>
-                  </div>
-                  <div class="d-flex">
-                    <button type="button" class="btn btn-primary btn-sm">
-                      Download All
-                    </button>
-                  </div>
-                </div>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="pills-document-tab"
+          data-bs-toggle="pill"
+          data-bs-target="#pills-document"
+          type="button"
+          role="tab"
+          aria-controls="pills-document"
+          aria-selected="true"
+        >
+          Active Documents
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="deletedDocument"
+          data-bs-toggle="pill"
+          data-bs-target="#pills-delete"
+          type="button"
+          role="tab"
+          aria-controls="pills-delete"
+          aria-selected="false"
+        >
+          Deleted Documents
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div
+        class="tab-pane fade active"
+        id="pills-document"
+        role="tabpanel"
+        aria-labelledby="pills-document-tab"
+      >
+        <div class="">
+          <div class="row mb-3">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <div>
+                <h6>Document Categories</h6>
               </div>
+              <div class="d-flex">
+                <button type="button" class="btn btn-primary btn-sm">
+                  Download All
+                </button>
+              </div>
+            </div>
+          </div>
 
-              <div class="row">
+          <div class="row">
+            <div
+              class="accordion accordion-flush"
+              id="accordionFlushExample"
+              v-for="data in get_Candidate_Document_Categories"
+              :key="data.id"
+            >
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne"
+                    aria-expanded="false"
+                    aria-controls="flush-collapseOne"
+                  >
+                    {{ data.category_name }}
+                  </button>
+                </h2>
                 <div
-                  class="accordion accordion-flush"
-                  id="accordionFlushExample"
-                  v-for="data in get_Candidate_Document_Categories"
-                  :key="data.id"
+                  id="flush-collapseOne"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="flush-headingOne"
+                  data-bs-parent="#accordionFlushExample"
                 >
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseOne"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseOne"
-                      >
-                        {{ data.category_name }}
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseOne"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingOne"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <form>
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label class="form-label">ISSUE DATE</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="issue"
-                                  placeholder="issue date"
-                                  v-model="issue_date"
-                                  title="issue date"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-6">
-                              <div class="mb-3">
-                                <label class="form-label">EXPIRY DATE</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="expiry"
-                                  placeholder="expiry date"
-                                  v-model="expiry_date"
-                                  title="expiry date"
-                                />
-                              </div>
-                            </div>
+                  <div class="accordion-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label">ISSUE DATE</label>
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="issue"
+                              placeholder="issue date"
+                              v-model="issue_date"
+                              title="issue date"
+                            />
                           </div>
-
-                          <div class="row">
-                            <div class="mb-3">
-                              <label class="form-label">Description</label>
-                              <textarea
-                                class="form-control"
-                                rows="3"
-                                v-model="description"
-                              ></textarea>
-                            </div>
-                            <div class="mb-3">
-                              <label for="formFile" class="form-label"
-                                >UPLOAD DOCUMENT</label
-                              >
-                              <input
-                                class="form-control"
-                                type="file"
-                                id="formFile"
-                                ref="fileInput"
-                                placeholder="upload doc"
-                              />
-                            </div>
-                            <button type="button" class="btn btn-primary">
-                              Save
-                            </button>
+                        </div>
+                        <div class="col-6">
+                          <div class="mb-3">
+                            <label class="form-label">EXPIRY DATE</label>
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="expiry"
+                              placeholder="expiry date"
+                              v-model="expiry_date"
+                              title="expiry date"
+                            />
                           </div>
-                        </form>
+                        </div>
                       </div>
-                    </div>
+
+                      <div class="row">
+                        <div class="mb-3">
+                          <label class="form-label">Description</label>
+                          <textarea
+                            class="form-control"
+                            rows="3"
+                            v-model="description"
+                          ></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="formFile" class="form-label"
+                            >UPLOAD DOCUMENT</label
+                          >
+                          <input
+                            class="form-control"
+                            type="file"
+                            id="formFile"
+                            ref="fileInput"
+                            placeholder="upload doc"
+                            @change="handleFileChange"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          v-on:click="addCandidateDocument()"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div
-            class="tab-pane fade"
-            id="pills-delete"
-            role="tabpanel"
-            aria-labelledby="deletedDocument"
-          >
-            ...
-          </div>
         </div>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="pills-delete"
+        role="tabpanel"
+        aria-labelledby="deletedDocument"
+      >
+        ...
       </div>
     </div>
   </div>
@@ -167,9 +166,47 @@ export default {
   data() {
     return {
       get_Candidate_Document_Categories: [],
+      selectedFile: null,
     };
   },
   components: {},
+  methods: {
+    handleFileChange(event) {
+      this.selectedFile = event.target.files[0];
+    },
+    async addCandidateDocument() {
+      const token = localStorage.getItem("token");
+
+      const data = {
+        issue_date: this.issue_date,
+        candidate_id: this.$route.params.id,
+        document_id: 52,
+        expiry_date: this.expiry_date,
+        description: this.description,
+        document_image: this.document_image,
+      };
+
+      try {
+        const response = await fetch(
+          "https://logezy.onrender.com/admin_upload_candidate_document",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "bearer " + token,
+            },
+            body: JSON.stringify(data),
+          }
+        );
+        alert("Successful Submit Data");
+
+        // if (data) {
+        //   location.reload();
+        // }
+      } catch (error) {}
+    },
+  },
   //  candidate category doc apis start
   async created() {
     const token = localStorage.getItem("token");
@@ -187,6 +224,10 @@ export default {
   },
 
   //  candidate category doc apis end
+
+  mounted() {
+    this.candidate_id = this.$route.params.id;
+  },
 };
 </script>
 

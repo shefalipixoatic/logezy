@@ -120,8 +120,7 @@ export default {
             },
           }
         );
-        this.assignedVacancyData = response.data;
-        // console.log(this.assignedVacancyData);
+        this.assignedVacancyData = response.data.data;
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {

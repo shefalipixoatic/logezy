@@ -36,9 +36,7 @@ export default {
     },
   },
   methods: {
-    handleDateChange() {
-      console.log("Selected Date:", this.selectedDate);
-    },
+    handleDateChange() {},
   },
 };
 </script>

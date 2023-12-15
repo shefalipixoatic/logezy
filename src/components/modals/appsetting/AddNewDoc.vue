@@ -112,36 +112,40 @@
 </template>
 
 <script>
-// $("#togBtn").on("change", function () {
-//   if ($(this).is(":checked")) {
-//     $(this).attr("value", "true");
-//   } else {
-//     $(this).attr("value", "false");
-//   }
-// });
+import axios from "axios";
 
 export default {
   name: "AddNewDoc",
+  props: {
+    categoryId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
+      id: "",
       document_name: "",
-      document_category_id: 7,
+      document_category_id: "",
       mandatory: null,
       hide_document: null,
       profile_view: null,
       error: [],
+      getCategoryData: [],
     };
   },
+
   methods: {
     async addCandidateStatus() {
-      const data = {
-        document_name: this.document_name,
-        document_category_id: 7,
-        mandatory: this.mandatory,
-        hide_document: this.hide_document,
-        profile_view: this.profile_view,
-      };
       try {
+        const data = {
+          document_name: this.document_name,
+          document_category_id: this.categoryId,
+          mandatory: this.mandatory,
+          hide_document: this.hide_document,
+          profile_view: this.profile_view,
+        };
+
         const response = await fetch("https://logezy.onrender.com/documents", {
           method: "POST",
           headers: {
@@ -150,13 +154,35 @@ export default {
           },
           body: JSON.stringify(data),
         });
-        if (data) {
-          location.reload();
-        }
+        this.$emit("documentAdded");
+        // Handle the response as needed
       } catch (error) {
-        console.log(error);
+        // console.error("Error adding document:", error);
       }
     },
+  },
+
+  created() {
+    try {
+      axios
+        .get(`https://logezy.onrender.com/document_categories`)
+        .then((response) => {
+          this.getCategoryData = response.data;
+
+          const currentCategory = this.getCategoryData.find((category) => {
+            return category.document_category_id !== null;
+          });
+
+          if (currentCategory) {
+            this.document_category_id = currentCategory.id;
+          }
+        })
+        .catch((error) => {
+          // console.error("Error fetching documents:", error);
+        });
+    } catch (error) {
+      // console.error("Error fetching documents:", error);
+    }
   },
 };
 </script>

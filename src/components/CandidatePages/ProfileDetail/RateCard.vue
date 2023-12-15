@@ -16,7 +16,6 @@
               data-bs-toggle="modal"
               data-bs-target="#rateCards"
               data-bs-whatever="@mdo"
-              @click="showPopup()"
             >
               + Add Or Update Notes
             </button>
@@ -71,7 +70,7 @@
                   </td>
                   <td v-text="getrate.business_unit_id"></td>
                   <td v-text="getrate.job_id"></td>
-                  <td v-text="getrate.weekname"></td>
+                  <td v-text="getrate.weekname" class="text-capitalize"></td>
                   <td v-text="getrate.employment_type_id"></td>
                   <td v-text="getrate.shift_id"></td>
                   <td v-text="getrate.staff_rate"></td>
@@ -82,15 +81,15 @@
                       v-on:click="rateCardDelete(getrate.id)"
                     ></i
                     >&nbsp;&nbsp;
-                    <router-link
-                      :to="{
-                        name: 'EditRateCard',
-                        params: { id: getrate.id },
-                      }"
-                      ><i
-                        class="bi bi-pencil-square cursor-pointer btn btn-outline-success text-nowrap"
-                      ></i
-                    ></router-link>
+
+                    <!-- <i
+                      class="bi bi-pencil-square cursor-pointer btn btn-outline-success text-nowrap"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editRateCard"
+                      data-bs-whatever="@mdo"
+                      v-on:click="updateRateCardMethod(getrate.id)"
+                    ></i> -->
                   </td>
                 </tr>
               </tbody>
@@ -109,6 +108,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "RateCard",
   data() {
@@ -116,6 +116,7 @@ export default {
       getRateCard: [],
     };
   },
+  components: {},
   methods: {
     //  ratecard apis start
     async rateCardDelete(id) {
@@ -132,7 +133,7 @@ export default {
     async showRateCardMethod() {
       await axios
         .get("https://logezy.onrender.com/rate_cards")
-        .then((response) => (this.getRateCard = response.data.data))
+        .then((response) => (this.getRateCard = response.data))
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 404) {

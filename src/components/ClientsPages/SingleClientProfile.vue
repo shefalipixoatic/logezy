@@ -18,8 +18,23 @@
       <div id="main">
         <div class="row">
           <div class="col-12 borderbottom pb-3 pt-1">
+            <div class="float-start">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                @click="previousTab"
+                v-show="hasPreviousTab"
+              >
+                <i class="bi bi-caret-left-fill"></i>Previous
+              </button>
+            </div>
             <div class="float-end">
-              <button type="button" class="btn btn-outline-primary">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                @click="nextTab"
+                v-show="hasNextTab"
+              >
                 Next <i class="bi bi-caret-right-fill"></i>
               </button>
             </div>
@@ -171,11 +186,30 @@ export default {
     activeComponent() {
       return this.tabs[this.activeTab].component;
     },
+    hasPreviousTab() {
+      return this.activeTab > 0;
+    },
+    hasNextTab() {
+      return this.activeTab < this.tabs.length - 1;
+    },
   },
 
   methods: {
+    getTabLink(tab) {
+      return { name: tab.component, params: { id: this.$route.params.id } };
+    },
     selectTab(index) {
       this.activeTab = index;
+    },
+    nextTab() {
+      if (this.activeTab < this.tabs.length - 1) {
+        this.activeTab++;
+      }
+    },
+    previousTab() {
+      if (this.activeTab > 0) {
+        this.activeTab--;
+      }
     },
 
     async getClientMethod() {
@@ -191,7 +225,7 @@ export default {
             alert(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },

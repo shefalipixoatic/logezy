@@ -73,10 +73,9 @@ export default {
         if (error.response) {
           if (error.response.status == 404) {
             // alert(error.response.data.message);
-            console.log(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },

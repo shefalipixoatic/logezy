@@ -164,7 +164,7 @@ export default {
       job_id: "",
       employment_type_id: "",
       shift_id: "",
-      last_updated: "",
+      candidate_id: "",
       employeeData: [],
       options: [],
       shiftsTime: [],
@@ -205,22 +205,21 @@ export default {
         staff_rate: this.staff_rate,
         business_unit_id: this.business_unit_id,
         job_id: this.job_id,
+        candidate_id: this.$route.params.id,
         employment_type_id: this.employment_type_id,
         shift_id: this.shift_id,
-        last_updated: this.last_updated,
       };
       try {
         const response = await fetch("https://logezy.onrender.com/rate_cards", {
           method: "POST",
+
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
         });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     async getJobTitleMethod() {
       try {

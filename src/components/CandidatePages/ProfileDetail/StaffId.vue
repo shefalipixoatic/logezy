@@ -2,23 +2,34 @@
   <div>
     <div class="row">
       <div class="col-md-3">
-        <div class="card" style="width: 18rem">
+        <div class="card border-success mb-3">
+          <div class="card-header">RecPal Demo</div>
           <div class="card-body">
-            <h5 class="card-title">RecPal Demo 1</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Employee Name</h6>
-            <div class="col-md-5"></div>
-            <div class="col-md-5">
-              <table class="table table-bordered">
+            <div class="col-12">
+              <table class="table table-sm">
                 <thead>
-                  <tr>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                  </tr>
+                  <tr></tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>Name</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Position</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.position }}</td>
+                  </tr>
+                  <tr>
+                    <td>Staff ID</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                  <tr>
+                    <td>Expiry Date</td>
+                    <td>:</td>
+                    <td>...</td>
                   </tr>
                 </tbody>
               </table>
@@ -27,47 +38,156 @@
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card" style="width: 18rem">
+        <div class="card border-success mb-3">
+          <div class="card-header">RecPal Demo</div>
           <div class="card-body">
-            <h5 class="card-title">RecPal Demo 2</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Position</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.position }}</td>
+                  </tr>
+                  <tr>
+                    <td>Staff ID</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                  <tr>
+                    <td>Expiry Date</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card" style="width: 18rem">
+        <div class="card border-success mb-3">
+          <div class="card-header">RecPal Demo</div>
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Position</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.position }}</td>
+                  </tr>
+                  <tr>
+                    <td>Staff ID</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                  <tr>
+                    <td>Expiry Date</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card" style="width: 18rem">
+        <div class="card border-success mb-3">
+          <div class="card-header">RecPal Demo</div>
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-weight-bold">Name</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Position</td>
+                    <td>:</td>
+                    <td>{{ getCandidatesData.position }}</td>
+                  </tr>
+                  <tr>
+                    <td>Staff ID</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                  <tr>
+                    <td>Expiry Date</td>
+                    <td>:</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "StaffId",
+  data() {
+    return {
+      getCandidatesData: [],
+    };
+  },
+
+  components: {},
+  methods: {
+    async getCandidateMethods() {
+      try {
+        const response = await axios.get(
+          `https://logezy.onrender.com/candidates/${this.$route.params.id}`
+        );
+
+        this.getCandidatesData = response.data.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+          }
+        } else {
+          // console.error("Error fetching candidates:", error);
+        }
+      }
+    },
+  },
+
+  mounted() {
+    this.getCandidateMethods();
+  },
+};
+</script>
+
+<style scoped>
+table tr td {
+  text-transform: capitalize;
+}
+</style>

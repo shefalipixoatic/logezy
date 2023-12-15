@@ -409,7 +409,7 @@ export default {
             alert(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },

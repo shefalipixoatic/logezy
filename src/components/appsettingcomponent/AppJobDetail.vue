@@ -44,9 +44,9 @@
               <i class="bi bi-square-fill" :style="{ color: jobs.color }"></i>
             </td>
             <td v-text="jobs.name"></td>
-            <td>LG001</td>
-            <td align="center">1</td>
-            <td align="center">2</td>
+            <td v-text="jobs.job_code"></td>
+            <td v-text="jobs.no_of_client" align="center"></td>
+            <td v-text="jobs.no_of_candidates" align="center"></td>
             <td>
               <i class="bi bi-trash" v-on:click="jobsDelete(jobs.id)"></i>
             </td>

@@ -149,9 +149,7 @@ export default {
         if (data) {
           location.reload();
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
   },
 };

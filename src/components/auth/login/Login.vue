@@ -11,7 +11,7 @@
                 <img
                   src="../logo.png"
                   class="img-fluid mb-2"
-                  alt="logezy-logo"
+                  alt="RecPal"
                   width="150"
                 />
                 <div class="mb-4">
@@ -53,12 +53,12 @@
                     {{ error }}
                   </div>
 
-                  <div class="form-check ps-0">
+                  <!-- <div class="form-check ps-0">
                     <label>
                       <input type="checkbox" v-model="rememberMe" /> Remember
                       Password
                     </label>
-                  </div>
+                  </div> -->
                   <div class="my-4 d-flex justify-content-between">
                     <button
                       type="submit"
@@ -121,14 +121,14 @@ export default {
           this.$router.push({ name: "Home" });
 
           // If "Remember Me" is checked, store the user's credentials
-          if (this.rememberMe) {
-            localStorage.setItem("email", this.email);
-            localStorage.setItem("password", this.password);
-          } else {
-            // If not checked, clear stored credentials
-            localStorage.removeItem("email");
-            localStorage.removeItem("password");
-          }
+          // if (this.rememberMe) {
+          //   localStorage.setItem("email", this.email);
+          //   localStorage.setItem("password", this.password);
+          // } else {
+
+          //   localStorage.removeItem("email");
+          //   localStorage.removeItem("password");
+          // }
         } else {
           this.error = true;
           this.error = "Invalid Email or Password";
@@ -142,7 +142,6 @@ export default {
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          console.log(this.error);
         }
       }
     },
@@ -159,13 +158,13 @@ export default {
     }
 
     // Check if "Remember Me" credentials exist
-    const email = localStorage.getItem("email");
-    const password = localStorage.getItem("password");
+    // const email = localStorage.getItem("email");
+    // const password = localStorage.getItem("password");
 
-    if (email && password) {
-      this.email = email;
-      this.password = password;
-    }
+    // if (email && password) {
+    //   this.email = email;
+    //   this.password = password;
+    // }
   },
 };
 </script>

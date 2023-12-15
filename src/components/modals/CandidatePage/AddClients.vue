@@ -30,7 +30,11 @@
                       type="text"
                       class="form-control"
                       v-model="first_name"
+                      @input="clearError"
                     />
+                    <span v-if="!validateClientName" class="text-danger"
+                      >Client Name Required</span
+                    >
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
@@ -38,7 +42,15 @@
                     <label class="form-label" for="selectOption">address</label>
                   </div>
                   <div class="col-8">
-                    <input type="text" class="form-control" v-model="address" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="address"
+                      @input="clearError"
+                    />
+                    <span v-if="!validateAddress" class="text-danger"
+                      >Address Required</span
+                    >
                   </div>
                 </div>
                 <div class="mb-3">
@@ -51,7 +63,11 @@
                         type="email"
                         class="form-control"
                         v-model="email"
+                        @input="clearError"
                       />
+                      <span v-if="!validateEmail" class="text-danger"
+                        >Invalid Email format</span
+                      >
                     </div>
                   </div>
                 </div>
@@ -76,7 +92,11 @@
                       type="password"
                       class="form-control"
                       v-model="confirm_password"
+                      @input="clearError"
                     />
+                    <span v-if="!passwordsMatch" class="text-danger"
+                      >Passwords do not Match</span
+                    >
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
@@ -88,7 +108,11 @@
                       type="number"
                       class="form-control"
                       v-model="phone_number"
+                      @input="clearError"
                     />
+                    <span v-if="!validatePhoneNumber" class="text-danger"
+                      >Invalid Phone Number</span
+                    >
                   </div>
                 </div>
               </form>
@@ -104,8 +128,9 @@
               Cancel
             </button>
             <button
+              :disabled="!isValidForm"
+              :class="{ disabled: !isValidForm }"
               class="btn btn-primary rounded-1 text-capitalize fw-medium"
-              data-bs-dismiss="modal"
               v-on:click="addClients()"
             >
               Add
@@ -123,6 +148,11 @@ export default {
   name: "CandidateAdd",
   data() {
     return {
+      validateAddress: true,
+      validateClientName: true,
+      validateEmail: true,
+      validatePhoneNumber: true,
+      passwordsMatch: true,
       first_name: "",
       ref_code: "",
       address: "",
@@ -130,40 +160,114 @@ export default {
       email: "",
       password: "",
       confirm_password: "",
+      isValidForm: false,
       error: [],
     };
   },
+  computed: {
+    isFormValid() {
+      return (
+        this.validateEmail &&
+        this.passwordsMatch &&
+        this.validatePhoneNumber &&
+        this.validateClientName &&
+        this.validateAddress
+      );
+    },
+  },
+  watch: {
+    // Watch for changes in input fields and trigger validations
+    address: "validateAddressFormat",
+    first_name: "validateNameFormat",
+    email: "validateEmailFormat",
+    password: "validatePasswordMatch",
+    confirm_password: "validatePasswordMatch",
+    phone_number: "validatePhoneNumberFormat",
 
+    // Update overall form validity when any watched property changes
+    isFormValid: function (newVal) {
+      this.isValidForm = newVal;
+    },
+  },
   methods: {
     async addClients() {
-      const data = {
-        first_name: this.first_name,
-        ref_code: this.ref_code,
-        address: this.address,
-        phone_number: this.phone_number,
-        email: this.email,
-        password: this.password,
-        confirm_password: this.confirm_password,
-      };
-      try {
-        const response = await fetch("https://logezy.onrender.com/clients", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        // if (data) {
-        //   location.reload();
-        // }
-      } catch (error) {
-        console.log(error);
+      this.validateAddress = this.validateAddressFormat(this.address);
+      this.validateClientName = this.validateNameFormat(this.first_name);
+      // Validate email
+      this.validateEmail = this.validateEmailFormat(this.email);
+
+      // Validate password matching
+      this.passwordsMatch = this.password === this.confirm_password;
+
+      // Validate phone number
+      this.validatePhoneNumber = this.validatePhoneNumberFormat(
+        this.phone_number
+      );
+
+      // Check if all validations pass
+      if (
+        this.validateEmail &&
+        this.passwordsMatch &&
+        this.validatePhoneNumber &&
+        this.validateClientName
+      ) {
+        const data = {
+          first_name: this.first_name,
+          ref_code: this.ref_code,
+          address: this.address,
+          phone_number: this.phone_number,
+          email: this.email,
+          password: this.password,
+          confirm_password: this.confirm_password,
+        };
+        try {
+          const response = await fetch("https://logezy.onrender.com/clients", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+          if (data) {
+            location.reload();
+          }
+        } catch (error) {}
       }
+    },
+    validateEmailFormat(email) {
+      // Implement your email validation logic here
+      // For example, you can use a regular expression
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+    validateNameFormat(first_name) {
+      const nameRegex = /[a-zA-Z]+\\.?/;
+      return nameRegex.test(first_name);
+    },
+    validateAddressFormat(address) {
+      const addressRegex = /^[#.0-9a-zA-Z\s,-]+$/;
+      return addressRegex.test(address);
+    },
+    validatePhoneNumberFormat(phoneNumber) {
+      // Implement your phone number validation logic here
+      // For example, you can check the length or use a regular expression
+      const phoneRegex = /^[0-9]{10}$/;
+      return phoneRegex.test(phoneNumber);
+    },
+    clearError() {
+      // Clear the error message when the user starts typing
+      this.validateEmail = true;
+      this.validatePhoneNumber = true;
+      this.passwordsMatch = true;
+      this.validateClientName = true;
+      this.validateAddress = true;
     },
   },
 
-  mounted() {},
+  mounted() {
+    this.isValidForm = this.isFormValid;
+  },
 };
 </script>
 

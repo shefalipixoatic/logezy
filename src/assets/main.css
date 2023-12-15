@@ -35,11 +35,13 @@ ul li a:hover {
 .btn-primary {
   background-color: #ff5f30 !important;
   font-weight: bold;
-  border: none;
+  border: none !important;
   border-radius: 4px;
   outline: none;
 }
-
+.candidateTable tr:nth-child(odd) td {
+  background: #fdce5e17 !important;
+}
 ul.navbar-nav li a span.badge {
   background-color: #ff5f30 !important;
   border-radius: 50%;

@@ -3,14 +3,14 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="editOverview"
+      id="editRateCard"
       aria-labelledby="candidatePage"
       tabindex="-1"
     >
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-center" id="editOverview">
+            <h5 class="modal-title text-center" id="editRateCard">
               Add Details
             </h5>
             <button
@@ -25,11 +25,31 @@
               <form>
                 <div class="mb-3">
                   <div class="col-12">
-                    <label class="form-label">Employment Type</label>
+                    <label class="form-label" for="selectOption"
+                      >Position</label
+                    >
+                  </div>
+                  <div class="col-12 mt-1">
+                    <select v-model="fetchRateCard.job_id" id="selectOption">
+                      <option
+                        v-for="option in options"
+                        :key="option.id"
+                        :value="option.name"
+                      >
+                        {{ option.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label" for="selectEmployeeType"
+                      >Employment Type</label
+                    >
                   </div>
                   <div class="col-12 mt-1">
                     <select
-                      v-model="fetchCandidate.employment_type_id"
+                      v-model="fetchRateCard.employment_type"
                       id="selectEmployeeType"
                     >
                       <option
@@ -45,109 +65,66 @@
                 </div>
                 <div class="mb-3">
                   <div class="col-12">
-                    <label class="form-label">DBS/PVG No</label>
+                    <label class="form-label" for="selectShifts"
+                      >Shift Type</label
+                    >
+                  </div>
+                  <div class="col-12 mt-1">
+                    <select v-model="fetchRateCard.shift_id" id="selectShifts">
+                      <option
+                        v-for="option in shiftsTime"
+                        :key="option.id"
+                        :value="option.id"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.shift_name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label" for="selectBusinessUnit"
+                      >Business Unit</label
+                    >
+                  </div>
+                  <div class="col-12 mt-1">
+                    <select
+                      v-model="fetchRateCard.business_unit_id"
+                      id="selectBusinessUnit"
+                    >
+                      <option
+                        v-for="option in businessUnit"
+                        :key="option.id"
+                        :value="option.id"
+                        placeholder="Select BusinessUnit"
+                      >
+                        {{ option.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="col-12">
+                    <label class="form-label">Day</label>
                   </div>
                   <div class="col-12 mt-1">
                     <input
                       type="text"
                       class="form-control"
-                      v-model="fetchCandidate.DBS_PVG_no"
+                      v-model="fetchRateCard.weekname"
                     />
                   </div>
                 </div>
                 <div class="mb-3">
                   <div class="col-12">
-                    <label class="form-label">DBS/PVG Issue Date</label>
+                    <label class="form-label">Staff Rate</label>
                   </div>
                   <div class="col-12 mt-1">
                     <input
                       type="text"
                       class="form-control"
-                      v-model="fetchCandidate.DBS_PVG_issue_date"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">DBS/PVG Expiry Date</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.DBS_PVG_expiry_date"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">Next Check Date</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.next_check_date"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">NMC/NISCC/SSSC Pin</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.NMC_NISCC_SSSC_pin"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">Nationality</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.nationality"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">Date Of Birth</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.date_of_birth"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">Place Of Birth</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.place_of_birth"
-                    />
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <div class="col-12">
-                    <label class="form-label">Gender</label>
-                  </div>
-                  <div class="col-12 mt-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="fetchCandidate.gender"
+                      v-model="fetchRateCard.staff_rate"
                     />
                   </div>
                 </div>
@@ -157,7 +134,7 @@
           <div class="modal-footer">
             <button
               class="btn btn-secondary rounded-1"
-              data-bs-target="#editOverview"
+              data-bs-target="#editRateCard"
               data-bs-toggle="modal"
               data-bs-dismiss="modal"
             >
@@ -166,7 +143,7 @@
             <button
               class="btn btn-primary rounded-1 text-capitalize fw-medium"
               data-bs-dismiss="modal"
-              @click.prevent="updateCandidateMethod()"
+              @click.prevent="updateRateCardMethod()"
             >
               Save
             </button>
@@ -184,21 +161,18 @@ export default {
   name: "CandidateAdd",
   data() {
     return {
-      fetchCandidate: {
+      fetchRateCard: {
         id: "",
         employment_type: "",
-        employment_type_id: "",
-        DBS_PVG_no: null,
-        DBS_PVG_issue_date: null,
-        DBS_PVG_expiry_date: null,
-        next_check_date: null,
-        NMC_NISCC_SSSC_pin: null,
-        nationality: null,
-        date_of_birth: null,
-        place_of_birth: null,
-        gender: null,
+        job_id: "",
+        weekname: "",
+        shift_id: "",
+        shiftsTime: [],
+        business_unit_id: "",
+        businessUnit: [],
       },
       employeeData: [],
+      options: [],
     };
   },
   computed: {
@@ -207,6 +181,22 @@ export default {
         (option) => option.id === this.employment_type
       );
       return employment_type ? employment_type.title : "";
+    },
+    selectBusinessUnit() {
+      const business_unit_id = this.businessUnit.find(
+        (option) => option.id === this.business_unit_id
+      );
+      return business_unit_id ? business_unit_id.name : "";
+    },
+    selectedOptionText() {
+      const job_id = this.options.find((option) => option.id === this.job_id);
+      return job_id ? job_id.name : "";
+    },
+    selectShifts() {
+      const shifts_id = this.shiftsTime.find(
+        (option) => option.id === this.shifts_id
+      );
+      return shifts_id ? shifts_id.shift_name : "";
     },
   },
   methods: {
@@ -224,22 +214,39 @@ export default {
         }
       }
     },
-    async fetchCandidateOverviewMethod() {
+    async getPositionMethod() {
+      try {
+        const response = await axios.get("https://logezy.onrender.com/jobs");
+        this.options = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
+    async getTimeShift() {
+      await axios
+        .get("https://logezy.onrender.com/shifts")
+        .then((response) => (this.shiftsTime = response.data));
+    },
+    async fetchRateCardMethod() {
       try {
         const response = await axios.get(
-          `https://logezy.onrender.com/candidates/${this.$route.params.id}`
+          `https://logezy.onrender.com/rate_cards/${this.$route.params.id}`
         );
 
-        this.fetchCandidate = response.data.data;
+        this.fetchRateCard = response.data.data;
       } catch (error) {
         // console.error("Error fetching todo:", error);
       }
     },
-    async updateCandidateMethod() {
+    async updateRateCardMethod(id) {
       try {
         await axios.put(
-          `https://logezy.onrender.com/candidates/${this.fetchCandidate.id}`,
-          this.fetchCandidate
+          `https://logezy.onrender.com/rate_cards/` + id,
+          this.fetchRateCard
         );
 
         alert("Candidate updated successfully");
@@ -248,11 +255,28 @@ export default {
         // console.error("Error updating candidate:", error);
       }
     },
+    async getBusinessUnitMethod() {
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/business_units"
+        );
+        this.businessUnit = response.data;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        }
+      }
+    },
   },
 
   mounted() {
-    this.fetchCandidateOverviewMethod();
+    this.fetchRateCardMethod();
     this.getEmployeeTypeData();
+    this.getPositionMethod();
+    this.getBusinessUnitMethod();
+    this.getTimeShift();
   },
 };
 </script>

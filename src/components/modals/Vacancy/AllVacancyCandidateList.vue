@@ -11,7 +11,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="allCandidateVacancyList">
-              All Vacancy
+              Applied Vacancy
             </h5>
             <button
               type="button"
@@ -20,7 +20,51 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body mx-3">
+          <div class="modal-body">
+            <div class="row g-3 align-items-center">
+              <ul class="list-unstyled d-flex gap-3 mb-0 publish-ul">
+                <li>Code:gbf</li>
+                <li>B-unit:Demo</li>
+                <li>Job: driver</li>
+                <li>Date: 18-07-2023</li>
+                <li>Time: 20:00 - 08:00</li>
+                <li>Space left: 1</li>
+              </ul>
+            </div>
+            <div class="row m-3">
+              <div class="col-md-12">
+                <div
+                  class="pagetitle d-flex justify-content-between align-items-center p-2"
+                >
+                  <div class="d-flex justify-content-around gap-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
+                    Select All
+                  </div>
+
+                  <div></div>
+
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="searchbox position-relative">
+                        <input
+                          class="form-control mr-sm-2"
+                          type="search"
+                          placeholder="Search "
+                          aria-label="Search"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="row g-3 align-items-center">
               <table class="table candidateTable">
                 <thead>
@@ -29,15 +73,14 @@
                     <th scope="col">first name</th>
                     <th scope="col">last name</th>
                     <th scope="col">phone number</th>
-                    <th scope="col">email</th>
-                    <th scope="col">address</th>
+
                     <th scope="col">activated</th>
                     <th scope="col">status</th>
                     <th scope="col">position</th>
                     <th scope="col">employment type</th>
-                    <th scope="col">last login</th>
+                    <!-- <th scope="col">last login</th>
 
-                    <th scope="col">Action</th>
+                    <th scope="col">Action</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -46,16 +89,11 @@
                     <td v-text="data.first_name"></td>
                     <td v-text="data.last_name"></td>
                     <td v-text="data.phone_number"></td>
-
-                    <td v-text="data.email"></td>
-
-                    <td v-text="data.address"></td>
-
                     <td v-text="data.activated"></td>
                     <td v-text="data.status"></td>
                     <td v-text="data.position"></td>
                     <td v-text="data.employment_type"></td>
-                    <td v-text="data.last_login"></td>
+                    <!-- <td v-text="data.last_login"></td>
                     <td class="cursor-pointer">
                       <a class="btn btn-outline-success text-nowrap">
                         <i class="bi bi-pencil-square"></i>
@@ -67,20 +105,39 @@
                           v-on:click="vacancyDeleteMethod(data.id)"
                         ></i>
                       </button>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
               </table>
             </div>
+            <hr />
+            <div class="row g-3 align-items-center mt-3">
+              <div class="d-flex gap-1">
+                <div class="d-flex align-items-center">
+                  <label>Choose Action:</label>
+                </div>
+                <div class="col-3">
+                  <select
+                    class="form-select"
+                    aria-label="Disabled select example"
+                  >
+                    <option selected>Select an Action</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button
-              class="btn btn-secondary rounded-1"
+              class="btn btn-primary rounded-1"
               data-bs-target="#allCandidateVacancyList"
               data-bs-toggle="modal"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Submit
             </button>
             <!-- <button
               class="btn btn-primary rounded-1 text-capitalize fw-medium"
@@ -98,22 +155,24 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "AllVacancyCandidateList",
+
   data() {
-    return { getVacancyDetail: [], allVacancyData: [] };
+    return { getVacancyDetail: [], vacancyData: [] };
   },
 
   methods: {
-    async getAppliedVacancyMethod() {
+    async getallCandidateVacancyListMethod() {
       const token = localStorage.getItem("token");
 
       // Manually set the index or use your own logic to determine it
       const customIndex = 0; // Change this to your logic or set it manually
 
       // Check if vacancyData is not empty and has the item at the determined index
-      if (this.allVacancyData.length > customIndex) {
-        const vacancyId = this.allVacancyData[customIndex].id;
+      if (this.vacancyData.length > customIndex) {
+        const vacancyId = this.vacancyData[customIndex].id;
 
         try {
           const response = await axios.get(
@@ -125,7 +184,7 @@ export default {
               },
             }
           );
-          this.getVacancyDetail = response.data;
+          this.getVacancyDetail = response.data.data;
         } catch (error) {
           if (error.response) {
             if (error.response.status == 404) {
@@ -134,9 +193,7 @@ export default {
           }
         }
       } else {
-        console.error(
-          "Vacancy data is empty or does not have the item at the determined index."
-        );
+        
       }
     },
 
@@ -152,10 +209,10 @@ export default {
             },
           }
         );
-        this.allVacancyData = response.data;
-        this.getAppliedVacancyMethod();
+        this.vacancyData = response.data.data;
+        this.getallCandidateVacancyListMethod();
       } catch (error) {
-        console.error("Error fetching vacancies:", error);
+        // console.error("Error fetching vacancies:", error);
       }
     },
   },
@@ -174,7 +231,9 @@ export default {
 .modal-header {
   border-bottom: 0px;
 }
-
+.modal-dialog {
+  margin-right: inherit;
+}
 select {
   width: 100%;
   padding: 10px;
@@ -187,18 +246,26 @@ label.form-label {
 .modal-footer {
   border-top: 0px;
 }
-.modal-xl {
-  --bs-modal-width: 1823px !important;
+.modal-dialog {
+  margin-right: inherit;
 }
 .btn-primary {
   border: none;
+}
+.modal-xl {
+  width: 1400px !important;
 }
 #head {
   width: 40px;
   height: 40px;
 }
-
-.modal {
-  --bs-modal-width: 881px;
+.modal-content {
+  height: 930px;
+}
+table th {
+  text-transform: capitalize;
+}
+.candidateTable tr:nth-child(odd) td {
+  background: #fdce5e17 !important;
 }
 </style>

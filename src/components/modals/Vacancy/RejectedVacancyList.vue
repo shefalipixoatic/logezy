@@ -123,7 +123,6 @@ export default {
           }
         );
         this.rejectedListData = response.data;
-        // console.log(this.rejectedListData);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {

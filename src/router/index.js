@@ -62,6 +62,12 @@ const router = createRouter({
       component: () => import("@/views/CandidatesView.vue"),
       children: [
         {
+          path: "/availability",
+          name: "CandidateAvailability",
+          component: () => import("@/views/CandidateAvailability.vue"),
+          props: true,
+        },
+        {
           path: "/candidates",
           name: "CandidateLists",
           component: () =>
@@ -125,19 +131,19 @@ const router = createRouter({
                 auth: true,
               },
             },
-            // {
-            //   path: "/candidates/:id/rate-card",
-            //   name: "RateCard",
-            //   component: () =>
-            //     import(
-            //       "@/components/CandidatePages/ProfileDetail/RateCard.vue"
-            //     ),
-            //   meta: {
-            //     auth: true,
-            //   },
-            // },
             {
-              path: "/candidates/:id/notes",
+              path: "/candidates/:id/rate-card",
+              name: "RateCard",
+              component: () =>
+                import(
+                  "@/components/CandidatePages/ProfileDetail/RateCard.vue"
+                ),
+              meta: {
+                auth: true,
+              },
+            },
+            {
+              path: "/candidates/:id",
               name: "Notes",
               component: () =>
                 import("@/components/CandidatePages/ProfileDetail/Notes.vue"),
@@ -215,6 +221,11 @@ const router = createRouter({
           props: true,
         },
       ],
+    },
+    {
+      path: "/schedule",
+      name: "Schedule",
+      component: () => import("@/views/ScheduleView.vue"),
     },
     {
       path: "/booking",
@@ -378,12 +389,12 @@ const router = createRouter({
       },
     },
 
-    {
-      path: "/forgotpassword",
-      name: "ForgotPassword",
-      component: () =>
-        import("@/components/auth/forgotpassword/ForgotPassword.vue"),
-    },
+    // {
+    //   path: "/forgotpassword",
+    //   name: "ForgotPassword",
+    //   component: () =>
+    //     import("@/components/auth/forgotpassword/ForgotPassword.vue"),
+    // },
     { path: "/:pathMatch(.*)", component: NotFound },
   ],
 

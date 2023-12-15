@@ -94,7 +94,7 @@ export default {
       };
       try {
         const response = await fetch(
-          `https://logezy.onrender.com/restricted_business_units`,
+          `https://logezy.onrender.com/candidates/${this.$route.params.id}/restricted_business_units`,
           {
             method: "POST",
             headers: {
@@ -103,9 +103,7 @@ export default {
             body: JSON.stringify(data),
           }
         );
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     async getBusinessUnitMethod() {
       try {

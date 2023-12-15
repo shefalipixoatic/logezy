@@ -137,7 +137,7 @@ export default {
           this.getCandidateMethods();
         })
         .catch((error) => {
-          console.error("Error deleting candidate:", error);
+          // console.error("Error deleting candidate:", error);
         });
     },
 
@@ -151,21 +151,12 @@ export default {
       } catch (error) {
         if (error.response) {
           if (error.response.status == 404) {
-            console.log(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },
-
-    // redirectToUserProfile() {
-    //   this.$router.push({
-    //     name: "Profile",
-    //     params: { id: this.userId },
-    //   });
-    //   console.log("redirect");
-    // },
   },
 
   mounted() {

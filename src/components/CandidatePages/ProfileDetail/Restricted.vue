@@ -10,26 +10,19 @@
               >
                 RESTRICTED SHIFTS
               </h5>
-              <button
-                type="button"
-                class="btn text-nowrap"
-                data-bs-toggle="modal"
-                data-bs-target="#restrictAddShift"
-                data-bs-whatever="@mdo"
-              >
-                Add Shift
-              </button>
             </div>
           </div>
           <div class="card-body d-flex justify-content-between">
             <div class="d-flex gap-3">
-              <ul>
-                <li v-for="shift in getRestrictedShiftData" :key="shift.id">
+              <ul v-for="shift in shifts" :key="shift.id" class="list-unstyled">
+                <li>
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    v-model="shift_id"
+                    :id="shift.id"
                     :value="shift.id"
+                    v-model="selectedShifts"
+                    :checked="isSelected(shift.id)"
                   />
                   &nbsp;{{ shift.shift_name }}
                 </li>
@@ -39,7 +32,7 @@
               <button
                 type="button"
                 class="btn btn-primary btn-sm"
-                @click="saveRestrictedShifts"
+                @click="postRestrictedShift()"
               >
                 <i class="bi bi-file-earmark-medical"></i> Save
               </button>
@@ -73,26 +66,21 @@
             </div>
           </div>
           <div class="card-body">
-            <ul class="list-unstyled d-inline-flex gap-3">
+            <ul
+              class="list-unstyled d-inline-flex gap-3"
+              v-for="data in getLocationData"
+              :key="data.id"
+            >
               <li>
-                <div class="d-flex justify-content-start border-box">
+                <div
+                  class="d-flex justify-content-start border-box m-2 rounded-2"
+                >
                   <div>
-                    <div class="hround">H1</div>
+                    <div class="hround">H{{ data.id }}</div>
                   </div>
                   <div>
-                    <h5 class="fw-bold">Hospital 1</h5>
-                    <span>Hospital 1</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex justify-content-start border-box">
-                  <div>
-                    <div class="hround">H2</div>
-                  </div>
-                  <div>
-                    <h5 class="fw-bold">Hospital 2</h5>
-                    <span>Hospital 2</span>
+                    <h5 class="fw-bold">{{ data.name }}</h5>
+                    <span>Hospital {{ data.id }}</span>
                   </div>
                 </div>
               </li>
@@ -111,20 +99,42 @@ export default {
   name: "Restricted",
   data() {
     return {
-      shift_id: [], // Array to store selected shift ids
       shifts: [],
-      candidate_id: "",
-      getLocationData: [],
+      selectedShifts: [],
       getRestrictedShiftData: [],
+      getLocationData: [],
     };
   },
 
   methods: {
     async getTime() {
-      await axios.get("https://logezy.onrender.com/shifts").then((response) => {
-        this.shifts = response.data;
-        console.log(this.shifts);
-      });
+      try {
+        const response = await axios.get("https://logezy.onrender.com/shifts");
+        this.shifts = response.data.map((shift) => ({
+          ...shift,
+          shift_id: false,
+        }));
+      } catch (error) {
+        // console.error("Error fetching shifts:", error);
+      }
+    },
+    isSelected(shiftId) {
+      // Check if shiftId is in the selectedShifts array
+      return this.getRestrictedShiftData.includes(shiftId);
+    },
+    async postRestrictedShift() {
+      // Prepare data for the API request
+      const data = {
+        shift_id: this.selectedShifts, // Use the selectedShifts array
+        candidate_id: this.$route.params.id,
+      };
+
+      try {
+        const response = await axios.post(
+          `https://logezy.onrender.com/candidates/${this.$route.params.id}/restricted_shifts`,
+          data
+        );
+      } catch (error) {}
     },
 
     async getRestrictedShifts() {
@@ -132,36 +142,30 @@ export default {
         const response = await axios.get(
           `https://logezy.onrender.com/candidates/${this.$route.params.id}/candidate_restricted_shift`
         );
-        this.getRestrictedShiftData = response.data;
-        console.log(this.getRestrictedShiftData);
+
+        this.getRestrictedShiftData = response.data.shift_id;
+        this.selectedShifts = this.getRestrictedShiftData;
       } catch (error) {
-        console.error("Error fetching restricted shifts:", error);
+        // console.error("Error fetching restricted shifts:", error);
       }
     },
-    isShiftSelected(shifts) {
-      return (
-        this.shift_id.includes(shifts.id) && // Check if shift ID is in the selected shifts
-        this.selectedShiftNames.includes(shifts.shift_name) // Check if shift name is in the selected shift names
-      );
-    },
 
-    async getLocationMethod() {
+    async getRestrictedLocationMethod() {
       try {
         const response = await axios.get(
           `https://logezy.onrender.com/candidates/${this.$route.params.id}/candidate_restricted_location`
         );
-
         this.getLocationData = response.data;
       } catch (error) {
-        console.error("Error fetching restricted locations:", error);
+        // console.error("Error fetching restricted shifts:", error);
       }
     },
   },
+
   created() {
     this.getTime();
-    this.getLocationMethod();
     this.getRestrictedShifts();
-    console.log(this.$route.params.id);
+    this.getRestrictedLocationMethod();
   },
 };
 </script>
@@ -229,7 +233,7 @@ table th {
 }
 
 .card .hround {
-  background: #ff572266;
+  background: #ff9800;
   border-radius: 50%;
   padding: 10px 11px;
   margin-right: 8px;

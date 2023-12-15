@@ -29,7 +29,11 @@
                   </div>
 
                   <div class="col-10">
-                    <select v-model="business_unit_id" id="selectBusinessUnit">
+                    <select
+                      v-model="business_unit_id"
+                      id="selectBusinessUnit"
+                      @change="clearError"
+                    >
                       <option
                         v-for="option in businessUnit"
                         :key="option.id"
@@ -39,6 +43,11 @@
                         {{ option.name }}
                       </option>
                     </select>
+                    <span
+                      v-if="!validationSelectedBusinessUnit"
+                      class="text-danger"
+                      >BusinessUnit Required</span
+                    >
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
@@ -46,7 +55,11 @@
                     <label for="selectClients" class="form-label">Client</label>
                   </div>
                   <div class="col-10">
-                    <select v-model="client_id" id="selectClients">
+                    <select
+                      v-model="client_id"
+                      id="selectClients"
+                      @change="clearError"
+                    >
                       <option
                         v-for="option in clientData"
                         :key="option.id"
@@ -56,6 +69,9 @@
                         {{ option.first_name }}
                       </option>
                     </select>
+                    <span v-if="!validationSelectedClient" class="text-danger"
+                      >Client Required</span
+                    >
                   </div>
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
@@ -64,16 +80,27 @@
                       >Job Title</label
                     >
                   </div>
-                  <select v-model="job_id" id="selectJobTitle">
-                    <option
-                      v-for="option in options"
-                      :key="option.id"
-                      :value="option.id"
-                      aria-placeholder="Select Job"
+                  <div class="col-10">
+                    <select
+                      v-model="job_id"
+                      id="selectJobTitle"
+                      @change="clearError"
                     >
-                      {{ option.name }}
-                    </option>
-                  </select>
+                      <option
+                        v-for="option in options"
+                        :key="option.id"
+                        :value="option.id"
+                        aria-placeholder="Select Job"
+                      >
+                        {{ option.name }}
+                      </option>
+                    </select>
+                    <span
+                      v-if="!validationSelectedOptionText"
+                      class="text-danger"
+                      >Position Required</span
+                    >
+                  </div>
                 </div>
 
                 <div class="mb-3 d-flex justify-content-between">
@@ -81,7 +108,15 @@
                     <label class="form-label">Dated</label>
                   </div>
                   <div class="col-10">
-                    <input type="text" class="form-control" v-model="dates" />
+                    <input
+                      type="date"
+                      class="form-control"
+                      v-model="dates"
+                      @change="clearError"
+                    />
+                    <span v-if="!validationDateType" class="text-danger"
+                      >Date Required</span
+                    >
                   </div>
                 </div>
 
@@ -90,7 +125,11 @@
                     <label class="form-label" for="selectShifts">Shift</label>
                   </div>
                   <div class="col-10">
-                    <select v-model="shift_id" id="selectShifts">
+                    <select
+                      v-model="shift_id"
+                      id="selectShifts"
+                      @change="clearError"
+                    >
                       <option
                         v-for="option in shiftsTime"
                         :key="option.id"
@@ -100,6 +139,9 @@
                         {{ option.shift_name }}
                       </option>
                     </select>
+                    <span v-if="!validationShift" class="text-danger"
+                      >Shift Required</span
+                    >
                   </div>
                 </div>
 
@@ -108,7 +150,15 @@
                     <label class="form-label">Notes</label>
                   </div>
                   <div class="col-10">
-                    <input type="text" class="form-control" v-model="notes" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="notes"
+                      @input="clearError"
+                    />
+                    <span v-if="!validationNotesText" class="text-danger"
+                      >Notes Required</span
+                    >
                   </div>
                 </div>
               </form>
@@ -125,7 +175,8 @@
             </button>
             <button
               class="btn btn-primary rounded-1 text-capitalize fw-medium"
-              data-bs-dismiss="modal"
+              :disabled="!isValidForm"
+              :class="{ disabled: !isValidForm }"
               v-on:click="addVacancyMethod()"
             >
               Add Vacancy
@@ -143,6 +194,12 @@ export default {
   name: "AddVacancy",
   data() {
     return {
+      validationSelectedOptionText: true,
+      validationSelectedBusinessUnit: true,
+      validationSelectedClient: true,
+      validationNotesText: true,
+      validationShift: true,
+      validationDateType: true,
       business_unit_id: "",
       client_id: "",
       clientData: [],
@@ -153,9 +210,20 @@ export default {
       shift_id: "",
       shiftsTime: [],
       notes: "",
+      isValidForm: false,
     };
   },
   computed: {
+    isFormValid() {
+      return (
+        this.validationSelectedOptionText &&
+        this.validationSelectedBusinessUnit &&
+        this.validationSelectedClient &&
+        this.validationNotesText &&
+        this.validationShift &&
+        this.validationDateType
+      );
+    },
     selectedOptionText() {
       const jobs_id = this.options.find((option) => option.id === this.jobs_id);
       return jobs_id ? jobs_id.name : "";
@@ -182,29 +250,66 @@ export default {
       return shifts_id ? shifts_id.shift_name : "";
     },
   },
-
+  watch: {
+    // Watch for changes in input fields and trigger validations
+    job_id: "validationSelectedOptionText",
+    business_unit_id: "validationSelectedBusinessUnit",
+    client_id: "validationSelectedClient",
+    shift_id: "validationShift",
+    dates: "validationDateType",
+    notes: "validationNotesText",
+    // Update overall form validity when any watched property changes
+    isFormValid: function (newVal) {
+      this.isValidForm = newVal;
+    },
+  },
   methods: {
     async addVacancyMethod() {
-      const data = {
-        business_unit_id: this.business_unit_id,
-        job_id: this.job_id,
-        dates: [this.dates],
-        shift_id: this.shift_id,
-        notes: this.notes,
-        client_id: this.client_id,
-      };
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch("https://logezy.onrender.com/vacancies", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "bearer " + token,
-          },
-          body: JSON.stringify(data),
-        });
-      } catch (error) {
-        console.log(error);
+      this.validationSelectedOptionText = this.validationSelectedFormate(
+        this.job_id
+      );
+      this.validationSelectedBusinessUnit = this.ValidationBusinessUnit(
+        this.business_unit_id
+      );
+      this.validationSelectedClient = this.ValidationClient(this.client_id);
+      this.validationNotesText = this.ValidationNotes(this.notes);
+      this.validationShift = this.ValidationShift(this.shift_id);
+      this.validationDateType = this.ValidationDate(this.dates);
+      if (
+        this.validationSelectedOptionText &&
+        this.validationSelectedBusinessUnit &&
+        this.validationSelectedClient &&
+        this.validationNotesText &&
+        this.validationShift &&
+        this.validationDateType
+      ) {
+        const data = {
+          business_unit_id: this.business_unit_id,
+          job_id: this.job_id,
+          dates: [this.dates],
+          shift_id: this.shift_id,
+          notes: this.notes,
+          client_id: this.client_id,
+        };
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://logezy.onrender.com/vacancies",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "bearer " + token,
+              },
+              body: JSON.stringify(data),
+            }
+          );
+          if (data) {
+            location.reload();
+          }
+        } catch (error) {}
+      } else {
+        // Set the password required flag if the password field is empty
       }
     },
     async getJobTitleMethod() {
@@ -250,12 +355,45 @@ export default {
         .get("https://logezy.onrender.com/shifts")
         .then((response) => (this.shiftsTime = response.data));
     },
+    validationSelectedFormate(job_id) {
+      const positionRegex = /[a-zA-Z0-9]/;
+      return positionRegex.test(job_id);
+    },
+    ValidationBusinessUnit(business_unit_id) {
+      const businessUnitRegex = /[a-zA-Z0-9]/;
+      return businessUnitRegex.test(business_unit_id);
+    },
+    ValidationNotes(notes) {
+      const notesRegex = /[a-zA-Z0-9]/;
+      return notesRegex.test(notes);
+    },
+    ValidationShift(shift_id) {
+      const shiftRegex = /[a-zA-Z0-9]/;
+      return shiftRegex.test(shift_id);
+    },
+    ValidationDate(dates) {
+      const dateRegex = /(0[1-9]|[12][0-9]|3[01])/;
+      return dateRegex.test(dates);
+    },
+    ValidationClient(client_id) {
+      const clientRegex = /[a-zA-Z0-9]/;
+      return clientRegex.test(client_id);
+    },
+    clearError() {
+      this.validationSelectedOptionText = true;
+      this.validationSelectedBusinessUnit = true;
+      this.validationSelectedClient = true;
+      this.validationNotesText = true;
+      this.validationShift = true;
+      this.validationDateType = true;
+    },
   },
   mounted() {
     this.getJobTitleMethod();
     this.getBusinessUnitMethod();
     this.getClientMethod();
     this.getTimeShift();
+    this.isValidForm = this.isFormValid;
   },
 };
 </script>

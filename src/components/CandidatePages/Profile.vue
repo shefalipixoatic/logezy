@@ -18,8 +18,23 @@
       <div id="main">
         <div class="row">
           <div class="col-12 borderbottom pb-3 pt-1">
+            <div class="float-start">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                @click="previousTab"
+                v-show="hasPreviousTab"
+              >
+                <i class="bi bi-caret-left-fill"></i>Previous
+              </button>
+            </div>
             <div class="float-end">
-              <button type="button" class="btn btn-outline-primary">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                @click="nextTab"
+                v-show="hasNextTab"
+              >
                 Next <i class="bi bi-caret-right-fill"></i>
               </button>
             </div>
@@ -50,9 +65,9 @@
                   </div>
 
                   <div>
-                    <button type="button" class="btn btn-outline-primary">
+                    <!-- <button type="button" class="btn btn-outline-primary">
                       Edit
-                    </button>
+                    </button> -->
                   </div>
                 </div>
                 <hr />
@@ -128,7 +143,9 @@
     </div>
     <OverviewEdit />
     <AddRestrictedLocation />
-    <RestrictShift />
+    <AddNotes />
+    <!-- <EditRateCard /> -->
+    <AddRateCard />
   </div>
 </template>
 
@@ -139,14 +156,17 @@ import Overview from "../CandidatePages/ProfileDetail/Overview.vue";
 import Document from "../CandidatePages/ProfileDetail/Document.vue";
 import ProfileTabs from "../CandidatePages/ProfileDetail/ProfileTabs.vue";
 import Restricted from "../CandidatePages/ProfileDetail/Restricted.vue";
-// import RateCardTabs from "../CandidatePages/ProfileDetail/RateCard.vue";
+import RateCard from "../CandidatePages/ProfileDetail/RateCard.vue";
 import Notes from "../CandidatePages/ProfileDetail/Notes.vue";
 import StaffId from "../CandidatePages/ProfileDetail/StaffId.vue";
 import CandidateHistory from "../CandidatePages/ProfileDetail/CandidateHistory.vue";
 import CandidatePreference from "../CandidatePages/ProfileDetail/CandidatePreference.vue";
 import OverviewEdit from "../modals/CandidatePage/OverviewEdit.vue";
 import AddRestrictedLocation from "../modals/CandidatePage/AddRestrictedLocation.vue";
-import RestrictShift from "../modals/CandidatePage/RestrictShift.vue";
+
+import AddRateCard from "../modals/CandidatePage/AddRateCard.vue";
+// import EditRateCard from "../modals/CandidatePage/EditRateCard.vue";
+import AddNotes from "../modals/CandidatePage/AddNotes.vue";
 
 export default {
   name: "Profile",
@@ -163,11 +183,11 @@ export default {
         { name: "Documents ", component: "Document" },
         { name: "Profile ", component: "ProfileTabs" },
         { name: "Restricted", component: "Restricted" },
-        // { name: "Rate Card", component: "RateCardTabs" },
+        { name: "Rate Card", component: "RateCard" },
         { name: "Notes", component: "Notes" },
         { name: "Staff ID", component: "StaffId" },
         { name: "Candidate History", component: "CandidateHistory" },
-        { name: "Candidate Preference", component: "CandidatePreference" },
+        { name: "Candidate Reference", component: "CandidatePreference" },
       ],
       activeTab: 0,
     };
@@ -179,13 +199,15 @@ export default {
     Document,
     ProfileTabs,
     Restricted,
-    // RateCardTabs,
+    RateCard,
     Notes,
     StaffId,
     CandidateHistory,
     CandidatePreference,
     AddRestrictedLocation,
-    RestrictShift,
+    AddRateCard,
+    // EditRateCard,
+    AddNotes,
   },
 
   props: ["id"],
@@ -196,6 +218,12 @@ export default {
     activeComponent() {
       return this.tabs[this.activeTab].component;
     },
+    hasPreviousTab() {
+      return this.activeTab > 0;
+    },
+    hasNextTab() {
+      return this.activeTab < this.tabs.length - 1;
+    },
   },
 
   methods: {
@@ -204,6 +232,16 @@ export default {
     },
     selectTab(index) {
       this.activeTab = index;
+    },
+    nextTab() {
+      if (this.activeTab < this.tabs.length - 1) {
+        this.activeTab++;
+      }
+    },
+    previousTab() {
+      if (this.activeTab > 0) {
+        this.activeTab--;
+      }
     },
 
     async getCandidate() {
@@ -219,7 +257,7 @@ export default {
             alert(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },

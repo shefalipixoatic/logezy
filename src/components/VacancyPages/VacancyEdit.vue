@@ -206,7 +206,7 @@ export default {
 
         this.fetchVacancy = { ...this.fetchVacancy, ...response.data };
       } catch (error) {
-        console.error("Error fetching todo:", error);
+       // console.error("Error fetching todo:", error);
       }
     },
     async updateVacancyMethod() {
@@ -225,7 +225,7 @@ export default {
 
         alert("Candidate updated successfully");
       } catch (error) {
-        console.error("Error updating candidate:", error);
+        // console.error("Error updating candidate:", error);
       }
     },
     async getBusinessUnitMethod() {

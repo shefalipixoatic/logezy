@@ -6,7 +6,7 @@
           src="../assets/logo.png"
           loading="lazy"
           class="img-fluid"
-          alt="logezy"
+          alt="RecPal"
           width="119"
       /></a>
       <button
@@ -43,13 +43,13 @@
               </li>
             </ul> -->
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link class="nav-link" aria-current="page" to="/candidates">
               Candidates
-              <!-- <i class="bi bi-caret-down-fill"></i> -->
+              <i class="bi bi-caret-down-fill"></i>
             </router-link>
 
-            <!-- <ul
+            <ul
               class="dropdown"
               aria-labelledby="navbarDropdown"
               
@@ -60,11 +60,37 @@
               <li>
                 <router-link class="dropdown-item">Client 2</router-link>
               </li>
-            </ul> -->
+            </ul>
+          </li> -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="/candidates"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Candidates
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <router-link class="dropdown-item" to="/candidates"
+                >Candidate List</router-link
+              >
+              <router-link class="dropdown-item" to="/availability"
+                >Candidate Availability</router-link
+              >
+            </div>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" aria-current="page" to="/vacancie">
               Vacancies
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" aria-current="page" to="/schedule">
+              Schedule
             </router-link>
           </li>
           <li class="nav-item">
@@ -248,7 +274,7 @@ export default {
             alert(error.response.data.message);
           }
         } else {
-          console.error("Error fetching candidates:", error);
+          // console.error("Error fetching candidates:", error);
         }
       }
     },
@@ -273,6 +299,18 @@ ul.navbar-nav li a span.badge {
 }
 .logo {
   line-height: 1;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #f6851d !important;
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #fdce5e17;
+  color: #000;
 }
 .profileAdminImg {
   border: 1px solid grey;
