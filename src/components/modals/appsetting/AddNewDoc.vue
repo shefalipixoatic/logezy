@@ -156,6 +156,9 @@ export default {
         });
         this.$emit("documentAdded");
         // Handle the response as needed
+        if (data) {
+          location.reload();
+        }
       } catch (error) {
         // console.error("Error adding document:", error);
       }

@@ -22,7 +22,7 @@
         </button>
       </div>
     </div>
-    <div class="mt-4">
+    <div class="mt-4 table-wrapper">
       <table class="table table table-hover" :v-if="getEmployeeStatus">
         <thead>
           <tr>

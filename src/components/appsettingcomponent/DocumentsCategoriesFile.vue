@@ -204,7 +204,7 @@ export default {
       axios
         .delete(`https://logezy.onrender.com/documents/` + id)
         .then((response) => {
-          this.getDocumentCategories();
+          this.getDocCAtegories();
         });
       alert("Record Deleted ");
     },

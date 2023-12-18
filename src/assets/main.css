@@ -46,7 +46,9 @@ ul.navbar-nav li a span.badge {
   background-color: #ff5f30 !important;
   border-radius: 50%;
 }
-
+.table-wrapper {
+  overflow-x: auto;
+}
 .borderight {
   border-right: 1px solid rgb(196, 196, 196);
 }

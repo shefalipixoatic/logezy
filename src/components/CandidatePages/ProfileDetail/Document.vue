@@ -6,10 +6,10 @@
           class="nav-link active"
           id="pills-document-tab"
           data-bs-toggle="pill"
-          data-bs-target="#pills-document"
+          data-bs-target="#pills-activeDocuments"
           type="button"
           role="tab"
-          aria-controls="pills-document"
+          aria-controls="pills-activeDocuments"
           aria-selected="true"
         >
           Active Documents
@@ -20,10 +20,10 @@
           class="nav-link"
           id="deletedDocument"
           data-bs-toggle="pill"
-          data-bs-target="#pills-delete"
+          data-bs-target="#pills-deleteDocuments"
           type="button"
           role="tab"
-          aria-controls="pills-delete"
+          aria-controls="pills-deleteDocuments"
           aria-selected="false"
         >
           Deleted Documents
@@ -32,8 +32,8 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
       <div
-        class="tab-pane fade active"
-        id="pills-document"
+        class="tab-pane fade show active"
+        id="pills-activeDocuments"
         role="tabpanel"
         aria-labelledby="pills-document-tab"
       >
@@ -43,102 +43,179 @@
               <div>
                 <h6>Document Categories</h6>
               </div>
-              <div class="d-flex">
+              <div class="d-flex gap-1">
                 <button type="button" class="btn btn-primary btn-sm">
-                  Download All
+                  <i class="bi bi-download"></i> Download All
                 </button>
+                <div class="d-flex align-items-center">
+                  <h6 class="mb-0">Compliant All</h6>
+                  <label class="switch">
+                    <input type="checkbox" id="togBtn" />
+                    <div class="slider round"></div>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="row">
-            <div
-              class="accordion accordion-flush"
-              id="accordionFlushExample"
-              v-for="data in get_Candidate_Document_Categories"
-              :key="data.id"
-            >
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingOne">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapseOne"
-                    aria-expanded="false"
-                    aria-controls="flush-collapseOne"
-                  >
-                    {{ data.category_name }}
-                  </button>
-                </h2>
+            <div class="col-12">
+              <div class="">
                 <div
-                  id="flush-collapseOne"
-                  class="accordion-collapse collapse"
-                  aria-labelledby="flush-headingOne"
-                  data-bs-parent="#accordionFlushExample"
+                  class="accordion mt-3"
+                  v-for="(getCate, index) in getCategory"
+                  :key="index"
                 >
-                  <div class="accordion-body">
-                    <form>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="mb-3">
-                            <label class="form-label">ISSUE DATE</label>
-                            <input
-                              type="date"
-                              class="form-control"
-                              id="issue"
-                              placeholder="issue date"
-                              v-model="issue_date"
-                              title="issue date"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="mb-3">
-                            <label class="form-label">EXPIRY DATE</label>
-                            <input
-                              type="date"
-                              class="form-control"
-                              id="expiry"
-                              placeholder="expiry date"
-                              v-model="expiry_date"
-                              title="expiry date"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                  <div class="accordion-item">
+                    <h2
+                      class="accordion-header d-flex justify-content-between align-items-center"
+                      @click="toggleAccordion(index)"
+                    >
+                      <button class="accordion-button" type="button">
+                        {{ getCate.category_name }}
+                      </button>
 
-                      <div class="row">
-                        <div class="mb-3">
-                          <label class="form-label">Description</label>
-                          <textarea
-                            class="form-control"
-                            rows="3"
-                            v-model="description"
-                          ></textarea>
-                        </div>
-                        <div class="mb-3">
-                          <label for="formFile" class="form-label"
-                            >UPLOAD DOCUMENT</label
+                      <ul class="list-unstyled d-inline-flex align-items-center mb-0">
+                        <li class="p-3 fs-6">
+                          <button class="btn btn-warning count-doc-btn">
+                            <span>!</span></button
+                          >&nbsp;2
+                        </li>
+                        <li class=" ">
+                          <button class="btn border-primary-subtle">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </li>
+
+                        <li class="">
+                          <button
+                            class="btn border-primary-subtle rounded-1 text-capitalize fw-bold"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addCategories"
+                            data-bs-whatever="@mdo"
+                            type="button"
                           >
-                          <input
-                            class="form-control"
-                            type="file"
-                            id="formFile"
-                            ref="fileInput"
-                            placeholder="upload doc"
-                            @change="handleFileChange"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          v-on:click="addCandidateDocument()"
+                            +
+                          </button>
+                        </li>
+                      </ul>
+                    </h2>
+
+                    <div class="">
+                      <div class="accordion-body" v-if="getCate.isOpen">
+                        <div
+                          class="accordion"
+                          v-for="(getDocs, docIndex) in getCate.documents"
+                          :key="getDocs.id"
                         >
-                          Save
-                        </button>
+                          <div class="accordion-item">
+                            <h2
+                              class="accordion-header"
+                              @click="toggleAccordionDocument(index, docIndex)"
+                            >
+                              <button class="accordion-button" type="button">
+                                {{ getDocs.display_name }}
+                              </button>
+                              <div class="d-flex align-items-center">
+                                <h6 class="mb-0">Compliant</h6>
+                                <label class="switch">
+                                  <input type="checkbox" id="togBtn" />
+                                  <div class="slider round"></div>
+                                </label>
+                              </div>
+
+                              <ul
+                                class="list-unstyled d-inline-flex align-items-center mb-0"
+                              >
+                                <li class="">
+                                  <button class="btn border-primary-subtle">
+                                    <i class="bi bi-download"></i>
+                                  </button>
+                                </li>
+                                <li class="">
+                                  <button class="btn border-primary-subtle">
+                                    <i class="bi bi-eye"></i>
+                                  </button>
+                                </li>
+                                <li class="">
+                                  <button class="btn border-primary-subtle">
+                                    <i
+                                      class="bi bi-trash"
+                                      v-on:click="documentDelete(getDocs.id)"
+                                    ></i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </h2>
+                            <div class="">
+                              <div class="accordion-body" v-if="getDocs.isOpen">
+                                <form>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="mb-3">
+                                        <label class="form-label">ISSUE DATE</label>
+                                        <input
+                                          type="date"
+                                          class="form-control"
+                                          id="issue"
+                                          placeholder="issue date"
+                                          v-model="issue_date"
+                                          title="issue date"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div class="col-6">
+                                      <div class="mb-3">
+                                        <label class="form-label">EXPIRY DATE</label>
+                                        <input
+                                          type="date"
+                                          class="form-control"
+                                          id="expiry"
+                                          placeholder="expiry date"
+                                          v-model="expiry_date"
+                                          title="expiry date"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="mb-3">
+                                      <label class="form-label">Description</label>
+                                      <textarea
+                                        class="form-control"
+                                        rows="3"
+                                        v-model="description"
+                                      ></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                      <label for="formFile" class="form-label"
+                                        >UPLOAD DOCUMENT</label
+                                      >
+                                      <input
+                                        class="form-control"
+                                        type="file"
+                                        id="formFile"
+                                        ref="fileInput"
+                                        accept="image/*"
+                                        v-on:change="handleFileChange"
+                                      />
+                                    </div>
+                                    <button
+                                      type="button"
+                                      class="btn btn-primary"
+                                      v-on:click="addCandidateDocument()"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -146,88 +223,146 @@
           </div>
         </div>
       </div>
-
       <div
         class="tab-pane fade"
-        id="pills-delete"
+        id="pills-deleteDocuments"
         role="tabpanel"
         aria-labelledby="deletedDocument"
       >
-        ...
+        .....
       </div>
     </div>
+    <AddCategory />
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import AddCategory from "../../modals/appsetting/AddCategory.vue";
+
 export default {
   name: "Document",
   data() {
     return {
-      get_Candidate_Document_Categories: [],
+      getCategory: [],
+      getDocument: [],
+      issue_date: null,
+      expiry_date: null,
+      description: null,
+      document_image: null,
       selectedFile: null,
     };
   },
-  components: {},
+  components: { AddCategory },
   methods: {
     handleFileChange(event) {
-      this.selectedFile = event.target.files[0];
+      const files = event.target.files;
+      this.document_image = files[0];
     },
     async addCandidateDocument() {
       const token = localStorage.getItem("token");
 
-      const data = {
-        issue_date: this.issue_date,
-        candidate_id: this.$route.params.id,
-        document_id: 52,
-        expiry_date: this.expiry_date,
-        description: this.description,
-        document_image: this.document_image,
-      };
+      // Make sure getDocument is not empty before using find()
+      if (this.getDocument.length > 0) {
+        const selectedDocument = this.getDocument.find((doc) => doc.id);
+        const data = {
+          issue_date: this.issue_date,
+          candidate_id: this.$route.params.id,
+          document_id: selectedDocument.id,
+          expiry_date: this.expiry_date,
+          description: this.description,
+          document_image: this.document_image,
+        };
 
+        try {
+          const response = await fetch(
+            "https://logezy.onrender.com/admin_upload_candidate_document",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                Authorization: "bearer " + token,
+              },
+              body: JSON.stringify(data),
+            }
+          );
+          console.log(data);
+          alert("Successful Submit Data");
+        } catch (error) {
+          console.error("Error submitting data:", error);
+        }
+      } else {
+        console.error("No documents available to associate.");
+      }
+    },
+    toggleAccordion(index) {
+      // Close all accordions
+      this.getCategory.forEach((getCate, i) => {
+        if (i !== index) {
+          getCate.isOpen = false;
+        }
+      });
+
+      // Toggle the clicked accordion
+      this.getCategory[index].isOpen = !this.getCategory[index].isOpen;
+    },
+    toggleAccordionDocument(categoryIndex, documentIndex) {
+      this.getCategory[categoryIndex].documents.forEach((getDocs, i) => {
+        if (i !== documentIndex) {
+          getDocs.isOpen = false;
+        }
+      });
+
+      // Toggle the clicked document accordion
+      this.getCategory[categoryIndex].documents[documentIndex].isOpen = !this.getCategory[
+        categoryIndex
+      ].documents[documentIndex].isOpen;
+    },
+
+    onDocumentAdded() {
+      this.getDocCAtegories;
+    },
+
+    documentDelete(id) {
+      if (!window.confirm("Are you Sure ?")) {
+        return;
+      }
+      axios.delete("https://logezy.onrender.com/documents/" + id).then((response) => {
+        this.getDocumentCategories();
+      });
+      alert("Record Deleted ");
+    },
+
+    async getDocumentCategories() {
       try {
-        const response = await fetch(
-          "https://logezy.onrender.com/admin_upload_candidate_document",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: "bearer " + token,
-            },
-            body: JSON.stringify(data),
-          }
+        const response = await axios.get("https://logezy.onrender.com/documents");
+        this.getDocument = response.data;
+        this.getDocument.forEach((document) => {
+          document.id = id;
+        });
+      } catch (error) {
+        // console.error("Error fetching documents:", error);
+      }
+    },
+    async getDocCAtegories() {
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/document_categories"
         );
-        alert("Successful Submit Data");
 
-        // if (data) {
-        //   location.reload();
-        // }
-      } catch (error) {}
+        this.getCategory = response.data;
+      } catch (error) {
+        // console.error("Error fetching document categories:", error);
+      }
     },
   },
   //  candidate category doc apis start
-  async created() {
-    const token = localStorage.getItem("token");
-    axios
-      .get("https://logezy.onrender.com/document_categories", {
-        headers: {
-          "content-type": "application/json",
-          Authorization: "bearer " + token,
-        },
-      })
-
-      .then(
-        (response) => (this.get_Candidate_Document_Categories = response.data)
-      );
+  created() {
+    this.getDocumentCategories();
+    this.getDocCAtegories();
   },
 
   //  candidate category doc apis end
-
-  mounted() {
-    this.candidate_id = this.$route.params.id;
-  },
 };
 </script>
 
@@ -238,7 +373,11 @@ export default {
 .borderbottom {
   border-bottom: 1px solid #ebe2e2;
 }
-
+button.count-doc-btn {
+  border-radius: 50%;
+  padding: 4px 13px;
+  font-weight: bold;
+}
 .accordion-button {
   width: 25%;
   background-color: transparent;
@@ -266,6 +405,7 @@ export default {
 .bg-white {
   border-left: 1px solid #dedede;
 }
+
 .bg-orange-light {
   background: #fef8f8;
   background-color: #fdce5e17;

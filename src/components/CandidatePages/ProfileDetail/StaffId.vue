@@ -24,12 +24,12 @@
                   <tr>
                     <td>Staff ID</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.staff_id }}</td>
                   </tr>
                   <tr>
                     <td>Expiry Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.expiry_date }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -60,12 +60,12 @@
                   <tr>
                     <td>Staff ID</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.staff_id }}</td>
                   </tr>
                   <tr>
                     <td>Expiry Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.expiry_date }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -96,12 +96,12 @@
                   <tr>
                     <td>Staff ID</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.staff_id }}</td>
                   </tr>
                   <tr>
                     <td>Expiry Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.expiry_date }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -132,12 +132,12 @@
                   <tr>
                     <td>Staff ID</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.staff_id }}</td>
                   </tr>
                   <tr>
                     <td>Expiry Date</td>
                     <td>:</td>
-                    <td>...</td>
+                    <td>{{ getCandidatesData.expiry_date }}</td>
                   </tr>
                 </tbody>
               </table>

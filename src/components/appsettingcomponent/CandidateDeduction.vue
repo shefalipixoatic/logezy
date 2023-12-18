@@ -65,7 +65,7 @@
                   aria-labelledby="active_candidate_deduction"
                   tabindex="0"
                 >
-                  <div class="mt-4">
+                  <div class="mt-4 table-wrapper">
                     <table class="table table table-hover addjobtable">
                       <thead>
                         <tr>

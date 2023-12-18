@@ -125,7 +125,7 @@
                       role="tabpanel"
                       aria-labelledby="about"
                     >
-                      <div class="p-4">
+                      <div class="p-4 table-wrapper">
                         <table class="table table-borderless">
                           <thead>
                             <tr>

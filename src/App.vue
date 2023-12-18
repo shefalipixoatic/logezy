@@ -1,10 +1,10 @@
 <script>
 import "./assets/main.css";
 
-import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 // import DateRangePicker from "../src/components/pluginsdetail/DateRangePicker.vue";
+
 export default {
   name: "App",
   data() {

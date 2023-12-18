@@ -54,12 +54,11 @@
                           aria-selected="true"
                           type="button"
                           role="tab"
-                          data-bs-toggle="pill"
                           v-for="(tab, index) in tabs"
                           :key="index"
                           @click="selectTab(index)"
                         >
-                          {{ tab.name }}({{ vacancyCount }})
+                          {{ tab.name }}({{ index === 0 ? vacancyCount : 0 }})
                         </button>
                       </li>
                     </div>
@@ -106,8 +105,8 @@ import InActiveVacancyList from "../VacancyPages/InActiveVacancyList.vue";
 export default {
   data() {
     return {
-      vacancyCount: [],
-      isActive: true,
+      vacancyCount: 0,
+
       searchQuery: "",
       tabs: [
         { name: "All ", component: "AllVacancyList" },
@@ -129,17 +128,23 @@ export default {
     },
     async createVacancy() {
       const token = localStorage.getItem("token");
-      axios
-        .get("https://logezy.onrender.com/vacancies", {
-          headers: {
-            "content-type": "application/json",
-            Authorization: "bearer " + token,
-          },
-        })
-
-        .then((response) => (this.vacancyCount = response.data.count));
+      try {
+        const response = await axios.get(
+          "https://logezy.onrender.com/vacancies",
+          {
+            headers: {
+              "content-type": "application/json",
+              Authorization: "bearer " + token,
+            },
+          }
+        );
+        this.vacancyCount = response.data.count;
+      } catch (error) {
+        // console.error("Error fetching vacancy count:", error);
+      }
     },
   },
+
   mounted() {
     this.createVacancy();
   },

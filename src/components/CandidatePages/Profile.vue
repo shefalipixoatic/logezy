@@ -44,7 +44,8 @@
           <div class="col-md-3">
             <div class="card profile">
               <img
-                src="./profilenotimg.jpg"
+                v-if="getCandidates"
+                :src="completeImageUrl"
                 class="card-img-top position-relative"
                 alt="..."
               />
@@ -52,16 +53,12 @@
               <!-- <div class="ribbon"><span>Active</span></div> -->
 
               <div class="card-body">
-                <div
-                  class="mt-3 d-flex justify-content-between align-items-center"
-                >
+                <div class="mt-3 d-flex justify-content-between align-items-center">
                   <div>
                     <h6 class="card-title text-nowrap fw-bold text-capitalize">
                       {{ getCandidates.first_name }}
                     </h6>
-                    <span class="text-lowercase">
-                      {{ getCandidates.email }}</span
-                    >
+                    <span class="text-lowercase"> {{ getCandidates.email }}</span>
                   </div>
 
                   <div>
@@ -74,9 +71,7 @@
                 <div class="mt-3">
                   <div class="d-flex justify-content-between">
                     <div>
-                      <h6
-                        class="card-title text-uppercase fs-smaller text-nowrap"
-                      >
+                      <h6 class="card-title text-uppercase fs-smaller text-nowrap">
                         contact information
                       </h6>
                     </div>
@@ -84,12 +79,7 @@
                     <div class="d-flex justify-content-between">
                       <h6 class="fs-smaller text-nowrap">Profile View</h6>
                       <label class="switch">
-                        <input
-                          type="checkbox"
-                          id="togBtn"
-                          title="check"
-                          checked
-                        />
+                        <input type="checkbox" id="togBtn" title="check" checked />
                         <div class="slider round"></div>
                       </label>
                     </div>
@@ -102,9 +92,7 @@
                         {{ getCandidates.phone_number }}</span
                       >
                     </div>
-                    <button type="button" class="btn btn-outline-primary">
-                      Edit
-                    </button>
+                    <button type="button" class="btn btn-outline-primary">Edit</button>
                   </div>
                 </div>
               </div>
@@ -129,6 +117,9 @@
                     :to="getTabLink(tab)"
                     v-on:click.prevent
                   >
+                    <span class="badge bg-success">{{
+                      index === 5 ? getCount : ""
+                    }}</span>
                     {{ tab.name }}</router-link
                   >
                 </button>
@@ -175,7 +166,7 @@ export default {
     return {
       getCandidates: [],
       restrictedShift: [],
-
+      getCount: [],
       getCandidateData: [],
 
       tabs: [
@@ -224,6 +215,13 @@ export default {
     hasNextTab() {
       return this.activeTab < this.tabs.length - 1;
     },
+    completeImageUrl() {
+      if (this.getCandidates && this.getCandidates.profile_photo) {
+        // Concatenate the base URL with the partial API URL
+        return `https://logezy.onrender.com${this.getCandidates.profile_photo}`;
+      }
+      return null;
+    },
   },
 
   methods: {
@@ -261,10 +259,29 @@ export default {
         }
       }
     },
+
+    async GetNotesCount() {
+      try {
+        const response = await axios.get(
+          `https://logezy.onrender.com/candidate_notes_count_lists/${this.$route.params.id}`
+        );
+
+        this.getCount = response.data.Candidate_notes;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 404) {
+            alert(error.response.data.message);
+          }
+        } else {
+          // console.error("Error fetching candidates:", error);
+        }
+      }
+    },
   },
 
   created() {
     this.getCandidate();
+    this.GetNotesCount();
   },
 };
 </script>
@@ -280,6 +297,9 @@ export default {
 button.btn-css {
   border: none;
   background: transparent;
+}
+.profile img::before {
+  content: "Active";
 }
 .accordion-button {
   width: 25%;

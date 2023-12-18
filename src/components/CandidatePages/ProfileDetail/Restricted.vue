@@ -72,9 +72,7 @@
               :key="data.id"
             >
               <li>
-                <div
-                  class="d-flex justify-content-start border-box m-2 rounded-2"
-                >
+                <div class="d-flex justify-content-start border-box m-2 rounded-2">
                   <div>
                     <div class="hround">H{{ data.id }}</div>
                   </div>
@@ -134,6 +132,15 @@ export default {
           `https://logezy.onrender.com/candidates/${this.$route.params.id}/restricted_shifts`,
           data
         );
+        alert("Shift Added ");
+        if (data) {
+          if (
+            window.location.href ===
+            `https://logezy.onrender.com/candidates/${this.$route.params.id}/restricted`
+          ) {
+            window.location.reload();
+          }
+        }
       } catch (error) {}
     },
 

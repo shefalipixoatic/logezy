@@ -121,7 +121,7 @@ const router = createRouter({
               },
             },
             {
-              path: "/candidates/:id",
+              path: "/candidates/:id/restricted",
               name: "Restricted",
               component: () =>
                 import(
@@ -143,7 +143,7 @@ const router = createRouter({
               },
             },
             {
-              path: "/candidates/:id",
+              path: "/candidates/:id/notes",
               name: "Notes",
               component: () =>
                 import("@/components/CandidatePages/ProfileDetail/Notes.vue"),
